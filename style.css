@@ -5470,3 +5470,205 @@ body.theme-glass .footer-bottom {
         justify-content: flex-start;
     }
 }
+
+
+/* ============================================================================
+   THEME: GLASS — v2 REFINEMENTS (per client/instructor feedback)
+   ============================================================================
+   Still scoped under body.theme-glass / new component classes below.
+   No existing id/class was renamed; #order-message overrides use !important
+   because script.js sets inline background/color/padding on it directly —
+   this only changes those visuals to fit the dark theme, not the logic.
+   ============================================================================ */
+
+/* =====================================================
+   PROCESS STEPS (hero)
+===================================================== */
+.process-steps {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0 0;
+    padding: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.process-steps li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px 8px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--glass-line);
+    background: rgba(255, 255, 255, .04);
+    color: var(--glass-muted);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.process-steps li:not(:last-child)::after {
+    content: "→";
+    margin-left: 10px;
+    color: var(--glass-line2);
+}
+
+.step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--glass-brand), var(--glass-brand2));
+    color: #071021;
+    font-size: 11px;
+    font-weight: 1000;
+}
+
+/* =====================================================
+   DEAL RIBBON
+===================================================== */
+.offer-ribbon {
+    position: absolute;
+    top: 16px;
+    right: -34px;
+    transform: rotate(40deg);
+    width: 130px;
+    text-align: center;
+    padding: 5px 0;
+    background: linear-gradient(135deg, var(--glass-brand), #ff7ba0);
+    color: #071021;
+    font-weight: 1000;
+    font-size: 13px;
+    box-shadow: 0 8px 18px rgba(255, 59, 92, .35);
+    z-index: 2;
+}
+
+/* =====================================================
+   PRODUCT CARD — feature checklist, image badge overlay, stepper
+===================================================== */
+body.theme-glass .product-card {
+    position: relative;
+}
+
+/* Float the availability/offer badges over the top-left of the image */
+body.theme-glass .product-card p:has(> .badge) {
+    position: absolute;
+    top: 28px;
+    left: 28px;
+    margin: 0;
+    z-index: 3;
+}
+
+body.theme-glass .product-card p:has(> .badge) + p:has(> .badge) {
+    top: 62px;
+}
+
+body.theme-glass .product-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    color: var(--glass-ok);
+    font-size: 12.5px;
+    font-weight: 800;
+    margin: 0 0 10px;
+}
+
+.qty-stepper {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+}
+
+.qty-stepper .product-quantity {
+    flex: 1;
+    text-align: center;
+}
+
+.qty-btn {
+    width: 40px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    border: 1px solid var(--glass-line);
+    background: rgba(255, 255, 255, .05);
+    color: var(--glass-text);
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .15s ease;
+}
+
+.qty-btn:hover {
+    background: rgba(124, 92, 255, .22);
+    border-color: rgba(124, 92, 255, .45);
+}
+
+/* =====================================================
+   TWO-COLUMN CHECKOUT
+===================================================== */
+.checkout-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.checkout-summary-col {
+    position: sticky;
+    top: 18px;
+}
+
+@media (max-width: 900px) {
+    .checkout-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .checkout-summary-col {
+        position: static;
+    }
+}
+
+/* =====================================================
+   ORDER CONFIRMATION — success icon + message override
+===================================================== */
+.confirmation-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(46, 229, 157, .16);
+    border: 1px solid rgba(46, 229, 157, .4);
+    color: var(--glass-ok);
+    font-size: 26px;
+    font-weight: 1000;
+}
+
+/* script.js sets these as inline styles, so !important is required to
+   theme them without touching the JS itself. */
+body.theme-glass #order-message {
+    display: inline-block;
+    max-width: 640px;
+    margin: 16px auto 0 !important;
+    text-align: left !important;
+    border-radius: 16px !important;
+    line-height: 1.6;
+}
+
+body.theme-glass #order-message[style*="e8f5e9"] {
+    background: rgba(46, 229, 157, .12) !important;
+    color: #d6fff0 !important;
+    border: 1px solid rgba(46, 229, 157, .4) !important;
+}
+
+body.theme-glass #order-message[style*="ffe6e6"] {
+    background: rgba(255, 59, 92, .12) !important;
+    color: #ffd1dc !important;
+    border: 1px solid rgba(255, 59, 92, .4) !important;
+}
+
