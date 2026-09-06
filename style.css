@@ -4744,3 +4744,729 @@ main.container p {
     }
 
 }
+
+
+/* ============================================================================
+   THEME: GLASS (order.html — matches the new purple/red glassmorphism homepage)
+   ============================================================================
+   Scoped entirely under body.theme-glass so it never touches about.html,
+   products.html, services.html, etc. until you add the same class to them.
+   Bootstrap grid classes (row, col-*, g-4, form-control...) are kept for
+   layout; only visuals are overridden here. No id/class used by
+   js/script.js was renamed — this is a pure re-skin.
+
+   QUICK MAP
+   ---------------------------------------------------------------------------
+   TOKENS + BODY BACKGROUND
+   HEADER / NAV
+   GLASS HERO (topbar, pills, kicker, actions, offer side card)
+   SECTION LABELS / HEADINGS
+   PRODUCT CARDS
+   SHOPPING CART (totals panel + JS-generated cart items)
+   CHECKOUT (fieldsets, form controls, buttons)
+   ORDER CONFIRMATION
+   FOOTER
+   RESPONSIVE
+   ============================================================================ */
+
+/* =====================================================
+   TOKENS + BODY BACKGROUND
+===================================================== */
+body.theme-glass {
+    --bg0: #060a14;
+    --bg1: #0b1220;
+    --glass-card: rgba(255, 255, 255, 0.04);
+    --glass-card2: rgba(255, 255, 255, 0.06);
+    --glass-line: rgba(255, 255, 255, 0.12);
+    --glass-line2: rgba(255, 255, 255, 0.18);
+    --glass-text: #eaf0ff;
+    --glass-muted: #a9b4d0;
+    --glass-brand: #ff3b5c;
+    --glass-brand2: #7c5cff;
+    --glass-ok: #2ee59d;
+    --glass-warn: #ffcc66;
+    --glass-shadow: 0 28px 90px rgba(0, 0, 0, 0.55);
+    --glass-shadow2: 0 18px 60px rgba(0, 0, 0, 0.35);
+    --glass-radius: 22px;
+    --glass-radius2: 16px;
+    --glass-focus: 0 0 0 4px rgba(124, 92, 255, 0.28);
+
+    margin: 0;
+    background:
+        radial-gradient(900px 500px at 20% -10%, rgba(124, 92, 255, .35), transparent 60%),
+        radial-gradient(900px 500px at 85% 0%, rgba(255, 59, 92, .28), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+    color: var(--glass-text);
+    position: relative;
+}
+
+body.theme-glass::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        linear-gradient(to right, rgba(255, 255, 255, .04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, .04) 1px, transparent 1px);
+    background-size: 56px 56px;
+    opacity: .18;
+    pointer-events: none;
+    z-index: 0;
+}
+
+body.theme-glass main.container {
+    position: relative;
+    z-index: 1;
+    max-width: 1180px;
+}
+
+body.theme-glass h1,
+body.theme-glass h2,
+body.theme-glass h3,
+body.theme-glass p,
+body.theme-glass label,
+body.theme-glass legend {
+    color: var(--glass-text);
+}
+
+/* =====================================================
+   HEADER / NAV
+===================================================== */
+body.theme-glass .site-header {
+    background: rgba(6, 10, 20, 0.82);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--glass-line);
+}
+
+body.theme-glass .nav-links a {
+    color: var(--glass-muted);
+}
+
+body.theme-glass .nav-links a:hover,
+body.theme-glass .nav-links a.active:not(.order-button) {
+    color: var(--glass-text);
+}
+
+body.theme-glass .nav-links a:not(.order-button)::after {
+    background: linear-gradient(135deg, var(--glass-brand), var(--glass-brand2));
+}
+
+body.theme-glass .site-title {
+    color: var(--glass-text);
+}
+
+body.theme-glass .site-tagline {
+    color: var(--glass-muted);
+}
+
+body.theme-glass .order-button {
+    background: linear-gradient(135deg, rgba(255, 59, 92, .98), rgba(255, 123, 160, .95));
+    border-radius: 16px;
+    color: #071021;
+    font-weight: 1000;
+    border: none;
+    box-shadow: 0 18px 40px rgba(255, 59, 92, .18);
+}
+
+body.theme-glass .order-button:hover {
+    filter: saturate(1.05);
+    transform: translateY(-1px);
+}
+
+/* =====================================================
+   GLASS HERO
+===================================================== */
+.glass-hero {
+    display: grid;
+    grid-template-columns: 1.35fr .65fr;
+    gap: 16px;
+    align-items: stretch;
+    margin-top: 10px;
+}
+
+.glass-hero-main {
+    border: 1px solid var(--glass-line);
+    border-radius: var(--glass-radius);
+    background: linear-gradient(180deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .03));
+    box-shadow: var(--glass-shadow2);
+    position: relative;
+    overflow: hidden;
+    padding: 26px 26px 22px;
+}
+
+.glass-hero-main::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    background:
+        radial-gradient(650px 240px at 15% 0%, rgba(124, 92, 255, .40), transparent 60%),
+        radial-gradient(500px 240px at 80% 10%, rgba(255, 59, 92, .30), transparent 60%);
+    pointer-events: none;
+}
+
+.glass-topbar {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.glass-pillrow {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.glass-pill {
+    padding: 9px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--glass-line2);
+    background: rgba(0, 0, 0, .12);
+    color: var(--glass-muted);
+    font-size: 13px;
+    font-weight: 800;
+    backdrop-filter: blur(8px);
+}
+
+.glass-kicker {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, .14);
+    background: rgba(0, 0, 0, .12);
+    color: var(--glass-muted);
+    font-size: 13px;
+    position: relative;
+    z-index: 1;
+    margin-top: 16px;
+}
+
+.glass-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--glass-brand), var(--glass-brand2));
+    box-shadow: 0 0 18px rgba(255, 59, 92, .45);
+}
+
+.glass-hero-main h1 {
+    margin: 14px 0 8px;
+    font-size: clamp(30px, 4vw, 40px);
+    font-weight: 900;
+    letter-spacing: -.7px;
+    line-height: 1.07;
+    position: relative;
+    z-index: 1;
+}
+
+.glass-sub {
+    margin: 0 0 16px;
+    color: var(--glass-muted) !important;
+    max-width: 66ch;
+    position: relative;
+    z-index: 1;
+    font-size: 14.5px;
+    line-height: 1.55;
+}
+
+.glass-hero-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+    margin-top: 8px;
+}
+
+.glass-btn {
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-weight: 1000;
+    letter-spacing: .2px;
+    color: #071021;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform .12s ease, filter .12s ease;
+    box-shadow: 0 18px 40px rgba(255, 59, 92, .18);
+    background: linear-gradient(135deg, rgba(255, 59, 92, .98), rgba(255, 123, 160, .95));
+}
+
+.glass-btn:hover {
+    transform: translateY(-1px);
+    filter: saturate(1.05);
+    color: #071021;
+}
+
+.glass-btn.secondary {
+    background: rgba(255, 255, 255, .06);
+    color: var(--glass-text);
+    border: 1px solid var(--glass-line);
+    box-shadow: none;
+}
+
+.glass-btn.secondary:hover {
+    background: rgba(255, 255, 255, .09);
+    color: var(--glass-text);
+}
+
+/* Offer side card */
+.glass-hero-side {
+    border: 1px solid var(--glass-line);
+    border-radius: var(--glass-radius);
+    background: rgba(255, 255, 255, .04);
+    box-shadow: var(--glass-shadow2);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-hero-side::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    background: radial-gradient(520px 220px at 10% 0%, rgba(124, 92, 255, .35), transparent 60%);
+    pointer-events: none;
+}
+
+.glass-offer-tag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 1000;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+    color: #ffd1dc;
+    font-size: 15px;
+}
+
+.glass-hero-side h3 {
+    position: relative;
+    z-index: 1;
+    font-size: 18px;
+    margin: 0 0 10px;
+}
+
+.glass-hero-side p {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 8px;
+    color: var(--glass-muted);
+}
+
+.glass-hero-side del {
+    color: rgba(255, 255, 255, .55);
+    font-weight: 800;
+}
+
+.glass-hero-side strong {
+    color: #fff;
+}
+
+.glass-save {
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+/* =====================================================
+   SECTION LABELS / HEADINGS
+===================================================== */
+body.theme-glass .section-label {
+    color: #ffb7c4;
+    font-weight: 900;
+}
+
+body.theme-glass .section-label span:not(:empty) {
+    background: linear-gradient(135deg, var(--glass-brand), var(--glass-brand2));
+}
+
+body.theme-glass main.container h2 {
+    color: var(--glass-text) !important;
+    font-weight: 900;
+}
+
+body.theme-glass main.container > section > .text-center p,
+body.theme-glass main.container p {
+    color: var(--glass-muted);
+}
+
+/* =====================================================
+   PRODUCT CARDS
+===================================================== */
+body.theme-glass .product-card {
+    background: rgba(255, 255, 255, .03);
+    border: 1px solid var(--glass-line);
+    border-radius: var(--glass-radius2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
+    padding: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform .15s ease, border-color .15s ease;
+}
+
+body.theme-glass .product-card:hover {
+    border-color: var(--glass-line2);
+    transform: translateY(-3px);
+}
+
+body.theme-glass .product-card figure {
+    margin: 0 0 12px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, .12);
+    background: rgba(0, 0, 0, .25);
+}
+
+body.theme-glass .product-card figure img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    filter: saturate(1.08) contrast(1.08);
+    display: block;
+}
+
+body.theme-glass .product-card figcaption {
+    display: none;
+}
+
+body.theme-glass .product-card h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin: 0 0 6px;
+    letter-spacing: -.2px;
+}
+
+body.theme-glass .product-card > p {
+    color: var(--glass-muted);
+    font-size: 13px;
+    line-height: 1.35;
+    margin-bottom: 8px;
+}
+
+body.theme-glass .product-card del {
+    text-decoration: line-through;
+    color: rgba(255, 255, 255, .55);
+    font-weight: 800;
+}
+
+body.theme-glass .product-card strong {
+    font-size: 17px;
+    font-weight: 1000;
+    color: var(--glass-text);
+}
+
+body.theme-glass .product-card .badge {
+    border-radius: 999px;
+    font-weight: 800;
+    padding: 6px 10px;
+}
+
+body.theme-glass .product-card .badge.bg-success {
+    background: rgba(46, 229, 157, .14) !important;
+    color: #b9ffe9 !important;
+    border: 1px solid rgba(46, 229, 157, .35);
+}
+
+body.theme-glass .product-card .badge.bg-danger {
+    background: rgba(255, 59, 92, .12) !important;
+    color: #ffd1dc !important;
+    border: 1px solid rgba(255, 59, 92, .35);
+}
+
+body.theme-glass .product-card .badge.bg-warning {
+    background: rgba(255, 204, 102, .14) !important;
+    color: #fff0c7 !important;
+    border: 1px solid rgba(255, 204, 102, .35);
+}
+
+body.theme-glass .product-card .form-label {
+    color: var(--glass-muted);
+    font-size: 12px;
+    font-weight: 900;
+}
+
+body.theme-glass .product-card .product-quantity {
+    background: rgba(0, 0, 0, .18);
+    border: 1px solid var(--glass-line);
+    border-radius: 14px;
+    color: var(--glass-text);
+    font-weight: 950;
+}
+
+body.theme-glass .product-card .product-quantity:focus {
+    box-shadow: var(--glass-focus);
+    border-color: rgba(124, 92, 255, .55);
+}
+
+body.theme-glass .product-card .add-to-cart {
+    margin-top: auto;
+    padding: 10px 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 59, 92, .40);
+    background: rgba(255, 59, 92, .12);
+    color: #ffd1dc;
+    font-weight: 1000;
+    transition: transform .12s ease, background .12s ease, border-color .12s ease;
+}
+
+body.theme-glass .product-card .add-to-cart:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 59, 92, .18);
+    border-color: rgba(255, 59, 92, .55);
+    color: #ffd1dc;
+}
+
+/* =====================================================
+   SHOPPING CART
+===================================================== */
+body.theme-glass .cart-empty {
+    border: 1px dashed rgba(255, 255, 255, .18);
+    border-radius: 16px;
+    padding: 30px 16px;
+    color: var(--glass-muted);
+    font-weight: 900;
+    background: rgba(0, 0, 0, .14);
+    text-align: center;
+}
+
+body.theme-glass .cart-item {
+    background: rgba(255, 255, 255, .03);
+    border: 1px solid var(--glass-line);
+    border-radius: var(--glass-radius2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
+}
+
+body.theme-glass .cart-item-image {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, .12);
+}
+
+body.theme-glass .cart-item-name {
+    color: var(--glass-text);
+    font-weight: 900;
+}
+
+body.theme-glass .cart-item-price,
+body.theme-glass .cart-item-total,
+body.theme-glass .cart-control-label {
+    color: var(--glass-muted);
+}
+
+body.theme-glass .cart-quantity-controls {
+    background: rgba(0, 0, 0, .18);
+    border: 1px solid var(--glass-line);
+}
+
+body.theme-glass .cart-minus,
+body.theme-glass .cart-plus {
+    background: rgba(124, 92, 255, .18);
+    color: var(--glass-text);
+    border: 1px solid rgba(124, 92, 255, .35);
+}
+
+body.theme-glass .cart-minus:hover,
+body.theme-glass .cart-plus:hover {
+    background: rgba(124, 92, 255, .32);
+}
+
+body.theme-glass .cart-quantity-number {
+    color: var(--glass-text);
+}
+
+body.theme-glass .remove-cart-item {
+    background: rgba(255, 59, 92, .10);
+    border: 1px solid rgba(255, 59, 92, .35);
+    color: #ffd1dc;
+    border-radius: 10px;
+}
+
+body.theme-glass .remove-cart-item:hover {
+    background: rgba(255, 59, 92, .22);
+}
+
+body.theme-glass .cart-totals {
+    background: rgba(255, 255, 255, .03);
+    border: 1px solid var(--glass-line);
+    box-shadow: var(--glass-shadow2);
+}
+
+body.theme-glass .cart-totals strong,
+body.theme-glass .cart-totals h3 {
+    color: var(--glass-text);
+}
+
+body.theme-glass .cart-totals hr {
+    border-color: rgba(255, 255, 255, .10);
+    opacity: 1;
+}
+
+body.theme-glass #checkout-button {
+    background: linear-gradient(135deg, rgba(124, 92, 255, .95), rgba(91, 124, 255, .95));
+    border: none;
+    color: #071021;
+    font-weight: 1000;
+    border-radius: 18px;
+    box-shadow: 0 16px 36px rgba(124, 92, 255, .25);
+}
+
+body.theme-glass #checkout-button:hover {
+    filter: saturate(1.05);
+    transform: translateY(-1px);
+}
+
+/* =====================================================
+   CHECKOUT
+===================================================== */
+body.theme-glass .checkout-section fieldset {
+    background: rgba(255, 255, 255, .03) !important;
+    border: 1px solid var(--glass-line) !important;
+    box-shadow: var(--glass-shadow2) !important;
+    border-radius: var(--glass-radius2);
+}
+
+body.theme-glass .checkout-section legend {
+    color: var(--glass-text);
+    font-weight: 900;
+    font-size: 18px;
+    padding: 0;
+    width: auto;
+    float: none;
+}
+
+body.theme-glass .checkout-section .form-label {
+    color: var(--glass-muted);
+    font-weight: 800;
+    font-size: 13px;
+}
+
+body.theme-glass .checkout-section .form-control {
+    background: rgba(0, 0, 0, .18);
+    border: 1px solid var(--glass-line);
+    border-radius: 14px;
+    color: var(--glass-text);
+}
+
+body.theme-glass .checkout-section .form-control::placeholder {
+    color: rgba(169, 180, 208, .6);
+}
+
+body.theme-glass .checkout-section .form-control:focus {
+    background: rgba(0, 0, 0, .22);
+    box-shadow: var(--glass-focus);
+    border-color: rgba(124, 92, 255, .55);
+    color: var(--glass-text);
+}
+
+body.theme-glass .checkout-section hr {
+    border-color: rgba(255, 255, 255, .10);
+    opacity: 1;
+}
+
+body.theme-glass #checkout-order-summary p {
+    color: var(--glass-muted);
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+
+body.theme-glass #checkout-order-summary .alert-secondary {
+    background: rgba(0, 0, 0, .14);
+    border: 1px dashed rgba(255, 255, 255, .18);
+    color: var(--glass-muted);
+}
+
+body.theme-glass #place-order-button {
+    background: linear-gradient(135deg, rgba(255, 59, 92, .98), rgba(255, 123, 160, .95));
+    border: none;
+    color: #071021;
+    font-weight: 1000;
+    border-radius: 18px;
+    box-shadow: 0 16px 36px rgba(255, 59, 92, .22);
+}
+
+body.theme-glass #place-order-button:hover {
+    filter: saturate(1.05);
+    transform: translateY(-1px);
+}
+
+body.theme-glass #clear-checkout-button {
+    background: rgba(255, 255, 255, .06);
+    border: 1px solid var(--glass-line);
+    color: var(--glass-text);
+    border-radius: 18px;
+}
+
+body.theme-glass #clear-checkout-button:hover {
+    background: rgba(255, 255, 255, .10);
+}
+
+body.theme-glass #order-message {
+    font-weight: 900;
+    color: var(--glass-text);
+}
+
+/* =====================================================
+   ORDER CONFIRMATION
+===================================================== */
+body.theme-glass .order-confirmation {
+    background: rgba(255, 255, 255, .03) !important;
+    border: 1px solid var(--glass-line) !important;
+    box-shadow: var(--glass-shadow2) !important;
+    text-align: center;
+}
+
+body.theme-glass .order-confirmation p {
+    color: var(--glass-muted) !important;
+    max-width: 750px;
+    margin: 0 auto 10px;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+body.theme-glass .site-footer {
+    background: #05070d;
+    border-top: 1px solid var(--glass-line);
+}
+
+body.theme-glass .footer-column h3 {
+    color: var(--glass-text);
+}
+
+body.theme-glass .footer-column p,
+body.theme-glass .footer-column a {
+    color: var(--glass-muted);
+}
+
+body.theme-glass .footer-column a:hover {
+    color: #ffd1dc;
+}
+
+body.theme-glass .footer-bottom {
+    border-top: 1px solid var(--glass-line);
+    color: var(--glass-muted);
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+@media (max-width: 980px) {
+    .glass-hero {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .glass-hero-main {
+        padding: 20px;
+    }
+
+    .glass-topbar {
+        justify-content: flex-start;
+    }
+}
