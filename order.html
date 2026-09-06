@@ -32,7 +32,7 @@
 
     <link
         rel="stylesheet"
-        href="css/style.css"
+        href="style.css"
     >
 
 
@@ -52,201 +52,166 @@
 <body>
 
 
-<!-- ==================================================
-     HEADER
-     ================================================== -->
+<!-- =====================================================
+     NAVIGATION BAR
+===================================================== -->
 
-<header class="py-4">
+<header class="site-header">
 
-    <div class="container text-center">
-
-        <img
-            src="images/logo.jpg"
-            alt="Premium Slaughter House Logo"
-            width="120"
-            height="120"
-            class="img-fluid"
-        >
+    <nav class="main-nav">
 
 
-        <h1 class="mt-3">
+        <!-- BRAND -->
 
-            Premium Slaughter House
+        <div class="brand">
 
-        </h1>
+            <a
+                href="index.html"
+                class="brand-logo-link">
+
+                <img
+                    src="images/logo.jpg"
+                    alt="Premium Slaughter House Logo"
+                    class="site-logo">
+
+            </a>
 
 
-        <p class="mb-0">
+            <div class="brand-text">
 
-            Fresh |
-            Hygienic |
-            <strong>100% Halal</strong> |
-            Premium Quality Meat
+                <a
+                    href="index.html"
+                    class="site-title">
 
-        </p>
+                    Premium Slaughter House
 
-    </div>
+                </a>
+
+
+                <span class="site-tagline">
+
+                    Fresh
+                    <span>|</span>
+                    Hygienic
+                    <span>|</span>
+                    <strong>100% Halal</strong>
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION LINKS -->
+
+        <div class="nav-links">
+
+
+            <a href="index.html">
+
+                Home
+
+            </a>
+
+
+            <a
+                href="about.html">
+
+                About
+
+            </a>
+
+
+            <a href="products.html">
+
+                Products
+
+            </a>
+
+
+            <a href="services.html">
+
+                Services
+
+            </a>
+
+
+            <a href="facilities.html">
+
+                Facilities
+
+            </a>
+
+
+            <a href="gallery.html">
+
+                Gallery
+
+            </a>
+
+
+            <a href="contact.html">
+
+                Contact
+
+            </a>
+
+
+            <a
+                href="order.html"
+                class="order-button active">
+
+                Order Now
+
+                <span class="cart-icon">
+                    🛒
+                </span>
+
+            </a>
+
+        </div>
+
+    </nav>
 
 </header>
 
 
 
-<!-- ==================================================
-     RESPONSIVE BOOTSTRAP NAVBAR
-     ================================================== -->
+<!-- =====================================================
+     ORDER HERO
+===================================================== -->
 
-<nav
-    class="navbar navbar-expand-lg"
->
+<section class="order-hero">
 
-    <div class="container">
+    <div
+        class="order-hero-image"
+        style="background-image: url('images/order/order-banner.jpg');"
+    ></div>
 
+    <div class="order-hero-overlay"></div>
 
-        <a
-            class="navbar-brand text-white fw-bold"
-            href="index.html"
-        >
+    <div class="order-hero-text">
 
-            Premium Slaughter House
-
-        </a>
-
-
-        <!-- MOBILE MENU BUTTON -->
-
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#mainNavbar"
-            aria-controls="mainNavbar"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-        >
-
-            <span class="navbar-toggler-icon"></span>
-
-        </button>
-
-
-        <!-- NAVIGATION LINKS -->
-
-        <div
-            class="collapse navbar-collapse"
-            id="mainNavbar"
-        >
-
-            <ul class="navbar-nav ms-auto">
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="index.html"
-                    >
-                        Home
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="about.html"
-                    >
-                        About
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="products.html"
-                    >
-                        Products
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="services.html"
-                    >
-                        Services
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="facilities.html"
-                    >
-                        Facilities
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="gallery.html"
-                    >
-                        Gallery
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="contact.html"
-                    >
-                        Contact
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link active"
-                        aria-current="page"
-                        href="order.html"
-                    >
-                        Order
-                    </a>
-
-                </li>
-
-
-            </ul>
-
+        <div class="halal-badge">
+            100% HALAL
         </div>
+
+        <h1>
+            Order Fresh Meat Online
+        </h1>
+
+        <p>
+            Fresh
+            <span>•</span>
+            Hygienic
+            <span>•</span>
+            Delivered To Your Door
+        </p>
 
     </div>
 
-</nav>
-
-
-
-<hr>
+</section>
 
 
 
@@ -265,9 +230,14 @@
 
         <div class="col-lg-7">
 
+            <div class="section-label left-label">
+                <span></span>
+                HOW IT WORKS
+            </div>
+
             <h2 class="mb-3">
 
-                Order Fresh Meat Online
+                Select, Add To Cart &amp; Checkout
 
             </h2>
 
@@ -281,18 +251,6 @@
 
             </p>
 
-
-            <p>
-
-                You can select multiple products in one order.
-
-                For example:
-
-                <strong>
-                    2 kg beef + 5 kg mutton + 1 kg sheep meat.
-                </strong>
-
-            </p>
 
         </div>
 
@@ -322,6 +280,13 @@
     id="special-offer"
     class="mx-auto mb-5"
 >
+
+
+    <div class="section-label">
+        <span></span>
+        LIMITED TIME
+        <span></span>
+    </div>
 
 
     <h2>
@@ -397,6 +362,13 @@
 
 
     <div class="text-center mb-4">
+
+
+        <div class="section-label">
+            <span></span>
+            OUR PRODUCTS
+            <span></span>
+        </div>
 
 
         <h2>
@@ -1168,6 +1140,12 @@
 
     <div class="text-center mb-4">
 
+        <div class="section-label">
+            <span></span>
+            YOUR CART
+            <span></span>
+        </div>
+
         <h2>
 
             🛒 Your Shopping Cart
@@ -1342,6 +1320,12 @@
     class="checkout-section container my-5"
 >
 
+
+    <div class="section-label" style="justify-content: center;">
+        <span></span>
+        FINALIZE
+        <span></span>
+    </div>
 
     <h2 class="text-center mb-4">
 
@@ -1759,7 +1743,7 @@
      ================================================== -->
 
 <section
-    class="container my-5 p-4 rounded shadow"
+    class="order-confirmation container my-5 p-4 rounded shadow"
 >
 
 
@@ -1794,21 +1778,166 @@
 
 
 
-<!-- ==================================================
+<!-- =====================================================
      FOOTER
-     ================================================== -->
+===================================================== -->
 
-<footer class="text-center py-4">
-
-    <hr>
+<footer class="site-footer">
 
 
-    <p class="mb-0">
+    <div class="footer-container">
 
-        © 2026 Premium Slaughter House
-        All Rights Reserved.
 
-    </p>
+        <!-- COMPANY -->
+
+        <div class="footer-column">
+
+
+            <h3>
+
+                Premium Slaughter House
+
+            </h3>
+
+
+            <p>
+
+                Fresh, hygienic and premium-quality
+                halal meat prepared with strict food
+                safety standards.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- QUICK LINKS -->
+
+        <div class="footer-column">
+
+
+            <h3>
+
+                Quick Links
+
+            </h3>
+
+
+            <a href="index.html">
+
+                Home
+
+            </a>
+
+
+            <a href="about.html">
+
+                About
+
+            </a>
+
+
+            <a href="products.html">
+
+                Products
+
+            </a>
+
+
+            <a href="services.html">
+
+                Services
+
+            </a>
+
+
+            <a href="order.html">
+
+                Place Order
+
+            </a>
+
+        </div>
+
+
+
+        <!-- CONTACT -->
+
+        <div class="footer-column">
+
+
+            <h3>
+
+                Contact Us
+
+            </h3>
+
+
+            <p>
+
+                📞
+                <a href="tel:+923081357658">
+
+                    +92 308 1357658
+
+                </a>
+
+            </p>
+
+
+            <p>
+
+                ✉
+                <a href="mailto:info@premiumslaughterhouse.com">
+
+                    info@premiumslaughterhouse.com
+
+                </a>
+
+            </p>
+
+
+            <p>
+
+                📍 Industrial Estate,
+                Lahore, Punjab, Pakistan
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- FOOTER BOTTOM -->
+
+    <div class="footer-bottom">
+
+
+        <p>
+
+            © 2026 Premium Slaughter House.
+            All Rights Reserved.
+
+        </p>
+
+
+        <p>
+
+            Developed by
+            <strong>
+
+                Khadim Hussain
+
+            </strong>
+
+        </p>
+
+    </div>
+
 
 </footer>
 
