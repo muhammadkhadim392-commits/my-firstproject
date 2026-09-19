@@ -1,390 +1,616 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
+<!-- ==========================================================================
+     PAGE      : products.html
+     PURPOSE   : Product catalogue — beef, mutton, camel, sheep, by-products,
+                 packaging, cold storage, why-choose-us, offer and price list.
+     LIBRARIES : Google Fonts (DM Sans + Playfair Display). All other CSS is
+                 written in the <style> block below.
+     SCRIPT    : One small script at the bottom makes the category buttons
+                 scroll smoothly to the matching section.
+     STRUCTURE : HEAD > NAVBAR > HERO (video) > CATEGORY BUTTONS >
+                 PRODUCT ROWS > BY-PRODUCTS > PACKAGING > COLD STORAGE >
+                 WHY CHOOSE US > OFFER > PRICE LIST > FOOTER > SCRIPT
+     ========================================================================== -->
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ======================================================================
+       META INFORMATION AND FONTS
+       ====================================================================== -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Premium halal meat products">
   <title>Products | Premium Slaughter House</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="images/favicon.jpg" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------- 1. VARIABLES AND PAGE BASICS -------------------------- */
+    /* --wine is the main brand red; change it here to change it everywhere */
+    :root{--ink:#07121a;--wine:#a90e25;--wine-dark:#7d091a;--paper:#f7f5f0;--line:#e7e2d9;--muted:#68645f;--gold:#d3a55b}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}   /* smooth scrolling for the category buttons */
+    body{margin:0;background:var(--paper);color:#181616;font:14px/1.45 "DM Sans",Arial,sans-serif}
+    img{display:block;width:100%;object-fit:cover}
+    a{text-decoration:none;color:inherit}
+    .wrap{width:min(1180px,92%);margin:auto}   /* centred page width */
+
+    /* ---------- 2. TOP NAVIGATION BAR --------------------------------- */
+    .nav{height:76px;background:#07121a;color:#fff;display:flex;align-items:center;position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(255,255,255,.1)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;width:min(1240px,94%);margin:auto}
+    .brand{display:flex;align-items:center;gap:10px}.brand img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+    .brand b{font-family:"Playfair Display",serif;font-size:18px;letter-spacing:.6px;display:block}
+    .brand small{font-size:8px;letter-spacing:1.2px;color:#d9d1c7}
+    .links{display:flex;align-items:center;gap:27px;font-size:12px;font-weight:600}
+    .links a{padding:28px 0 25px;border-bottom:3px solid transparent}
+    /* Red underline on hover and on the current page (.active) */
+    .links a:hover,.links .active{border-color:#d30e31}
+    .cart{font-size:20px;border:0!important;padding:0!important}
+    .menu{display:none;background:none;border:0;color:#fff;font-size:24px}   /* ☰ button, only on mobile */
+
+    /* ---------- 3. HERO WITH BACKGROUND VIDEO -------------------------- */
+    /* The video sits behind everything (z-index:-2) and .hero:after puts a
+       dark gradient (z-index:-1) between the video and the text. */
+    .hero{height:500px;position:relative;isolation:isolate;color:#fff;overflow:hidden;background:#111}
+    .hero video{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover}
+    .hero:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(0,0,0,.76),rgba(0,0,0,.28) 56%,rgba(0,0,0,.08))}
+    .hero .wrap{height:100%;display:flex;align-items:center}
+    .eyebrow{font-size:11px;color:#d79aa6;letter-spacing:2px;font-weight:700}
+    .hero h1,.title{font-family:"Playfair Display",Georgia,serif}
+    .hero h1{font-size:39px;line-height:1.06;max-width:470px;margin:7px 0 10px}
+    .hero p{font-size:12px;font-weight:600;word-spacing:6px}
+
+    /* ---------- 4. RED BUTTON (used all over the page) ---------------- */
+    .btn{display:inline-flex;align-items:center;gap:12px;background:var(--wine);color:#fff;border-radius:5px;padding:10px 16px;margin-top:10px;font-size:11px;font-weight:700;letter-spacing:.2px;transition:.2s}.btn:hover{background:var(--wine-dark);transform:translateY(-1px)}
+    main{padding:16px 0 0}
+
+    /* ---------- 5. CATEGORY FILTER BUTTONS ---------------------------- */
+    /* Five buttons in one row; the selected one gets the class "active". */
+    .categories{display:grid;grid-template-columns:repeat(5,1fr);gap:11px;margin:0 auto 16px}
+    .category{padding:13px 10px;background:#eeece7;border-radius:7px;text-align:center;font-weight:700;font-size:11px;cursor:pointer;border:0;transition:.2s}
+    .category span{font-size:19px;margin-right:9px}
+    .category.active,.category:hover{background:var(--wine);color:white}
+
+    /* ---------- 6. PRODUCT ROWS (photo + details) --------------------- */
+    /* .reverse moves the photo to the right so the rows zig-zag. */
+    .product{display:grid;grid-template-columns:1fr 1.08fr;gap:0;margin:0 0 12px;min-height:235px;background:#f0eee9;border-radius:7px;overflow:hidden}
+    .product.reverse .photo{order:2}.photo{min-height:235px;position:relative}.photo img{height:100%}.details{padding:25px 30px}
+    .details .eyebrow{font-size:9px;color:#a30e21}.details h2{font:700 26px/1 "Playfair Display",Georgia,serif;margin:3px 0 8px}
+    .details p{color:#504d48;font-size:12px;max-width:510px;margin:0 0 10px}.details h3{font-size:12px;margin:10px 0 4px}
+    /* "Available Cuts" list: 3 boxes per row with a red ✓ before each */
+    .cuts{display:grid;grid-template-columns:repeat(3,1fr);margin:0;padding:0;list-style:none;border:1px solid #dedbd4;background:#f8f7f4}
+    .cuts li{padding:4px 8px;border-right:1px solid #e4e0da;font-size:10px}
+    .cuts li:before{content:"✓";color:var(--wine);font-weight:900;margin-right:8px}
+    .details .btn{padding:8px 14px;font-size:9px;margin-top:11px}
+
+    /* ---------- 7. BY-PRODUCTS BAND ----------------------------------- */
+    .byproducts{background:#081821;border-radius:7px;overflow:hidden;min-height:170px;margin-bottom:16px;color:white;display:grid;grid-template-columns:1.1fr 1fr}
+    .by-copy{padding:26px 30px}.by-copy h2{font:700 25px/1 "Playfair Display",serif;margin:3px 0 7px}
+    .by-copy p{font-size:11px;color:#d9d9d9;max-width:380px;margin:0}
+    .by-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:16px;align-items:center}
+    .by-card{height:125px;border-radius:4px;overflow:hidden;background:#18252b;position:relative}
+    .by-card img{height:100%;opacity:.8}.by-card span{position:absolute;bottom:0;left:0;right:0;background:#111b20d9;text-align:center;padding:5px;font-size:9px}
+
+    /* ---------- 8. FEATURE ROW (packaging) ---------------------------- */
+    .feature{display:grid;grid-template-columns:1fr 1.08fr;background:#edebe6;border-radius:6px;overflow:hidden;margin:0 0 14px;min-height:200px}
+    .feature.reverse .feature-img{order:2}.feature-img img{height:100%}.feature-copy{padding:26px 32px}
+    .feature-copy h2{font:700 25px/1 "Playfair Display",serif;margin:3px 0 9px}.feature-copy p{font-size:12px;color:#514e4a;margin:0 0 10px;max-width:480px}
+    .ticks{list-style:none;padding:0;margin:8px 0;display:grid;grid-template-columns:repeat(2,1fr);gap:5px}.ticks li{font-size:10px}
+    .ticks li:before{content:"●";color:var(--wine);font-size:9px;margin-right:7px}
+
+    /* ---------- 9. COLD STORAGE BANNER -------------------------------- */
+    .storage{height:210px;color:white;border-radius:6px;overflow:hidden;position:relative;background:#0c1720;margin-bottom:20px}
+    .storage img{height:100%;opacity:.65}.storage:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#07121ae8 5%,transparent 75%)}
+    .storage-copy{position:absolute;z-index:1;top:30px;left:38px;width:min(430px,60%)}.storage h2{font:700 26px/1 "Playfair Display",serif;margin:3px 0 8px}
+    .storage p{font-size:11px;margin:0 0 8px;color:#e3e5e5}.storage .ticks{color:#fff}
+
+    /* ---------- 10. WHY CHOOSE US STRIP ------------------------------- */
+    .why{text-align:center;margin:28px 0 15px}
+    .why h2{font:700 12px/1 "DM Sans",sans-serif;color:var(--wine);letter-spacing:2px;margin:0 0 12px}
+    .why-grid{display:grid;grid-template-columns:repeat(5,1fr);background:#eeeae3;border-radius:6px;overflow:hidden}
+    .why-item{padding:16px 8px;border-right:1px solid #dfdbd4;font-size:11px;font-weight:700}.why-item:last-child{border:0}
+    .why-item i{display:block;color:var(--wine);font-size:23px;font-style:normal;margin-bottom:4px}
+    .why-item small{display:block;color:#77716a;font-weight:400;font-size:9px;margin-top:2px}
+
+    /* ---------- 11. SPECIAL OFFER BAR --------------------------------- */
+    .offer{height:120px;margin:22px 0;background:#07151d linear-gradient(90deg,#07151de8,#07151d55),
+        url('images/premium-mutton.jpg')
+        left 35%/cover;border-radius:6px;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:20px 30px}
+    .offer .eyebrow{font-size:9px}.offer h2{font:700 23px/1 "Playfair Display",serif;margin:4px 0}
+    .offer p{font-size:10px;margin:0;color:#eee}
+    /* The round red "UP TO 20% OFF" badge */
+    .discount{width:72px;height:72px;border-radius:50%;background:var(--wine);display:grid;place-content:center;text-align:center;font-size:11px;
+        font-weight:700;line-height:1}.discount b{font-size:25px}
+
+    /* ---------- 12. PRICE LIST + ORDER CARD --------------------------- */
+    .price-row{display:grid;grid-template-columns:2fr .95fr;gap:14px;margin-bottom:24px}
+    .price h2{font:700 12px/1 "DM Sans",sans-serif;letter-spacing:1.4px;color:var(--wine);margin:0}.price p{font-size:11px;color:#706c65;margin:3px 0 8px}
+    table{width:100%;border-collapse:collapse;background:#f6f4f0;font-size:10px}th,td{border:1px solid #ddd8cf;text-align:left;padding:7px 10px}
+    th{background:#ebe8e1}.order-card{background:#081821;color:#fff;border-radius:5px;display:grid;place-content:center;text-align:center;padding:20px}
+    .order-card img{width:48px;height:48px;border-radius:50%;margin:auto;object-fit:cover}.order-card b{font:700 18px "Playfair Display",serif;margin-top:7px}
+    .order-card small{font-size:9px;color:#ddd}.order-card .btn{font-size:9px;padding:8px 15px;margin:12px auto 0}
+
+    /* ---------- 13. FOOTER -------------------------------------------- */
+    footer{background:#07121a;color:#f3f3f3;padding:25px 0 10px}
+    .footer-top{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #33414a;padding-bottom:16px}
+    .footer-brand{display:flex;align-items:center;gap:8px}.footer-brand img{width:42px;height:42px;border-radius:50%}
+    .footer-brand b{font-family:"Playfair Display",serif}.footer-links{display:flex;gap:18px;font-size:9px;color:#d3d6d8}
+    .social{font-size:16px;letter-spacing:5px}.copyright{display:flex;justify-content:space-between;padding-top:10px;font-size:9px;color:#b6bdc1}
+
+    /* ---------- 14. MOBILE LAYOUT (screens under 760px) --------------- */
+    /* The menu becomes a drop-down and every two-column layout stacks. */
+    @media(max-width:760px){.nav{height:62px}.links{display:none}
+    .links.show{display:flex;position:absolute;top:62px;left:0;right:0;background:#07121a;flex-direction:column;gap:0;padding:8px 0}
+    .links.show a{padding:10px 20px;border:0;width:100%}.menu{display:block}.brand b{font-size:14px}.hero{height:315px}.hero h1{font-size:33px}
+    .categories{grid-template-columns:repeat(2,1fr)}.product,.product.reverse,.feature,.feature.reverse,.byproducts{grid-template-columns:1fr}
+    .product.reverse .photo,.feature.reverse .feature-img{order:0}.photo{min-height:210px}
+    .details,.feature-copy{padding:22px}.cuts{grid-template-columns:repeat(2,1fr)}
+    .by-grid{grid-template-columns:repeat(5,1fr);padding:8px}.by-card{height:90px}
+    .storage-copy{left:22px;top:20px;width:85%}.storage{height:245px}.why-grid{grid-template-columns:repeat(3,1fr)}.why-item:nth-child(3){border-right:0}
+    .offer{padding:16px;gap:10px}.offer h2{font-size:18px}.discount{display:none}.price-row{grid-template-columns:1fr}.order-card{padding:24px}
+    .footer-top,.copyright{gap:15px;align-items:flex-start;flex-direction:column}.footer-links{flex-wrap:wrap}.social{display:none}}
+  </style>
+
 </head>
+
 <body>
- <header>
-   <img
-src="images/logo.jpg"
-alt="Premium Slaughter House Logo"
-width="120"
-height="120">
-  <h1>Premium Slaughter House</h1>
-  <p>Fresh | Hygienic | <strong>100% Halal </strong> | Premium Quality Meat</p>
+
+  <!-- ======================================================================
+       SECTION 1 — NAVIGATION BAR (START)
+       Sticky dark bar. The ☰ button uses a small inline onclick that adds
+       or removes the class "show" on the .links menu (see CSS rule
+       .links.show above).
+       "Products" has class="active" because we are on that page.
+       ====================================================================== -->
+  <header class="nav">
+    <div class="nav-inner">
+
+      <!-- Logo + brand text -->
+      <a href="index.html" class="brand">
+        <img src="images/logo.jpg" alt="Premium Slaughter House">
+        <span>
+          <b>PREMIUM</b>
+          <small>SLAUGHTER HOUSE · Quality Meat · Healthy Life</small>
+        </span>
+      </a>
+
+      <!-- Mobile menu button -->
+      <button class="menu" aria-label="Open menu" onclick="document.querySelector('.links').classList.toggle('show')">☰</button>
+
+      <!-- Menu links -->
+      <nav class="links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a class="active" href="products.html">Products</a>
+        <a href="services.html">Services</a>
+        <a href="facilities.html">Facilities</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+        <a class="cart" href="order.html" aria-label="Order now">🛒</a>
+      </nav>
+
+    </div>
   </header>
-   <!-- Header -->
-  <nav>
+  <!-- SECTION 1 — NAVIGATION BAR (END) -->
+
+
+  <!-- ======================================================================
+       SECTION 2 — HERO WITH BACKGROUND VIDEO (START)
+       autoplay muted loop playsinline = the video plays by itself, silently,
+       forever, and stays inside the page on iPhones.
+       poster = the still image shown while the video loads (or if the video
+       file is missing).
+       ====================================================================== -->
+  <section class="hero">
+
+    <video autoplay muted loop playsinline poster="images/fresh-beef.jpg">
+      <source src="videos/product-video.mp4" type="video/mp4">
+    </video>
+
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">OUR PRODUCTS</div>
+        <h1>Premium Quality Meat<br>You Can Trust</h1>
+        <p>Fresh &nbsp;|&nbsp; Hygienic &nbsp;|&nbsp; 100% Halal</p>
+        <a class="btn" href="order.html">ORDER NOW <span>→</span></a>
+      </div>
+    </div>
+
+  </section>
+  <!-- SECTION 2 — HERO WITH BACKGROUND VIDEO (END) -->
+
+
+  <main class="wrap">
+
+    <!-- ====================================================================
+         SECTION 3 — CATEGORY BUTTONS (START)
+         data-target on each button holds the id of the section to scroll to
+         (beef, mutton, camel, sheep, byproducts). The script at the very
+         bottom reads that value and scrolls there smoothly.
+         ==================================================================== -->
+    <div class="categories" aria-label="Product categories">
+      <button class="category active" data-target="beef"><span>🐄</span>BEEF</button>
+      <button class="category" data-target="mutton"><span>🐐</span>MUTTON</button>
+      <button class="category" data-target="camel"><span>🐪</span>CAMEL</button>
+      <button class="category" data-target="sheep"><span>🐑</span>SHEEP</button>
+      <button class="category" data-target="byproducts"><span>♜</span>BY-PRODUCTS</button>
+    </div>
+    <!-- SECTION 3 — CATEGORY BUTTONS (END) -->
+
+
+    <!-- ====================================================================
+         SECTION 4 — BEEF (START)
+         id="beef" is the scroll target of the BEEF button above.
+         Layout: photo on the left, details on the right.
+         ==================================================================== -->
+    <section class="product" id="beef">
+
+      <div class="photo">
+        <img src="images/fresh-beef.jpg" alt="Fresh beef">
+      </div>
+
+      <div class="details">
+        <div class="eyebrow">BEEF</div>
+        <h2>Fresh Beef</h2>
+        <p>We offer high-quality, fresh and healthy beef, processed under strict hygiene and food safety standards.
+          Our beef is sourced from healthy animals and handled with care at every stage.</p>
+        <h3>Available Cuts</h3>
+        <ul class="cuts">
+          <li>Sirloin</li>
+          <li>Ribeye</li>
+          <li>Tenderloin</li>
+          <li>Short Ribs</li>
+          <li>Mince</li>
+          <li>Boneless</li>
+          <li>T-Bone</li>
+          <li>With Bone</li>
+        </ul>
+        <a class="btn" href="order.html">ORDER BEEF →</a>
+      </div>
+
+    </section>
+    <!-- SECTION 4 — BEEF (END) -->
+
+
+    <!-- ====================================================================
+         SECTION 5 — MUTTON (START)
+         class="reverse" flips the layout: photo on the RIGHT this time.
+         ==================================================================== -->
+    <section class="product reverse" id="mutton">
+
+      <div class="photo">
+        <img src="images/fresh-mutton.jpg" alt="Fresh mutton">
+      </div>
+
+      <div class="details">
+        <div class="eyebrow">MUTTON</div>
+        <h2>Fresh Mutton</h2>
+        <p>Our mutton is tender, flavourful and packed with nutrition.
+          We ensure proper handling, hygienic processing and cold-chain maintenance for the best quality.</p>
+        <h3>Available Cuts</h3>
+        <ul class="cuts">
+          <li>Leg</li>
+          <li>Shoulder</li>
+          <li>Ribs</li>
+          <li>Chops</li>
+          <li>Boneless</li>
+          <li>Mince</li>
+          <li>With Bone</li>
+          <li>Liver</li>
+        </ul>
+        <a class="btn" href="order.html">ORDER MUTTON →</a>
+      </div>
+
+    </section>
+    <!-- SECTION 5 — MUTTON (END) -->
+
+
+    <!-- ====================================================================
+         SECTION 6 — CAMEL (START)
+         Normal layout again: photo left, details right.
+         ==================================================================== -->
+    <section class="product" id="camel">
+
+      <div class="photo">
+        <img src="images/fresh-camel.jpg" alt="Fresh camel meat">
+      </div>
+
+      <div class="details">
+        <div class="eyebrow">CAMEL</div>
+        <h2>Fresh Camel Meat</h2>
+        <p>Camel meat is lean, healthy and rich in essential nutrients. We provide premium-quality camel meat,
+          processed to the highest standards of hygiene and safety.</p>
+        <h3>Available Cuts</h3>
+        <ul class="cuts">
+          <li>Leg</li>
+          <li>Shoulder</li>
+          <li>Ribs</li>
+          <li>Steak</li>
+          <li>Mince</li>
+          <li>Boneless</li>
+          <li>With Bone</li>
+          <li>Organ Meat</li>
+        </ul>
+        <a class="btn" href="order.html">ORDER CAMEL →</a>
+      </div>
+
+    </section>
+    <!-- SECTION 6 — CAMEL (END) -->
+
+
+    <!-- ====================================================================
+         SECTION 7 — SHEEP (START)
+         Reversed layout again (photo on the right).
+         ==================================================================== -->
+    <section class="product reverse" id="sheep">
+
+      <div class="photo">
+        <img src="images/sheep.jpg" alt="Fresh sheep meat">
+      </div>
+
+      <div class="details">
+        <div class="eyebrow">SHEEP</div>
+        <h2>Fresh Sheep Meat</h2>
+        <p>We provide premium-quality sheep meat, known for its rich taste and nutritional value.
+          Our sheep meat is carefully processed and packed to maintain freshness and quality.</p>
+        <h3>Available Cuts</h3>
+        <ul class="cuts">
+          <li>Leg</li>
+          <li>Shoulder</li>
+          <li>Ribs</li>
+          <li>Chops</li>
+          <li>Boneless</li>
+          <li>Mince</li>
+          <li>With Bone</li>
+          <li>Organ Meat</li>
+        </ul>
+        <a class="btn" href="order.html">ORDER SHEEP →</a>
+      </div>
+
+    </section>
+    <!-- SECTION 7 — SHEEP (END) -->
+
+
+    <!-- ====================================================================
+         SECTION 8 — EDIBLE BY-PRODUCTS (START)
+         id="byproducts" is the scroll target of the BY-PRODUCTS button.
+         Left: heading and button. Right: five small photo cards with a
+         dark label strip across the bottom of each.
+         ==================================================================== -->
+    <section class="byproducts" id="byproducts">
+
+      <!-- Left: text -->
+      <div class="by-copy">
+        <div class="eyebrow">BY-PRODUCTS</div>
+        <h2>Edible By-Products</h2>
+        <p>We also provide a wide range of clean and fresh by-products, suitable for various traditional uses.</p>
+        <a class="btn" href="order.html">VIEW ALL BY-PRODUCTS →</a>
+      </div>
+
+      <!-- Right: five cards -->
+      <div class="by-grid">
+        <div class="by-card"><img src="images/by-products.png" alt="Liver"><span>Liver</span></div>
+        <div class="by-card"><img src="images/by-products.png" alt="Heart"><span>Heart</span></div>
+        <div class="by-card"><img src="images/by-products.png" alt="Kidney"><span>Kidney</span></div>
+        <div class="by-card"><img src="images/by-products.png" alt="Tongue"><span>Tongue</span></div>
+        <div class="by-card"><img src="images/by-products.png" alt="Tail"><span>Tail</span></div>
+      </div>
+
+    </section>
+    <!-- SECTION 8 — EDIBLE BY-PRODUCTS (END) -->
+
+
+    <!-- ====================================================================
+         SECTION 9 — PACKAGING FEATURE (START)
+         Photo on the left, four bullet points on the right.
+         ==================================================================== -->
+    <section class="feature">
+
+      <div class="feature-img">
+        <img src="images/facilities/packaging-department.jpg" alt="Professional meat packaging">
+      </div>
+
+      <div class="feature-copy">
+        <div class="eyebrow">PROFESSIONAL PACKAGING</div>
+        <h2>Safe &amp; Secure Packaging</h2>
+        <p>We use modern, hygienic, food-grade packaging to maintain freshness, prevent contamination and ensure safe delivery.</p>
+        <ul class="ticks">
+          <li>Food grade material</li>
+          <li>Maintains freshness</li>
+          <li>Leak proof packaging</li>
+          <li>Labelled &amp; traceable</li>
+        </ul>
+        <a class="btn" href="order.html">ORDER NOW →</a>
+      </div>
+
+    </section>
+    <!-- SECTION 9 — PACKAGING FEATURE (END) -->
+
+
+    <!-- ====================================================================
+         SECTION 10 — COLD STORAGE BANNER (START)
+         The photo fills the whole band and the text box (.storage-copy)
+         is positioned on top of it.
+         ==================================================================== -->
+    <section class="storage">
+
+      <img src="images/facilities/cold-storage.jpg" alt="Cold storage">
+
+      <div class="storage-copy">
+        <div class="eyebrow">COLD STORAGE &amp; QUALITY</div>
+        <h2>Advanced Cold Storage</h2>
+        <p>We maintain a modern cold chain system with temperature-controlled storage to keep meat fresh, safe and in quality from processing to delivery.</p>
+        <ul class="ticks">
+          <li>Temperature controlled</li>
+          <li>Proper monitoring</li>
+          <li>Hygienic environment</li>
+          <li>Longer shelf life</li>
+        </ul>
+        <a class="btn" href="facilities.html">LEARN MORE →</a>
+      </div>
+
+    </section>
+    <!-- SECTION 10 — COLD STORAGE BANNER (END) -->
+
+
+    <!-- ====================================================================
+         SECTION 11 — WHY CHOOSE US (START)
+         Five equal boxes: symbol + title + one-line caption.
+         ==================================================================== -->
+    <section class="why">
+
+      <h2>WHY CHOOSE US</h2>
+
+      <div class="why-grid">
+        <div class="why-item"><i>☪</i>100% Halal<small>Certified halal meat</small></div>
+        <div class="why-item"><i>✿</i>Premium Quality<small>Best taste &amp; freshness</small></div>
+        <div class="why-item"><i>♡</i>Hygienic Processing<small>Clean &amp; safe environment</small></div>
+        <div class="why-item"><i>♨</i>Cold Chain<small>From plant to you</small></div>
+        <div class="why-item"><i>▣</i>On-Time Delivery<small>Freshness guaranteed</small></div>
+      </div>
+
+    </section>
+    <!-- SECTION 11 — WHY CHOOSE US (END) -->
+
+
+    <!-- ====================================================================
+         SECTION 12 — SPECIAL OFFER BAR (START)
+         Three parts in one row: offer text, round discount badge and the
+         order button. The badge is hidden on small screens.
+         ==================================================================== -->
+    <section class="offer">
+
+      <div>
+        <div class="eyebrow">TODAY'S SPECIAL OFFER</div>
+        <h2>Premium Mutton &amp; Beef</h2>
+        <p>Fresh, hygienic and best price</p>
+      </div>
+
+      <div class="discount">UP TO<br><b>20%</b><br>OFF</div>
+
+      <a class="btn" href="order.html">ORDER NOW →</a>
+
+    </section>
+    <!-- SECTION 12 — SPECIAL OFFER BAR (END) -->
+
+
+    <!-- ====================================================================
+         SECTION 13 — PRICE LIST + ORDER CARD (START)
+         Left: a normal HTML table (thead = headings, tbody = data rows).
+         Right: a small dark card with the logo and an order button.
+         ==================================================================== -->
+    <section class="price-row">
+
+      <!-- Left: price table -->
+      <div class="price">
+        <h2>PRICE LIST</h2>
+        <p>Quality Meat at Competitive Prices</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Cut</th>
+              <th>Unit Price (PKR)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Beef</td>
+              <td>Various Cuts</td>
+              <td>1,200 – 1,600 /kg</td>
+            </tr>
+            <tr>
+              <td>Mutton</td>
+              <td>Various Cuts</td>
+              <td>1,400 – 2,200 /kg</td>
+            </tr>
+            <tr>
+              <td>Camel</td>
+              <td>Various Cuts</td>
+              <td>1,000 – 1,400 /kg</td>
+            </tr>
+            <tr>
+              <td>Sheep</td>
+              <td>Various Cuts</td>
+              <td>1,200 – 1,800 /kg</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Right: order card -->
+      <aside class="order-card">
+        <img src="images/logo.jpg" alt="Premium logo">
+        <b>PREMIUM</b>
+        <small>SLAUGHTER HOUSE</small>
+        <a class="btn" href="order.html">ORDER NOW →</a>
+      </aside>
+
+    </section>
+    <!-- SECTION 13 — PRICE LIST + ORDER CARD (END) -->
+
+  </main>
+
+
+  <!-- ======================================================================
+       SECTION 14 — FOOTER (START)
+       Top row  : logo, page links and social symbols.
+       Bottom row: copyright and tagline.
+       ====================================================================== -->
+  <footer>
+    <div class="wrap">
+
+      <div class="footer-top">
+
+        <!-- Logo + name -->
+        <a class="footer-brand" href="index.html">
+          <img src="images/logo.jpg" alt="Premium logo">
+          <span><b>PREMIUM<br>SLAUGHTER HOUSE</b></span>
+        </a>
+
+        <!-- Page links -->
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="products.html">Products</a>
+          <a href="services.html">Services</a>
+          <a href="facilities.html">Facilities</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="contact.html">Contact</a>
+        </div>
+
+        <!-- Social symbols -->
+        <div class="social">● ◎ ♪ ▶</div>
+
+      </div>
+
+      <!-- Bottom copyright strip -->
+      <div class="copyright">
+        <span>© 2026 Premium Slaughter House. All Rights Reserved.</span>
+        <em>Fresh Meat · Happy Customers</em>
+      </div>
+
+    </div>
+  </footer>
+  <!-- SECTION 14 — FOOTER (END) -->
+
+
+  <!-- ======================================================================
+       SECTION 15 — PAGE JAVASCRIPT (START)
+       For every category button:
+         1. remove "active" from all buttons
+         2. add "active" to the clicked one
+         3. scroll smoothly to the section whose id matches data-target
+       ====================================================================== -->
+  <script>
+    document.querySelectorAll('.category').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('.category')
+    .forEach(item=>item.classList.remove('active'));button.classList.add('active');document.getElementById(button.dataset.target)
+    .scrollIntoView({behavior:'smooth',block:'start'});}));
+  </script>
+  <!-- SECTION 15 — PAGE JAVASCRIPT (END) -->
 
-
-<a href="index.html">Home</a>
-
-|
-
-<a href="about.html">About</a>
-
-|
-
-<a href="products.html">Products</a>
-
-|
-
-<a href="services.html">Services</a>
-
-|
-
-<a href="facilities.html">Facilities</a>
-
-|
-
-<a href="gallery.html">Gallery</a>
-
-|
-
-<a href="contact.html">Contact</a>
-
-|
-
-<a href="order.html">Order</a>
-
-
-</nav>
-<hr>
-
-  <main>
-   <section>
-<h2 id="productsHeading">Our Premium Meat Products</h2>
-<p>
-At Premium Slaughter House, we proudly offer a wide range of fresh, hygienically processed, 
-and 100% halal meat products. Every product is carefully inspected, processed under strict 
-hygiene standards, and packaged to preserve freshness and quality. Our experienced team ensures 
-that each order meets the highest food safety standards before it reaches our customers. 
-Whether you are a household, restaurant, hotel, supermarket, or catering business,
- we are committed to providing premium-quality meat products you can trust.
-</p>
-
-
-    <!-- About Products -->
-
- 
-
-<article>
-<h3 class="productTitle">Fresh Beef</h3>
-<figure>
-<img id="beefProductImage" src="images/fresh-beef.jpg" width="400" height="300"  alt ="Fresh Premium Chilled Beef ">
-<figcaption>Our Fresh premium Quality Chilled Beef</figcaption>
-</figure>
-<figure>
-<img src="images/premium-beef.jpg" width="400" height="300" alt="Premium Quality Chilled Beef">
-<figcaption>Hygienic Premium Quality Beef</figcaption>
-</figure>
-
-<p>Our premium beef is sourced from carefully selected healthy cattle and processed according to strict halal guidelines.
-    Every cut is inspected for quality, tenderness, and freshness before packaging. We offer a variety of beef cuts suitable
-     for households, restaurants, butcher shops, hotels,
-    and supermarkets. Our hygienic processing methods help preserve the natural flavor, nutritional value, and freshness of every product.</p>
-        <h4>Available Cuts</h4>
-
-<ul class="features">
-
-<li>Sirloin Steak</li>
-<li>Ribeye</li>
-
-<li>Tenderloin</li>
-
-<li>Beef Mince</li>
-
-<li>Beef Bones</li>
-
-</ul>
-<h4>Features</h4>
-
-<ul class="features">
-
-<li>Fresh Daily</li>
-
-<li> Hygienically Processed</li>
-
-<li>100% Halal</li>
-
-<li>Cold Stored</li>
-
-</ul>
-        </article>
-<article>
-<h3>Fresh Mutton</h3>
-<figure>
-<img src="images/fresh-mutton.jpg"  width="400" height="300"alt="Fresh Premium Quality Chilled Mutton">
-<figcaption>Fresh Premium Quality Mutton</figcaption>
-</figure>
-<figure>
-<img src="images/premium-mutton.jpg"  width="400" height="300"  alt="Premium Quality Chilled Mutton">
-<figcaption>Premium Quality Chilled Mutton</figcaption>
-</figure>
-      <p>Our premium mutton is processed with great care to deliver excellent taste, tenderness, and freshness. Every animal is selected based on quality 
-         standards and handled using hygienic processing techniques.
-          We ensure that every cut of mutton maintains its natural flavor while meeting the highest standards of food safety and halal compliance.</p>
-      <h4>Available Cuts</h4>
-
-<ul class="features">
-
-<li> Leg</li>
-<li> Shoulder</li>
-<li> Chops</li>
-<li>Mince</li>
-<li> Whole Carcass</li>
-
-</ul>
-<h4>Features</h4>
-
-<ul class="features">
-
-<li> Fresh Daily</li>
-
-<li>Hygienically Processed</li>
-
-<li> 100% Halal</li>
-
-<li> Cold Stored</li>
-
-</ul>
-      </article>
-      <article>
-<h3>Camel Meat</h3>
-<figure>
-<img src="images/fresh-camel.jpg"  width="400" height="300" alt="Fresh Premium Quality Camel">
-<figcaption>Fresh Premium Quality Camel Meat</figcaption>
-</figure>
-<figure>
-<img src="images/premium-camel.jpg"   width="400" height="300" alt=" Premium Quality Chilled Camel">
-<figcaption>Premium Quality Chilled Camel</figcaption>
-</figure>
-<p>Premium camel meat is carefully processed to maintain its nutritional value, freshness, and unique flavor. Rich in protein and lower 
-   in fat than many other red meats, camel meat is a healthy option for many customers. 
-   Our experienced staff ensures that every product is hygienically processed and packaged according to strict quality standards.</p>
-<h4>Available Cuts</h4>
-
-<ul class="features">
-
-<li> Boneless</li>
-
-<li>Mince</li>
-
-<li> Steak</li>
-
-<li> Ribs</li>
-
-</ul> 
-<h4>Features</h4>
-
-<ul class="features">
-
-<li>Fresh Daily</li>
-
-<li>Hygienically Processed</li>
-
-<li>100% Halal</li>
-
-<li> Cold Stored</li>
-
-</ul>
-</article>
-<article>
-   <h3>Premium Sheep Meat</h3>
-   <figure>
-      <img src="images/sheep.jpg" width="400" height="300" alt="Premium Quality Sheep Meat">
-      <figcaption>Premium Quality Sheep Meat</figcaption>
-   </figure>
-   <p>Our sheep meat is prepared using modern processing methods while maintaining traditional halal practices. Every product is carefully
-       inspected to ensure freshness, tenderness, and excellent quality. 
-      We provide premium sheep meat suitable for restaurants, hotels, catering businesses, and individual customers seeking high-quality halal products.</p>
-      <h4>Available Cuts</h4>
-
-<ul class="features">
-    <li>Leg</li>
-    <li>Shoulder</li>
-    <li>Chops</li>
-    <li>Whole Carcass</li>
-</ul>
-
-<h4 >Features</h4>
-
-<ul class="features">
-    <li>Fresh Daily</li>
-    <li> Hygienically Processed</li>
-    <li> 100% Halal</li>
-    <li> Cold Stored</li>
-</ul>
-   
-</article>
-</section>
-<section>
-   <h2>Fresh Meat By-Products</h2>
-   <figure>
-    <img
-        src="images/by-products.png"
-        width="400"
-        height="300"
-        alt="Fresh Halal Meat By-Products">
-
-    <figcaption>
-        Fresh Halal Meat By-Products
-    </figcaption>
-</figure>
-   <p>In addition to premium meat products, we also provide a wide range of fresh halal by-products, including liver, heart, kidneys,
-       tongue, tail, bones, and other edible items. Every by-product is hygienically cleaned, carefully inspected, and professionally
-       packaged to ensure maximum freshness and quality for our customers.</p>
-       <ul>
-
-<li>Fresh Liver</li>
-
-<li>Heart</li>
-
-<li>Kidneys</li>
-
-<li>Tongue</li>
-
-<li>Tail</li>
-
-<li>Bones</li>
-
-<li>Fat</li>
-
-<li>Other Fresh Halal By-Products</li>
-
-</ul>
-
-</section>
-<!-- Our Products -->
- <section>
-   <h2>Professional Packaging</h2>
-   <p>Every product is professionally packaged using hygienic, food-grade materials to maintain freshness during storage and transportation.
-       Our packaging methods help protect product quality while extending shelf life. We also provide customized packaging options to meet the 
-       specific requirements of restaurants,
-       supermarkets, wholesalers, and distributors.</p>
-       <figure>
-       <img src="images/facilities/packaging-department.jpg"  width="400" height="300" alt="Packaging Conditions">
-       <figcaption>Our Premium Packaging Environment</figcaption>
-
-       </figure>
- </section>
- <section>
-   <h2>Cold Storage and Quality Control</h2>
-   <p>Our advanced cold storage facilities maintain the ideal temperature required to preserve freshness and food safety.
-       Every product undergoes strict quality inspections before packaging and distribution. By following modern storage techniques and continuous quality monitoring, 
-      we ensure that customers receive premium meat products in excellent condition.</p>
-      <figure>
-         <img src="images/facilities/cold-storage.jpg"  width="400" height="300" alt="Cold Storage">
-         <figcaption>Premium Cold Storage Conditions</figcaption>
-      </figure>
- </section>
- <section>
-   <h2>Why Customers Choose Our Products</h2>
-   <p>Customers choose Premium Slaughter House because of our commitment to quality, hygiene, freshness, and customer satisfaction. 
-      We combine experienced professionals, modern processing equipment, strict halal practices, and reliable delivery services to provide 
-      products that consistently exceed customer expectations. Our dedication to excellence has helped us
-       build lasting relationships with individuals and businesses alike.</p>
-       <ul>
-
-<li>100% Halal Certified Processing</li>
-
-<li>Fresh Daily Production</li>
-
-<li>Strict Hygiene Standards</li>
-
-<li>Modern Processing Equipment</li>
-
-<li>Experienced Professional Staff</li>
-
-<li>Premium Packaging</li>
-
-<li>Cold Storage Facilities</li>
-
-<li>Reliable Delivery Service</li>
-
-</ul>
- </section>
- <aside>
- <h2> Special Offers</h2>
- <p>Old Rate for Fresh Chilled Mutton <del>3500 PKR</del> is replaced with new rate <ins>3200 PKR</ins></p>
- <p>Old Rate for Fresh Chilled Beef <del>2000 PKR</del> is replaced with new rate <ins>1750 PKR</ins></p>
- </aside>
-<section>
-<h2>Price List</h2>
-
-<table id="productPriceTable">
-    <caption id="priceListCaption">Premium Meat Product Price List</caption>
-   <thead>
-<tr>
-<th>Product</th>
-<th>Price(PKR/kg)</th>
-<th>Availability</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Fresh Chilled Beef</td>
-<td>PKR 1,750</td>
-<td>Available</td>
-</tr>
-
-<tr>
-   <td>Premium Frozen Beef</td>
-   <td>PKR 2,000</td>
-   <td>Available</td>
-</tr>
-<tr>
-   <td>Fresh Chilled Mutton</td>
-   <td>PKR 3,200</td>
-   <td>Available</td>
-</tr>
-
-<tr>
-   <td>Premium Frozen Mutton</td>
-   <td>PKR 3,600</td>
-   <td>Limited Stock</td>
-</tr>
-<tr>
-    <td>Fresh Chilled Sheep Meat</td>
-    <td>PKR 3,250</td>
-    <td>Available</td>
-</tr>
-
-<tr>
-   <td>Fresh Chilled Camel</td>
-   <td>PKR 1,450</td>
-   <td>Available</td>
-</tr>
-</tbody>
-</table>
-    <!-- Lesson 4 JavaScript -->
-    <button id="productButton">
-        Product Information
-    </button>
-
-    <p id="productMessage">
-        Click the button to learn more about our products.
-    </p>
-</section>
-<!-- our price list details-->
-   <footer>
-
-<hr>
-
-<p>
-
-© 2026 Premium Slaughter House
-
-All Rights Reserved.
-
-</p>
-<script src="js/script.js"></script>
-
-</footer>
-  
 </body>
 </html>

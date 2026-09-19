@@ -1,1836 +1,539 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="en">
+
+<!-- ==========================================================================
+     PAGE      : order.html
+     PURPOSE   : The online shop. Products are NOT written in the HTML —
+                 they are stored in the JavaScript "products" array at the
+                 bottom and drawn on screen by the renderProducts() function.
+     FEATURES  : category filters, quantity picker on each card, side cart,
+                 slide-in checkout drawer with a customer form.
+     STRUCTURE : HEAD > HEADER > HERO > SHOP (filters + products + cart) >
+                 SERVICE CARDS > BENEFITS > SPECIAL OFFERS > FOOTER >
+                 CHECKOUT DRAWER > JAVASCRIPT
+     ========================================================================== -->
 
 <head>
 
-    <meta charset="UTF-8">
+  <!-- ======================================================================
+       META INFORMATION
+       ====================================================================== -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Order Fresh Meat | Premium Slaughter House</title>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+  <style>
+    /* ---------- 1. VARIABLES AND PAGE BASICS -------------------------- */
+    :root{--ink:#0e1517;--cream:#faf9f6;--red:#a90808;--gold:#e2b45b;--line:#e9e5dc}*{box-sizing:border-box}
+    html{scroll-behavior:smooth}body{margin:0;background:var(--cream);font:14px Arial,sans-serif;color:#161616}
+    button{font:inherit;cursor:pointer}a{text-decoration:none;color:inherit}.wrap{max-width:1240px;margin:auto;padding:0 28px}
 
-    <title>
-        Order Meat | Premium Slaughter House
-    </title>
+    /* ---------- 2. TOP BAR ------------------------------------------- */
+    /* z-index:1000 keeps the bar above the page, but below the checkout
+       drawer (1101) and its dark overlay (1100). */
+    .top{position:sticky;top:0;z-index:1000;height:68px;background:#0c1315;color:#fff;border-bottom:1px solid #8d6b2b;box-shadow:0 2px 12px #0006}
+    .nav{height:100%;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;gap:10px;align-items:center}
 
+    .brand-logo{width:48px;height:48px;object-fit:cover;object-position:center;border-radius:50%;background:#fff;border:2px solid var(--gold)}
+    .footer-logo{width:60px;height:60px}.brand b{font:700 18px/.9 Georgia,serif;letter-spacing:.5px}
+    .brand small{display:block;color:#ead7a9;font-size:7px;letter-spacing:1.2px;margin-top:5px}.navlinks{display:flex;gap:29px;font-size:12px}
+    .navlinks a:hover{color:var(--gold)}.cart-btn{position:relative;border:0;background:transparent;color:white;font-size:25px}
+    /* The little red number on the cart icon */
+    .badge{position:absolute;right:-5px;top:-5px;background:#c51318;border-radius:100%;font-size:10px;width:17px;height:17px;display:grid;place-items:center}
 
-    <!-- ==================================================
-         BOOTSTRAP
-         ================================================== -->
+    /* ---------- 3. HERO BANNER AND BUTTON STYLES ---------------------- */
+    .hero{min-height:500px;background:linear-gradient(90deg,rgba(5,8,8,.96),rgba(5,8,8,.72) 41%,rgba(5,8,8,.05)),
+        url('images/order/order-hero1.jpeg') center/cover;color:#fff;display:flex;align-items:center}.hero-copy{width:54%;padding:35px 0}
+    .eyebrow{font-size:15px;font-weight:bold;color:var(--gold);letter-spacing:1px}
+    /* The gold line drawn after the eyebrow text */
+    .eyebrow:after{content:'';display:inline-block;width:100px;border-top:2px solid var(--gold);margin:0 0 5px 11px}h1{font:700 48px/.97 Georgia,serif;margin:12px 0 17px}.proof{display:flex;gap:18px;margin:16px 0}.proof span{font-size:12px;font-weight:bold;border-right:1px solid #aaa;padding-right:18px}.proof span:last-child{border:0}.proof b{font-size:23px;color:var(--gold);margin-right:6px}.hero p{max-width:310px;line-height:1.5}.gold,.red,.dark{border:0;border-radius:5px;padding:11px 20px;font-weight:bold;display:inline-block}.gold{background:var(--gold);color:#2d200a}.red{background:var(--red);color:#fff}.dark{background:#101719;color:#fff;font-size:10px;padding:8px 14px}.gold:hover{background:#f2c974}.red:hover{background:#780404}
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
+    /* ---------- 4. SHOP LAYOUT: PRODUCTS + SIDE CART ------------------ */
+    /* .shop = wide product area (1fr) plus a fixed 275px cart column. */
+    .shop{display:grid;grid-template-columns:1fr 275px;gap:25px;padding:24px 0}.filters{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px}
+    .filter{border:0;border-radius:5px;background:#f1f0ec;padding:12px 8px;font-size:12px;font-weight:bold}.filter.active{background:var(--red);color:white}
+    .products{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.product{background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+    /* .hidden is added by the filter code to products of other categories */
+    .product.hidden{display:none}.product img{display:block;width:100%;height:137px;object-fit:cover}.info{padding:11px}.product h3{font-size:13px;margin:0 0 6px}
+    .product p{font-size:10px;color:#666;line-height:1.4;height:29px;margin:0}.price{font-size:15px;color:#980808;font-weight:bold;margin:10px 0}
+    .price small{font-size:10px;color:#222}.qty{display:flex;height:27px;border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-bottom:9px}
+    .qty button{width:30px;background:#fff;border:0;font-size:16px}
+    .qty span{flex:1;text-align:center;border-left:1px solid var(--line);border-right:1px solid var(--line);padding-top:5px;font-size:11px}
+    .add{width:100%;padding:9px;border:0;border-radius:4px;background:var(--red);color:#fff;font-size:11px;font-weight:bold}
 
+    /* ---------- 5. SIDE CART ----------------------------------------- */
+    /* position:sticky keeps the cart visible while the products scroll. */
+    .sidecart{background:#fff;border:1px solid var(--line);border-radius:5px;padding:14px;height:max-content;position:sticky;top:88px}
+    .sidecart h2{font-size:14px;margin:0;border-bottom:1px solid var(--line);padding-bottom:14px}
+    .cartrow{display:flex;gap:9px;padding:10px 0;border-bottom:1px solid #f0eee9}
+    .cartrow img{height:55px;width:55px;object-fit:cover;border-radius:3px}.cartrow strong{font-size:11px}
+    .cartrow small{display:block;font-size:10px;margin:3px 0}.remove{margin-left:auto;border:0;background:transparent;color:#777;align-self:flex-start}
+    .miniqty{display:flex;border:1px solid var(--line);border-radius:3px;width:88px;justify-content:space-around;align-items:center;height:20px;font-size:10px}
+    .miniqty button{border:0;background:transparent;font-size:14px}.totals{margin-top:13px;padding-top:8px;border-top:1px solid var(--line)}
+    .line{display:flex;justify-content:space-between;font-size:10px;margin:10px 0}.line.total{font-size:13px;font-weight:bold;margin-top:17px}
+    .line.total b{font-size:16px;color:#a20808}.checkout,.continue{width:100%;margin-top:10px}
+    .continue{border:1px solid #999;background:white;border-radius:4px;padding:8px;font-size:10px;font-weight:bold}
 
-    <!-- ==================================================
-         OUR CUSTOM CSS
-         ================================================== -->
+    /* ---------- 6. SERVICE CARDS ------------------------------------- */
+    .services{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:24px}
+    .service{background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+    .service img{width:100%;height:104px;object-fit:cover;display:block}.service div{padding:10px}.service h3{font-size:12px;margin:0 0 7px}
+    .service p{font-size:10px;color:#666;line-height:1.4;height:30px;margin:0 0 8px}.benefits,footer{background:#0d1517;color:#fff}
 
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
+    /* ---------- 7. BENEFITS STRIP ------------------------------------ */
+    .benefitgrid{display:grid;grid-template-columns:repeat(5,1fr);padding:25px 0}.benefit{text-align:center;border-right:1px solid #a6803e}
+    .benefit:last-child{border:0}.benefit i{font-style:normal;font-size:30px;color:var(--gold);display:block;margin-bottom:7px}.benefit b{font:700 16px Georgia,serif}
+    .benefit small{display:block;font-size:10px;color:#ddd;margin-top:6px}
 
+    /* ---------- 8. SPECIAL OFFER BAND -------------------------------- */
+    .offer{background:linear-gradient(90deg,rgba(5,8,9,.96),rgba(5,8,9,.5)),url('images/order/order-hero.jpeg') center/cover;color:#fff;padding:25px 0}
+    .offerin{display:flex;justify-content:space-between;align-items:center}.offer h2{font:700 29px/1 Georgia,serif;margin:7px 0}.offer p{font-size:12px}
+    .deals{display:flex;gap:12px}.deal{background:#fff;color:#111;text-align:center;border-radius:5px;width:165px;overflow:hidden;padding-bottom:10px}
+    .deal img{width:100%;height:67px;object-fit:cover}.deal b{font-size:10px;display:block;margin:7px}.deal .price{font-size:11px;margin:3px}
+    .deal .red{font-size:10px;padding:7px 15px}
 
-    <!-- ==================================================
-         FAVICON
-         ================================================== -->
+    /* ---------- 9. FOOTER -------------------------------------------- */
+    footer{padding:23px 0 12px}.footgrid{display:grid;grid-template-columns:2fr 1.2fr 1.7fr 1fr;gap:28px;font-size:10px}
+    footer h4{font-size:12px;margin:4px 0 10px}footer ul{list-style:none;padding:0;margin:0;line-height:1.55}footer p{margin:0 0 8px}
+    .socials span{border:1px solid #aaa;border-radius:50%;width:25px;height:25px;display:inline-grid;place-items:center;margin-right:6px}.copy{border-top:1px solid #9a7839;margin-top:16px;padding-top:10px;font-size:9px;display:flex;justify-content:space-between}
 
-    <link
-        rel="icon"
-        href="images/favicon.jpg"
-        type="image/jpeg"
-    >
+    /* ---------- 10. CHECKOUT DRAWER AND OVERLAY ---------------------- */
+    /* The drawer is parked off-screen at right:-450px. The JavaScript adds
+       the class "show", which changes it to right:0 and slides it in.
+       The overlay is the dark layer behind it that closes it when clicked. */
+    .overlay{position:fixed;inset:0;background:#0009;opacity:0;visibility:hidden;transition:.25s;z-index:1100}
+    .drawer{position:fixed;right:-450px;top:0;height:100vh;width:min(430px,100%);background:#fbfaf7;z-index:1101;padding:24px;overflow:auto;transition:.3s;box-shadow:-8px 0 30px #0005}.overlay.show{visibility:visible;opacity:1}.drawer.show{right:0}.dhead{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:14px}.dhead h2{font:700 25px Georgia,serif;margin:0}.close{border:0;background:transparent;font-size:28px}.empty{text-align:center;padding:25px 5px;color:#777;font-size:12px}.formtitle{font:700 16px Georgia,serif;margin:22px 0 11px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field.wide{grid-column:1/-1}.field label{display:block;font-size:10px;font-weight:bold;margin-bottom:5px}.field input,.field textarea{width:100%;border:1px solid #d8d4cb;border-radius:4px;padding:10px;font-size:12px}.field textarea{height:68px;resize:vertical}.place{width:100%;margin:17px 0;font-size:13px}.note{text-align:center;color:#666;font-size:10px}
+
+    /* ---------- 11. RESPONSIVE RULES --------------------------------- */
+    /* 900px : menu links and the side cart are hidden (the cart icon in
+               the top bar still opens the drawer), products drop to 3 per row.
+       600px : 2 products per row, form becomes a single column. */
+    @media(max-width:900px){.navlinks,.sidecart{display:none}.shop{grid-template-columns:1fr}.products{grid-template-columns:repeat(3,1fr)}
+    .hero-copy{width:72%}.deals{display:none}}@media(max-width:600px){.wrap{padding:0 16px}.brand b{font-size:14px}.hero-copy{width:100%}h1{font-size:39px}
+    .proof{gap:8px}.proof span{font-size:10px;padding-right:8px}.filters{grid-template-columns:repeat(3,1fr)}
+    .products,.services{grid-template-columns:repeat(2,1fr);gap:10px}.product img{height:115px}.benefitgrid{grid-template-columns:repeat(2,1fr);gap:18px}
+    .benefit:nth-child(2){border:0}.footgrid{grid-template-columns:1fr 1fr}.copy{display:block;line-height:1.8}.formgrid{grid-template-columns:1fr}}
+  </style>
 
 </head>
 
-
 <body>
 
+<!-- ========================================================================
+     SECTION 1 — HEADER / FIXED MENU BAR (START)
+     The cart button calls openCheckout() (see the script at the bottom),
+     and <span id="count"> is the red number that shows how many kg are
+     currently in the cart.
+     ======================================================================== -->
+<!-- HEADER / FIXED MENU BAR START -->
+<header class="top">
+  <div class="wrap nav">
 
-<!-- ==================================================
-     HEADER
-     ================================================== -->
+    <!-- Logo + brand name -->
+    <a class="brand" href="index.html">
+      <img class="brand-logo" src="images/logo.jpg" alt="Premium Slaughter House logo">
+      <span>
+        <b>PREMIUM<br>SLAUGHTER HOUSE</b>
+        <small>FRESH MEAT · HALAL · PREMIUM QUALITY</small>
+      </span>
+    </a>
 
-<header class="py-4">
+    <!-- Menu links (hidden below 900px) -->
+    <nav class="navlinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="products.html">Products</a>
+      <a href="services.html">Services</a>
+      <a href="facilities.html">Facilities</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+    </nav>
 
-    <div class="container text-center">
+    <!-- Cart button — opens the checkout drawer -->
+    <button class="cart-btn" onclick="openCheckout()" aria-label="Open cart">🛒<span id="count" class="badge">0</span></button>
 
-        <img
-            src="images/logo.jpg"
-            alt="Premium Slaughter House Logo"
-            width="120"
-            height="120"
-            class="img-fluid"
-        >
-
-
-        <h1 class="mt-3">
-
-            Premium Slaughter House
-
-        </h1>
-
-
-        <p class="mb-0">
-
-            Fresh |
-            Hygienic |
-            <strong>100% Halal</strong> |
-            Premium Quality Meat
-
-        </p>
-
-    </div>
-
+  </div>
 </header>
+<!-- HEADER / FIXED MENU BAR END -->
+<!-- SECTION 1 — HEADER / FIXED MENU BAR (END) -->
 
 
+<!-- ========================================================================
+     SECTION 2 — HERO BANNER (START)
+     The "Shop Now" link uses href="#shop", which jumps down to the
+     <section id="shop"> below on this same page.
+     ======================================================================== -->
+<!-- HERO SECTION START -->
+<section class="hero">
+  <div class="wrap hero-copy">
 
-<!-- ==================================================
-     RESPONSIVE BOOTSTRAP NAVBAR
-     ================================================== -->
+    <div class="eyebrow">ORDER NOW</div>
+    <h1>Order Fresh<br>Meat Online</h1>
 
-<nav
-    class="navbar navbar-expand-lg"
->
-
-    <div class="container">
-
-
-        <a
-            class="navbar-brand text-white fw-bold"
-            href="index.html"
-        >
-
-            Premium Slaughter House
-
-        </a>
-
-
-        <!-- MOBILE MENU BUTTON -->
-
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#mainNavbar"
-            aria-controls="mainNavbar"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-        >
-
-            <span class="navbar-toggler-icon"></span>
-
-        </button>
-
-
-        <!-- NAVIGATION LINKS -->
-
-        <div
-            class="collapse navbar-collapse"
-            id="mainNavbar"
-        >
-
-            <ul class="navbar-nav ms-auto">
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="index.html"
-                    >
-                        Home
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="about.html"
-                    >
-                        About
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="products.html"
-                    >
-                        Products
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="services.html"
-                    >
-                        Services
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="facilities.html"
-                    >
-                        Facilities
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="gallery.html"
-                    >
-                        Gallery
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="contact.html"
-                    >
-                        Contact
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link active"
-                        aria-current="page"
-                        href="order.html"
-                    >
-                        Order
-                    </a>
-
-                </li>
-
-
-            </ul>
-
-        </div>
-
+    <!-- Three short selling points -->
+    <div class="proof">
+      <span><b>☪</b>100% Halal</span>
+      <span><b>❄</b>Cold-Chain</span>
+      <span><b>♢</b>Hygienic</span>
     </div>
 
-</nav>
+    <p>Premium quality meat, directly from our farm to your table.</p>
+    <a class="gold" href="#shop">Shop Now &nbsp; ›</a>
 
-
-
-<hr>
-
-
-
-<main class="container py-4">
-
-
-
-<!-- ==================================================
-     INTRODUCTION
-     ================================================== -->
-
-<section class="mb-5">
-
-    <div class="row align-items-center g-4">
-
-
-        <div class="col-lg-7">
-
-            <h2 class="mb-3">
-
-                Order Fresh Meat Online
-
-            </h2>
-
-
-            <p>
-
-                Welcome to the Premium Slaughter House
-                online ordering section. Select the meat
-                products you need, choose the required
-                quantity, and add them to your shopping cart.
-
-            </p>
-
-
-            <p>
-
-                You can select multiple products in one order.
-
-                For example:
-
-                <strong>
-                    2 kg beef + 5 kg mutton + 1 kg sheep meat.
-                </strong>
-
-            </p>
-
-        </div>
-
-
-        <div class="col-lg-5">
-
-            <img
-                src="images/order/order-banner.jpg"
-                alt="Fresh Meat Prepared According to Your Requirements"
-                class="img-fluid rounded shadow"
-            >
-
-        </div>
-
-
-    </div>
-
+  </div>
 </section>
+<!-- HERO SECTION END -->
+<!-- SECTION 2 — HERO BANNER (END) -->
 
 
+<!-- ========================================================================
+     SECTION 3 — PRODUCTS AND SIDE CART (START)
+     IMPORTANT: <div class="products" id="products"> is EMPTY on purpose.
+     The JavaScript at the bottom fills it from the "products" array, so to
+     add or change a product you edit that array, not this HTML.
+     Each filter button carries data-filter (all / beef / mutton / camel /
+     sheep); the script reads it and hides the other categories.
+     ======================================================================== -->
+<!-- PRODUCTS AND SIDE CART SECTION START -->
+<main class="wrap">
 
-<!-- ==================================================
-     TODAY'S SPECIAL OFFER
-     ================================================== -->
+  <section id="shop" class="shop">
 
-<section
-    id="special-offer"
-    class="mx-auto mb-5"
->
+    <!-- LEFT: filter buttons + the product grid -->
+    <div>
 
+      <div class="filters">
+        <button class="filter active" data-filter="all">All Products</button>
+        <button class="filter" data-filter="beef">🐂 &nbsp; Beef</button>
+        <button class="filter" data-filter="mutton">🐏 &nbsp; Mutton</button>
+        <button class="filter" data-filter="camel">🐪 &nbsp; Camel</button>
+        <button class="filter" data-filter="sheep">🐑 &nbsp; Sheep</button>
+      </div>
 
-    <h2>
-
-        🔥 Today's Special Offer
-
-    </h2>
-
-
-    <h3>
-
-        Fresh Chilled Beef
-
-    </h3>
-
-
-    <p>
-
-        Regular Price:
-
-        <del>
-            PKR 1,750 / kg
-        </del>
-
-    </p>
-
-
-    <p>
-
-        Special Price:
-
-        <strong>
-            PKR 1,599 / kg
-        </strong>
-
-    </p>
-
-
-    <p>
-
-        <strong>
-            Save PKR 151 per kg!
-        </strong>
-
-    </p>
-
-
-    <p>
-
-        Plus enjoy an additional
-
-        <strong>
-            5% First Order Discount
-        </strong>
-
-        at checkout.
-
-    </p>
-
-
-</section>
-
-
-
-<!-- ==================================================
-     SHOP SECTION
-     ================================================== -->
-
-<section
-    id="shop-section"
-    class="mb-5"
->
-
-
-    <div class="text-center mb-4">
-
-
-        <h2>
-
-            Shop Our Meat Products
-
-        </h2>
-
-
-        <p>
-
-            Choose your preferred meat products below.
-            Enter the quantity and select Add to Cart.
-
-        </p>
+      <!-- Product cards are inserted here by renderProducts() -->
+      <div class="products" id="products"></div>
 
     </div>
 
-
-
-    <!-- ==================================================
-         BOOTSTRAP RESPONSIVE PRODUCT GRID
-
-         1 column → phone
-         2 columns → tablet
-         4 columns → laptop/desktop
-         ================================================== -->
-
-    <div
-        class="product-grid row g-4"
-        id="product-grid"
-    >
-
-
-
-        <!-- ==================================================
-             PRODUCT 1
-             FRESH CHILLED BEEF
-             ================================================== -->
-
-        <article
-            class="product-card col-12 col-md-6 col-lg-3"
-            data-product-id="fresh-chilled-beef"
-        >
-
-            <figure>
-
-                <img
-                    src="images/products/fresh-chilled-beef.jpg"
-                    alt="Fresh Chilled Beef"
-                    width="400"
-                    height="300"
-                    class="img-fluid"
-                >
-
-                <figcaption>
-
-                    Fresh Chilled Beef
-
-                </figcaption>
-
-            </figure>
-
-
-            <h3>
-
-                Fresh Chilled Beef
-
-            </h3>
-
-
-            <p>
-
-                Premium fresh chilled beef prepared
-                under hygienic conditions.
-
-            </p>
-
-
-            <p>
-
-                <del>
-                    PKR 1,750 / kg
-                </del>
-
-                <br>
-
-                <strong>
-                    PKR 1,599 / kg
-                </strong>
-
-            </p>
-
-
-            <p>
-
-                <span class="badge bg-success">
-                    Available
-                </span>
-
-            </p>
-
-
-            <p>
-
-                <span class="badge bg-danger">
-                    🔥 Special Offer
-                </span>
-
-            </p>
-
-
-            <label
-                for="quantity-fresh-chilled-beef"
-                class="form-label"
-            >
-
-                Quantity (kg):
-
-            </label>
-
-
-            <input
-                type="number"
-                id="quantity-fresh-chilled-beef"
-                class="product-quantity form-control mb-3"
-                value="1"
-                min="1"
-            >
-
-
-            <button
-                type="button"
-                class="add-to-cart btn btn-success w-100"
-                data-product-id="fresh-chilled-beef"
-            >
-
-                🛒 Add to Cart
-
-            </button>
-
-        </article>
-
-
-
-        <!-- ==================================================
-             PRODUCT 2
-             PREMIUM FROZEN BEEF
-             ================================================== -->
-
-        <article
-            class="product-card col-12 col-md-6 col-lg-3"
-            data-product-id="premium-frozen-beef"
-        >
-
-            <figure>
-
-                <img
-                    src="images/products/premium-frozen-beef.jpg"
-                    alt="Premium Frozen Beef"
-                    width="400"
-                    height="300"
-                    class="img-fluid"
-                >
-
-                <figcaption>
-                    Premium Frozen Beef
-                </figcaption>
-
-            </figure>
-
-
-            <h3>
-                Premium Frozen Beef
-            </h3>
-
-
-            <p>
-                Premium frozen beef prepared and
-                packaged for convenient storage.
-            </p>
-
-
-            <p>
-                <strong>
-                    PKR 2,000 / kg
-                </strong>
-            </p>
-
-
-            <p>
-
-                <span class="badge bg-success">
-                    Available
-                </span>
-
-            </p>
-
-
-            <label
-                for="quantity-premium-frozen-beef"
-                class="form-label"
-            >
-
-                Quantity (kg):
-
-            </label>
-
-
-            <input
-                type="number"
-                id="quantity-premium-frozen-beef"
-                class="product-quantity form-control mb-3"
-                value="1"
-                min="1"
-            >
-
-
-            <button
-                type="button"
-                class="add-to-cart btn btn-success w-100"
-                data-product-id="premium-frozen-beef"
-            >
-
-                🛒 Add to Cart
-
-            </button>
-
-        </article>
-
-
-
-        <!-- ==================================================
-             PRODUCT 3
-             FRESH CHILLED MUTTON
-             ================================================== -->
-
-        <article
-            class="product-card col-12 col-md-6 col-lg-3"
-            data-product-id="fresh-chilled-mutton"
-        >
-
-            <figure>
-
-                <img
-                    src="images/products/fresh-chilled-mutton.jpg"
-                    alt="Fresh Chilled Mutton"
-                    width="400"
-                    height="300"
-                    class="img-fluid"
-                >
-
-                <figcaption>
-                    Fresh Chilled Mutton
-                </figcaption>
-
-            </figure>
-
-
-            <h3>
-                Fresh Chilled Mutton
-            </h3>
-
-
-            <p>
-                Fresh chilled premium mutton prepared
-                with careful hygienic handling.
-            </p>
-
-
-            <p>
-                <strong>
-                    PKR 3,200 / kg
-                </strong>
-            </p>
-
-
-            <p>
-
-                <span class="badge bg-success">
-                    Available
-                </span>
-
-            </p>
-
-
-            <label
-                for="quantity-fresh-chilled-mutton"
-                class="form-label"
-            >
-
-                Quantity (kg):
-
-            </label>
-
-
-            <input
-                type="number"
-                id="quantity-fresh-chilled-mutton"
-                class="product-quantity form-control mb-3"
-                value="1"
-                min="1"
-            >
-
-
-            <button
-                type="button"
-                class="add-to-cart btn btn-success w-100"
-                data-product-id="fresh-chilled-mutton"
-            >
-
-                🛒 Add to Cart
-
-            </button>
-
-        </article>
-
-
-
-        <!-- ==================================================
-             PRODUCT 4
-             PREMIUM FROZEN MUTTON
-             ================================================== -->
-
-        <article
-            class="product-card col-12 col-md-6 col-lg-3"
-            data-product-id="premium-frozen-mutton"
-        >
-
-            <figure>
-
-                <img
-                    src="images/products/premium-frozen-mutton.jpg"
-                    alt="Premium Frozen Mutton"
-                    width="400"
-                    height="300"
-                    class="img-fluid"
-                >
-
-                <figcaption>
-                    Premium Frozen Mutton
-                </figcaption>
-
-            </figure>
-
-
-            <h3>
-                Premium Frozen Mutton
-            </h3>
-
-
-            <p>
-                Premium frozen mutton prepared for
-                convenient frozen storage.
-            </p>
-
-
-            <p>
-                <strong>
-                    PKR 3,600 / kg
-                </strong>
-            </p>
-
-
-            <p>
-
-                <span class="badge bg-warning text-dark">
-                    Limited Stock
-                </span>
-
-            </p>
-
-
-            <label
-                for="quantity-premium-frozen-mutton"
-                class="form-label"
-            >
-
-                Quantity (kg):
-
-            </label>
-
-
-            <input
-                type="number"
-                id="quantity-premium-frozen-mutton"
-                class="product-quantity form-control mb-3"
-                value="1"
-                min="1"
-            >
-
-
-            <button
-                type="button"
-                class="add-to-cart btn btn-success w-100"
-                data-product-id="premium-frozen-mutton"
-            >
-
-                🛒 Add to Cart
-
-            </button>
-
-        </article>
-
-
-
-        <!-- ==================================================
-             PRODUCT 5
-             FRESH CHILLED SHEEP
-             ================================================== -->
-
-        <article
-            class="product-card col-12 col-md-6 col-lg-3"
-            data-product-id="fresh-chilled-sheep"
-        >
-
-            <figure>
-
-                <img
-                    src="images/products/fresh-chilled-sheep.jpg"
-                    alt="Fresh Chilled Sheep Meat"
-                    width="400"
-                    height="300"
-                    class="img-fluid"
-                >
-
-                <figcaption>
-                    Fresh Chilled Sheep Meat
-                </figcaption>
-
-            </figure>
-
-
-            <h3>
-                Fresh Chilled Sheep Meat
-            </h3>
-
-
-            <p>
-                Fresh chilled sheep meat selected
-                for premium quality and hygiene.
-            </p>
-
-
-            <p>
-                <strong>
-                    PKR 3,250 / kg
-                </strong>
-            </p>
-
-
-            <p>
-
-                <span class="badge bg-success">
-                    Available
-                </span>
-
-            </p>
-
-
-            <label
-                for="quantity-fresh-chilled-sheep"
-                class="form-label"
-            >
-
-                Quantity (kg):
-
-            </label>
-
-
-            <input
-                type="number"
-                id="quantity-fresh-chilled-sheep"
-                class="product-quantity form-control mb-3"
-                value="1"
-                min="1"
-            >
-
-
-            <button
-                type="button"
-                class="add-to-cart btn btn-success w-100"
-                data-product-id="fresh-chilled-sheep"
-            >
-
-                🛒 Add to Cart
-
-            </button>
-
-        </article>
-
-
-
-        <!-- ==================================================
-             PRODUCT 6
-             PREMIUM FROZEN SHEEP
-             ================================================== -->
-
-        <article
-            class="product-card col-12 col-md-6 col-lg-3"
-            data-product-id="premium-frozen-sheep"
-        >
-
-            <figure>
-
-                <img
-                    src="images/products/premium-frozen-sheep.jpg"
-                    alt="Premium Frozen Sheep Meat"
-                    width="400"
-                    height="300"
-                    class="img-fluid"
-                >
-
-                <figcaption>
-                    Premium Frozen Sheep Meat
-                </figcaption>
-
-            </figure>
-
-
-            <h3>
-                Premium Frozen Sheep Meat
-            </h3>
-
-
-            <p>
-                Premium frozen sheep meat packaged
-                for convenient long-term storage.
-            </p>
-
-
-            <p>
-                <strong>
-                    PKR 3,650 / kg
-                </strong>
-            </p>
-
-
-            <p>
-
-                <span class="badge bg-warning text-dark">
-                    Limited Stock
-                </span>
-
-            </p>
-
-
-            <label
-                for="quantity-premium-frozen-sheep"
-                class="form-label"
-            >
-
-                Quantity (kg):
-
-            </label>
-
-
-            <input
-                type="number"
-                id="quantity-premium-frozen-sheep"
-                class="product-quantity form-control mb-3"
-                value="1"
-                min="1"
-            >
-
-
-            <button
-                type="button"
-                class="add-to-cart btn btn-success w-100"
-                data-product-id="premium-frozen-sheep"
-            >
-
-                🛒 Add to Cart
-
-            </button>
-
-        </article>
-
-
-
-        <!-- ==================================================
-             PRODUCT 7
-             FRESH CHILLED CAMEL
-             ================================================== -->
-
-        <article
-            class="product-card col-12 col-md-6 col-lg-3"
-            data-product-id="fresh-chilled-camel"
-        >
-
-            <figure>
-
-                <img
-                    src="images/products/fresh-chilled-camel.jpg"
-                    alt="Fresh Chilled Camel Meat"
-                    width="400"
-                    height="300"
-                    class="img-fluid"
-                >
-
-                <figcaption>
-                    Fresh Chilled Camel Meat
-                </figcaption>
-
-            </figure>
-
-
-            <h3>
-                Fresh Chilled Camel Meat
-            </h3>
-
-
-            <p>
-                Fresh chilled camel meat prepared
-                under hygienic conditions.
-            </p>
-
-
-            <p>
-                <strong>
-                    PKR 1,450 / kg
-                </strong>
-            </p>
-
-
-            <p>
-
-                <span class="badge bg-success">
-                    Available
-                </span>
-
-            </p>
-
-
-            <label
-                for="quantity-fresh-chilled-camel"
-                class="form-label"
-            >
-
-                Quantity (kg):
-
-            </label>
-
-
-            <input
-                type="number"
-                id="quantity-fresh-chilled-camel"
-                class="product-quantity form-control mb-3"
-                value="1"
-                min="1"
-            >
-
-
-            <button
-                type="button"
-                class="add-to-cart btn btn-success w-100"
-                data-product-id="fresh-chilled-camel"
-            >
-
-                🛒 Add to Cart
-
-            </button>
-
-        </article>
-
-
-
-        <!-- ==================================================
-             PRODUCT 8
-             PREMIUM FROZEN CAMEL
-             ================================================== -->
-
-        <article
-            class="product-card col-12 col-md-6 col-lg-3"
-            data-product-id="premium-frozen-camel"
-        >
-
-            <figure>
-
-                <img
-                    src="images/products/premium-frozen-camel.jpg"
-                    alt="Premium Frozen Camel Meat"
-                    width="400"
-                    height="300"
-                    class="img-fluid"
-                >
-
-                <figcaption>
-                    Premium Frozen Camel Meat
-                </figcaption>
-
-            </figure>
-
-
-            <h3>
-                Premium Frozen Camel Meat
-            </h3>
-
-
-            <p>
-                Premium frozen camel meat prepared
-                and packaged for storage.
-            </p>
-
-
-            <p>
-                <strong>
-                    PKR 1,650 / kg
-                </strong>
-            </p>
-
-
-            <p>
-
-                <span class="badge bg-warning text-dark">
-                    Limited Stock
-                </span>
-
-            </p>
-
-
-            <label
-                for="quantity-premium-frozen-camel"
-                class="form-label"
-            >
-
-                Quantity (kg):
-
-            </label>
-
-
-            <input
-                type="number"
-                id="quantity-premium-frozen-camel"
-                class="product-quantity form-control mb-3"
-                value="1"
-                min="1"
-            >
-
-
-            <button
-                type="button"
-                class="add-to-cart btn btn-success w-100"
-                data-product-id="premium-frozen-camel"
-            >
-
-                🛒 Add to Cart
-
-            </button>
-
-        </article>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- ==================================================
-     SHOPPING CART
-     ================================================== -->
-
-<section
-    id="cart-section"
-    class="cart-section container my-5"
->
-
-
-    <div class="text-center mb-4">
-
-        <h2>
-
-            🛒 Your Shopping Cart
-
-        </h2>
-
-        <p>
-
-            Review your selected products before checkout.
-
-        </p>
-
-    </div>
-
-
-    <div
-        id="cart-items"
-        class="row g-3"
-    >
-
-        <div class="col-12">
-
-            <div class="alert alert-secondary">
-
-                Your cart is currently empty.
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- ==================================================
-         CART TOTALS
-         ================================================== -->
-
-    <div class="cart-totals mt-4 p-4 rounded shadow">
-
-
-        <div class="row g-3">
-
-
-            <div class="col-md-6">
-
-                <p>
-
-                    <strong>
-                        Total Quantity:
-                    </strong>
-
-                    <span id="cart-quantity">
-                        0
-                    </span>
-
-                    kg
-
-                </p>
-
-
-                <p>
-
-                    <strong>
-                        Subtotal:
-                    </strong>
-
-                    PKR
-
-                    <span id="cart-subtotal">
-                        0
-                    </span>
-
-                </p>
-
-            </div>
-
-
-            <div class="col-md-6">
-
-                <p>
-
-                    <strong>
-                        Today's Special Offer:
-                    </strong>
-
-                    - PKR
-
-                    <span id="cart-special-discount">
-                        0
-                    </span>
-
-                </p>
-
-
-                <p>
-
-                    <strong>
-                        First Order Discount (5%):
-                    </strong>
-
-                    - PKR
-
-                    <span id="cart-first-order-discount">
-                        0
-                    </span>
-
-                </p>
-
-
-                <p>
-
-                    <strong>
-                        Total Savings:
-                    </strong>
-
-                    PKR
-
-                    <span id="cart-total-savings">
-                        0
-                    </span>
-
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <hr>
-
-
-        <div class="text-center">
-
-            <h3>
-
-                Final Total:
-                PKR
-
-                <span id="cart-total">
-                    0
-                </span>
-
-            </h3>
-
-
-            <button
-                type="button"
-                id="checkout-button"
-                class="btn btn-success btn-lg mt-3"
-            >
-
-                Proceed to Checkout
-
-            </button>
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- ==================================================
-     CHECKOUT
-     ================================================== -->
-
-<section
-    id="checkout-section"
-    class="checkout-section container my-5"
->
-
-
-    <h2 class="text-center mb-4">
-
-        Checkout
-
-    </h2>
-
-
-    <form id="checkout-form">
-
-
-        <!-- ==================================================
-             CUSTOMER INFORMATION
-             ================================================== -->
-
-        <fieldset class="p-4 mb-4 rounded shadow">
-
-            <legend>
-                Customer Information
-            </legend>
-
-
-            <div class="row g-3">
-
-
-                <div class="col-md-6">
-
-                    <label
-                        for="full-name"
-                        class="form-label"
-                    >
-
-                        Full Name:
-
-                    </label>
-
-
-                    <input
-                        type="text"
-                        id="full-name"
-                        name="full-name"
-                        class="form-control"
-                        placeholder="Enter your full name"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="col-md-6">
-
-                    <label
-                        for="order-email"
-                        class="form-label"
-                    >
-
-                        Email Address:
-
-                    </label>
-
-
-                    <input
-                        type="email"
-                        id="order-email"
-                        name="order-email"
-                        class="form-control"
-                        placeholder="Enter your email"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="col-md-6">
-
-                    <label
-                        for="order-phone"
-                        class="form-label"
-                    >
-
-                        Phone Number:
-
-                    </label>
-
-
-                    <input
-                        type="tel"
-                        id="order-phone"
-                        name="order-phone"
-                        class="form-control"
-                        placeholder="03XX-XXXXXXX"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="col-md-6">
-
-                    <label
-                        for="delivery-date"
-                        class="form-label"
-                    >
-
-                        Delivery Date:
-
-                    </label>
-
-
-                    <input
-                        type="date"
-                        id="delivery-date"
-                        name="delivery-date"
-                        class="form-control"
-                        required
-                    >
-
-                </div>
-
-
-            </div>
-
-        </fieldset>
-
-
-
-        <!-- ==================================================
-             DELIVERY ADDRESS
-             ================================================== -->
-
-        <fieldset class="p-4 mb-4 rounded shadow">
-
-            <legend>
-                Delivery Address
-            </legend>
-
-
-            <div class="row g-3">
-
-
-                <div class="col-12">
-
-                    <label
-                        for="delivery-address"
-                        class="form-label"
-                    >
-
-                        Complete Address:
-
-                    </label>
-
-
-                    <textarea
-                        id="delivery-address"
-                        name="delivery-address"
-                        class="form-control"
-                        rows="5"
-                        placeholder="Enter your complete delivery address"
-                        required
-                    ></textarea>
-
-                </div>
-
-
-                <div class="col-md-6">
-
-                    <label
-                        for="city"
-                        class="form-label"
-                    >
-
-                        City:
-
-                    </label>
-
-
-                    <input
-                        type="text"
-                        id="city"
-                        name="city"
-                        class="form-control"
-                        placeholder="Enter your city"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="col-md-6">
-
-                    <label
-                        for="postal-code"
-                        class="form-label"
-                    >
-
-                        Postal Code:
-
-                    </label>
-
-
-                    <input
-                        type="text"
-                        id="postal-code"
-                        name="postal-code"
-                        class="form-control"
-                        placeholder="Enter postal code"
-                    >
-
-                </div>
-
-
-            </div>
-
-        </fieldset>
-
-
-
-        <!-- ==================================================
-             SPECIAL INSTRUCTIONS
-             ================================================== -->
-
-        <fieldset class="p-4 mb-4 rounded shadow">
-
-            <legend>
-                Special Instructions
-            </legend>
-
-
-            <label
-                for="special-instructions"
-                class="form-label"
-            >
-
-                Additional Requirements:
-
-            </label>
-
-
-            <textarea
-                id="special-instructions"
-                name="special-instructions"
-                class="form-control"
-                rows="6"
-                placeholder="Example: Cut beef into small cubes. Please deliver after 5 PM."
-            ></textarea>
-
-        </fieldset>
-
-
-
-        <!-- ==================================================
-             ORDER SUMMARY
-             ================================================== -->
-
-        <fieldset class="p-4 mb-4 rounded shadow">
-
-            <legend>
-                Order Summary
-            </legend>
-
-
-            <div id="checkout-order-summary">
-
-                <div class="alert alert-secondary">
-
-                    Your selected products will appear here.
-
-                </div>
-
-            </div>
-
-
-            <hr>
-
-
-            <div class="row">
-
-
-                <div class="col-md-6">
-
-                    <p>
-
-                        <strong>
-                            Subtotal:
-                        </strong>
-
-                        PKR
-
-                        <span id="checkout-subtotal">
-                            0
-                        </span>
-
-                    </p>
-
-
-                    <p>
-
-                        <strong>
-                            Today's Special Offer:
-                        </strong>
-
-                        - PKR
-
-                        <span id="checkout-special-discount">
-                            0
-                        </span>
-
-                    </p>
-
-                </div>
-
-
-                <div class="col-md-6">
-
-                    <p>
-
-                        <strong>
-                            First Order Discount (5%):
-                        </strong>
-
-                        - PKR
-
-                        <span id="checkout-first-order-discount">
-                            0
-                        </span>
-
-                    </p>
-
-
-                    <p>
-
-                        <strong>
-                            Total Savings:
-                        </strong>
-
-                        PKR
-
-                        <span id="checkout-total-savings">
-                            0
-                        </span>
-
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <hr>
-
-
-            <h3 class="text-center">
-
-                Final Total:
-
-                PKR
-
-                <span id="checkout-total">
-                    0
-                </span>
-
-            </h3>
-
-
-        </fieldset>
-
-
-
-        <!-- ==================================================
-             CHECKOUT BUTTONS
-             ================================================== -->
-
-        <div class="text-center">
-
-
-            <button
-                type="button"
-                id="place-order-button"
-                class="btn btn-success btn-lg me-2"
-            >
-
-                ✓ Place Order
-
-            </button>
-
-
-            <button
-                type="reset"
-                id="clear-checkout-button"
-                class="btn btn-secondary btn-lg"
-            >
-
-                Clear Checkout Form
-
-            </button>
-
-
-        </div>
-
-
-        <p
-            id="order-message"
-            class="text-center mt-3"
-        ></p>
-
-
-    </form>
-
-</section>
-
-
-
-<!-- ==================================================
-     ORDER CONFIRMATION
-     ================================================== -->
-
-<section
-    class="container my-5 p-4 rounded shadow"
->
-
-
-    <h2>
-
-        Order Confirmation
-
-    </h2>
-
-
-    <p>
-
-        After you submit your order, our team can review
-        the selected products, quantities, customer information,
-        delivery requirements, and special instructions.
-
-    </p>
-
-
-    <p>
-
-        Product availability and delivery arrangements may
-        depend on current stock and the customer's location.
-
-    </p>
-
-</section>
-
-
+    <!-- RIGHT: the side cart (hidden on screens under 900px) -->
+    <aside class="sidecart">
+      <h2>🛒 &nbsp; Your Cart (<span class="cartnum">0</span>)</h2>
+      <!-- Both of these are filled by renderCart() -->
+      <div id="sideitems"></div>
+      <div id="sidesummary"></div>
+      <button class="red checkout" onclick="openCheckout()">Proceed to Checkout &nbsp; →</button>
+      <button class="continue" onclick="document.getElementById('shop').scrollIntoView()">‹ &nbsp; Continue Shopping</button>
+    </aside>
+
+  </section>
+
+  <!-- ======================================================================
+       SECTION 4 — SERVICE CARDS (START)
+       Four small cards that link out to the other pages of the site.
+       ====================================================================== -->
+  <!-- SERVICE CARDS SECTION START -->
+  <section class="services">
+
+    <article class="service">
+      <img src="images/by-products.png" alt="By Products">
+      <div>
+        <h3>By-Products</h3>
+        <p>Liver, Heart, Kidney, Tongue, Tail and more.</p>
+        <a class="dark" href="products.html">View Products &nbsp; →</a>
+      </div>
+    </article>
+
+    <article class="service">
+      <img src="images/premium-beef.jpg" alt="Packaging">
+      <div>
+        <h3>Packaging</h3>
+        <p>Safe and hygienic packaging for your peace of mind.</p>
+        <a class="dark" href="services.html">View Products &nbsp; →</a>
+      </div>
+    </article>
+
+    <article class="service">
+      <img src="images/cold-storage.jpg" alt="Cold Storage">
+      <div>
+        <h3>Cold Storage</h3>
+        <p>Maintaining freshness at every step.</p>
+        <a class="dark" href="facilities.html">View Products &nbsp; →</a>
+      </div>
+    </article>
+
+    <article class="service">
+      <img src="images/premium-mutton.jpg" alt="Special Offers">
+      <div>
+        <h3>Special Offers</h3>
+        <p>Get the best quality meat at special prices.</p>
+        <!-- This one stays on the page: #offers is the offer band below -->
+        <a class="dark" href="#offers">View Offers &nbsp; →</a>
+      </div>
+    </article>
+
+  </section>
+  <!-- SERVICE CARDS SECTION END -->
+  <!-- SECTION 4 — SERVICE CARDS (END) -->
 
 </main>
+<!-- PRODUCTS AND SIDE CART SECTION END -->
+<!-- SECTION 3 — PRODUCTS AND SIDE CART (END) -->
 
 
+<!-- ========================================================================
+     SECTION 5 — BENEFITS STRIP (START)
+     Five items in a dark band, each with a symbol, a title and a caption.
+     ======================================================================== -->
+<!-- BENEFITS SECTION START -->
+<section class="benefits">
+  <div class="wrap benefitgrid">
+    <div class="benefit"><i>☪</i><b>100% Halal</b><small>As per Islamic guidelines</small></div>
+    <div class="benefit"><i>♢</i><b>Hygienic Processing</b><small>Safe &amp; clean environment</small></div>
+    <div class="benefit"><i>✺</i><b>Premium Quality</b><small>Fresh &amp; tender meat</small></div>
+    <div class="benefit"><i>❄</i><b>Cold Chain</b><small>Maintains freshness</small></div>
+    <div class="benefit"><i>▣</i><b>Fast Delivery</b><small>On time, every time</small></div>
+  </div>
+</section>
+<!-- BENEFITS SECTION END -->
+<!-- SECTION 5 — BENEFITS STRIP (END) -->
 
-<!-- ==================================================
-     FOOTER
-     ================================================== -->
 
-<footer class="text-center py-4">
+<!-- ========================================================================
+     SECTION 6 — SPECIAL OFFERS (START)
+     id="offers" is the target of the "View Offers" link above.
+     The two "Order Now" buttons call add(1) and add(0): those numbers are
+     the positions of Fresh Mutton and Fresh Beef in the products array,
+     so clicking them drops that item straight into the cart.
+     ======================================================================== -->
+<!-- SPECIAL OFFERS SECTION START -->
+<section id="offers" class="offer">
+  <div class="wrap offerin">
 
-    <hr>
+    <!-- Left: offer headline -->
+    <div>
+      <div class="eyebrow">TODAY'S SPECIAL OFFER</div>
+      <h2>Premium Quality Meat<br>at Unbeatable Prices</h2>
+      <p>Fresh · Hygienic · 100% Halal</p>
+      <a class="gold" href="#shop">View Offers &nbsp; →</a>
+    </div>
+
+    <!-- Right: two deal cards (hidden below 900px) -->
+    <div class="deals">
+
+      <div class="deal">
+        <img src="images/fresh-mutton.jpg" alt="Mutton">
+        <b>MUTTON SPECIAL</b>
+        <div class="price">PKR 2,400 <small>/kg</small></div>
+        <button class="red" onclick="add(1)">Order Now &nbsp; →</button>
+      </div>
+
+      <div class="deal">
+        <img src="images/fresh-beef.jpg" alt="Beef">
+        <b>BEEF SPECIAL</b>
+        <div class="price">PKR 1,500 <small>/kg</small></div>
+        <button class="red" onclick="add(0)">Order Now &nbsp; →</button>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+<!-- SPECIAL OFFERS SECTION END -->
+<!-- SECTION 6 — SPECIAL OFFERS (END) -->
 
 
-    <p class="mb-0">
+<!-- ========================================================================
+     SECTION 7 — FOOTER (START)
+     Four columns: brand block, quick links, contact details, social icons.
+     NOTE: the quick links here are plain <li> text, not <a> links — turn
+     them into links if you want them clickable.
+     ======================================================================== -->
+<!-- FOOTER SECTION START -->
+<footer>
+  <div class="wrap footgrid">
 
-        © 2026 Premium Slaughter House
-        All Rights Reserved.
+    <!-- Column 1 — brand -->
+    <div>
+      <div class="brand">
+        <img class="brand-logo footer-logo" src="images/logo.jpg" alt="Premium Slaughter House logo">
+        <span>
+          <b>PREMIUM<br>SLAUGHTER HOUSE</b>
+          <small>FRESH MEAT · HALAL · PREMIUM QUALITY</small>
+        </span>
+      </div>
+    </div>
 
-    </p>
+    <!-- Column 2 — quick links -->
+    <div>
+      <h4>Quick Links</h4>
+      <ul>
+        <li>Home</li>
+        <li>About Us</li>
+        <li>Products</li>
+        <li>Services</li>
+        <li>Facilities</li>
+        <li>Gallery</li>
+        <li>Contact</li>
+      </ul>
+    </div>
+
+    <!-- Column 3 — contact details -->
+    <div>
+      <h4>Contact Us</h4>
+      <p>⌖ &nbsp; Raiwind-Manga Road,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lahore, Pakistan</p>
+      <p>☎ &nbsp; +92 308 1357658</p>
+      <p>✉ &nbsp; info@premiumslaughterhouse.com</p>
+      <p>◷ &nbsp; Mon–Sat: 9:00 AM – 6:00 PM</p>
+    </div>
+
+    <!-- Column 4 — social icons -->
+    <div>
+      <h4>Follow Us</h4>
+      <div class="socials"><span>f</span><span>◎</span><span>▶</span><span>◉</span></div>
+    </div>
+
+  </div>
+
+  <!-- Bottom copyright strip -->
+  <div class="wrap copy">
+    <span>© 2026 Premium Slaughter House. All Rights Reserved.</span>
+    <span>Fresh Meat &nbsp; | &nbsp; Halal &nbsp; | &nbsp; Premium Quality</span>
+  </div>
 
 </footer>
+<!-- FOOTER SECTION END -->
+<!-- SECTION 7 — FOOTER (END) -->
 
 
+<!-- ========================================================================
+     SECTION 8 — RIGHT-SIDE CHECKOUT DRAWER (START)
+     #overlay  = the dark layer; clicking it closes the drawer.
+     #drawer   = the sliding panel itself.
+     #draweritems and #drawersummary are filled by renderCart().
+     The form calls placeOrder(event) when submitted.
+     ======================================================================== -->
+<!-- RIGHT-SIDE CHECKOUT DRAWER START -->
+<div id="overlay" class="overlay" onclick="closeOnBackdrop(event)"></div>
 
-<!-- ==================================================
-     BOOTSTRAP JAVASCRIPT
-     ================================================== -->
+<aside id="drawer" class="drawer">
 
-<script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-></script>
+  <!-- Drawer heading + close button -->
+  <div class="dhead">
+    <h2>Your Order</h2>
+    <button class="close" onclick="closeCheckout()" aria-label="Close checkout">×</button>
+  </div>
+
+  <!-- Cart contents and totals (inserted by JavaScript) -->
+  <div id="draweritems"></div>
+  <div id="drawersummary"></div>
+
+  <!-- Customer details form -->
+  <form onsubmit="placeOrder(event)">
+    <h3 class="formtitle">Customer Information</h3>
+    <div class="formgrid">
+      <div class="field"><label>FULL NAME</label><input required placeholder="Your name"></div>
+      <div class="field"><label>PHONE NUMBER</label><input required placeholder="03xx xxxxxxx"></div>
+      <!-- class="wide" makes these two span both columns -->
+      <div class="field wide"><label>DELIVERY ADDRESS</label><textarea required placeholder="House / street / area / city"></textarea></div>
+      <div class="field wide"><label>ORDER NOTES (OPTIONAL)</label><input placeholder="Any delivery instructions?"></div>
+    </div>
+    <button class="red place">Place Order &nbsp; →</button>
+    <p class="note">You will receive confirmation after we review your order.</p>
+  </form>
+
+</aside>
+<!-- RIGHT-SIDE CHECKOUT DRAWER END -->
+<!-- SECTION 8 — RIGHT-SIDE CHECKOUT DRAWER (END) -->
 
 
+<!-- ========================================================================
+     SECTION 9 — PAGE JAVASCRIPT (START)
+     Reading order:
+       products[]      — the catalogue (n=name, c=category, p=price,
+                         i=image path, d=description)
+       cart[]          — what the visitor has chosen, as {id, q}
+       renderProducts()— draws the product cards
+       add/change/remove — cart operations
+       items()/summary()— build the cart HTML and the totals
+       renderCart()    — refreshes the side cart and the drawer together
+       open/closeCheckout — slide the drawer in and out
+       placeOrder()    — demo confirmation (connect your back end here)
+     ======================================================================== -->
+<!-- PAGE JAVASCRIPT START -->
+<script>
+/* PRODUCT LIST: replace the image path for the eight Premium products below whenever you add their photos. */
+const products=[
+ /* CARD 1 — change only the value after i: to change this card image. */
+ {n:'Fresh Beef',c:'beef',p:1500,i:'images/products/premium-frozen-beef.jpg',d:'Premium quality beef, healthy and tender.'},
+ /* CARD 2 */
+ {n:'Fresh Mutton',c:'mutton',p:2400,i:'images/fresh-mutton.jpg',d:'Naturally raised, rich in flavor and nutrition.'},
+ /* CARD 3 */
+ {n:'Fresh Camel',c:'camel',p:1600,i:'images/fresh-camel.jpg',d:'Lean, healthy and full of natural goodness.'},
+ /* CARD 4 */
+ {n:'Fresh Sheep',c:'sheep',p:2300,i:'images/sheep.jpg',d:'Tender and flavorful, perfect for all recipes.'},
+ /* CARD 5 — replace premium-beef.jpg with your Beef Mince image filename. */
+ {n:'Premium Beef Mince',c:'beef',p:1600,i:'images/order/beef-mince.jpg',d:'Finely prepared premium beef mince.'},
+ /* CARD 6 — replace premium-mutton.jpg with your Mutton Mince image filename. */
+ {n:'Premium Mutton Mince',c:'mutton',p:2800,i:'images/order/mutton-mince.jpg',d:'Rich and tender premium mutton mince.'},
+ /* CARD 7 — replace premium-beef.jpg with your Beef Boneless image filename. */
+ {n:'Premium Beef Boneless',c:'beef',p:1500,i:'images/order/beef-boneless.jpg',d:'Clean-cut, tender boneless beef.'},
+ /* CARD 8 — replace premium-mutton.jpg with your Mutton Boneless image filename. */
+ {n:'Premium Mutton Boneless',c:'mutton',p:2650,i:'images/order/mutton-boneless.jpg',d:'Fresh, carefully trimmed mutton.'},
+ /* CARD 9 — replace fresh-mutton.jpg with your Mutton Chops image filename. */
+ {n:'Premium Mutton Chops',c:'mutton',p:3000,i:'images/order/mutton-chops.jpg',d:'Flavorful, premium-cut mutton chops.'},
+ /* CARD 10 — replace sheep.jpg with your Sheep Mince image filename. */
+ {n:'Premium Sheep Mince',c:'sheep',p:2600,i:'images/order/sheep-mince.jpg',d:'Freshly prepared sheep mince.'},
+ /* CARD 11 — replace fresh-beef.jpg with your Beef Tenderloin image filename. */
+ {n:'Premium Beef Tenderloin',c:'beef',p:2000,i:'images/order/beef-tenderloin.jpeg',d:'Tender, premium beef tenderloin.'},
+ /* CARD 12 — replace fresh-camel.jpg with your Camel Mince image filename. */
+ {n:'Premium Camel Mince',c:'camel',p:1800,i:'images/order/camel-mince.jpeg',d:'Freshly prepared camel mince.'}
+];
 
-<!-- ==================================================
-     OUR JAVASCRIPT
-     ================================================== -->
+/* cart = chosen items, filter = the active category, money() formats prices. */
+let cart=[],filter='all';const productsEl=document.getElementById('products');const money=n=>'PKR '+n.toLocaleString();
 
-<script src="js/script.js"></script>
+/* Build one card per product and put them all inside #products.
+   Products outside the selected category get the class "hidden". */
+function renderProducts(){productsEl.innerHTML=products.map((p,i)=>'<article class="product '+(filter!='all'&&filter!=p.c?'hidden':'')+'"><img src="'+p.i+'" alt="'+p.n+'"><div class="info"><h3>'+p.n+'</h3><p>'+p.d+'</p><div class="price">'+money(p.p)+' <small>/kg</small></div><div class="qty"><button onclick="productQty('+i+',-1)">−</button><span id="pq'+i+'">1</span><button onclick="productQty('+i+',1)">+</button></div><button class="add" onclick="add('+i+')">🛒 &nbsp; Add to Cart</button></div></article>').join('')}
 
+/* The + / − buttons on a card. Math.max(1,...) stops it going below 1 kg. */
+function productQty(i,n){let e=document.getElementById('pq'+i);e.textContent=Math.max(1,+e.textContent+n)}
+
+/* Add to cart: if the item is already there, just increase its quantity. */
+function add(i){let q=+(document.getElementById('pq'+i)?.textContent||1),x=cart.find(x=>x.id==i);x?x.q+=q:cart.push({id:i,q});renderCart()}
+
+/* The + / − buttons inside the cart. Quantity below 1 removes the row. */
+function change(i,n){let x=cart.find(x=>x.id==i);if(!x)return;x.q+=n;if(x.q<1)cart=cart.filter(x=>x.id!=i);renderCart()}
+
+/* Remove one line from the cart completely. */
+function remove(i){cart=cart.filter(x=>x.id!=i);renderCart()}
+
+/* Build the HTML for the cart rows, or the "empty cart" message. */
+function items(){return cart.length?cart.map(x=>{let p=products[x.id];return '<div class="cartrow"><img src="'+p.i+'" alt="'+p.n+'"><div><strong>'+p.n+'</strong><small>'+x.q+' kg</small><b>'+money(p.p*x.q)+'</b><div class="miniqty"><button onclick="change('+x.id+',-1)">−</button><span>'+x.q+'</span><button onclick="change('+x.id+',1)">+</button></div></div><button class="remove" onclick="remove('+x.id+')" aria-label="Remove item">♜</button></div>'}).join(''):'<div class="empty">Your cart is currently empty.<br><br>Add fresh items to begin your order.</div>'}
+
+/* Totals: subtotal, a flat PKR 200 delivery charge (0 if the cart is empty), total. */
+function summary(){let s=cart.reduce((a,x)=>a+products[x.id].p*x.q,0),d=s?200:0;return '<div class="totals"><div class="line"><span>Subtotal</span><b>'+money(s)+'</b></div><div class="line"><span>Delivery Charges</span><b>'+money(d)+'</b></div><div class="line total"><span>Total</span><b>'+money(s+d)+'</b></div></div>'}
+
+/* Refresh everything at once: cart badge, side cart and drawer. */
+function renderCart(){let n=cart.reduce((a,x)=>a+x.q,0);document.getElementById('count').textContent=n;document.querySelectorAll('.cartnum').forEach(e=>e.textContent=n);document.getElementById('sideitems').innerHTML=items();document.getElementById('draweritems').innerHTML=items();document.getElementById('sidesummary').innerHTML=summary();document.getElementById('drawersummary').innerHTML=summary()}
+
+/* Slide the drawer in; overflow:hidden stops the page behind it scrolling. */
+function openCheckout(){renderCart();document.getElementById('overlay').classList.add('show');document.getElementById('drawer').classList.add('show');document.body.style.overflow='hidden'}
+
+/* Slide the drawer out again and restore page scrolling. */
+function closeCheckout(){document.getElementById('overlay').classList.remove('show');document.getElementById('drawer').classList.remove('show');document.body.style.overflow=''}
+
+/* Only close when the dark backdrop itself is clicked, not the drawer. */
+function closeOnBackdrop(e){if(e.target===e.currentTarget)closeCheckout()}
+
+/* Demo order handler — replace the alert with a real submission later. */
+function placeOrder(e){e.preventDefault();if(!cart.length){alert('Your cart is empty. Please add products first.');return}alert('Thank you! Your order request has been placed. We will contact you shortly.');cart=[];renderCart();closeCheckout();e.target.reset()}
+
+/* Category filters, the Escape-key shortcut, and the first draw of the page. */
+document.querySelectorAll('.filter').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderProducts()});document.onkeydown=e=>{if(e.key==='Escape')closeCheckout()};renderProducts();renderCart();
+</script>
+<!-- PAGE JAVASCRIPT END -->
+<!-- SECTION 9 — PAGE JAVASCRIPT (END) -->
 
 </body>
-
 </html>
