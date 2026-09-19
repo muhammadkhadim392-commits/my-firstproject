@@ -1,610 +1,546 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
+<!-- ==========================================================================
+     PAGE      : contact.html
+     PURPOSE   : Contact details, message form, map, business hours, FAQ
+                 accordion and a closing order banner.
+     STYLING   : Self-contained CSS in the <style> block below (no Bootstrap
+                 CDN here — a mini grid is written by hand).
+     SCRIPTS   : At the bottom of <body>: mobile menu toggle, FAQ accordion
+                 and simple form validation.
+     STRUCTURE : HEAD > HEADER > HERO > CONTACT INFO + FORM > MAP + HOURS >
+                 FAQ > CTA > FOOTER > SCRIPTS
+     ========================================================================== -->
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <meta
-    name="description"
-    content="Explore Premium Slaughter House facilities: modern slaughtering, hygienic processing, cold storage, quality inspection, packaging and distribution." />
+  <!-- ======================================================================
+       META INFORMATION
+       charset     : lets symbols such as ⌖ ☎ ✉ ◷ display correctly
+       viewport    : makes the layout scale properly on phones
+       description : text search engines show under the page title
+       title       : browser tab text
+       ====================================================================== -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Contact Premium Slaughter House for orders and support.">
+  <title>Contact Us | Premium Slaughter House</title>
 
-  <title>Contact | Premium Slaughter House</title>
+  <style>
+    /* ============================================================
+       INLINE BOOTSTRAP-STYLE FOUNDATION
+       Small self-contained grid/utilities: no CDN or separate file.
+       .container = centred page width, .row/.col-* = the column system,
+       .col-lg-* only takes effect on screens 992px and wider.
+       ============================================================ */
+    *,*::before,*::after{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#192736;background:#f7f4ed;line-height:1.5}
+    img{max-width:100%;display:block} a{text-decoration:none;color:inherit}
+    .container{width:100%;max-width:1180px;padding:0 18px;margin:auto}.row{display:flex;flex-wrap:wrap;margin:0 -12px}.row>*{padding:0 12px}.col-12{width:100%}
+    .d-flex{display:flex}.align-items-center{align-items:center}.justify-content-between{justify-content:space-between}.text-center{text-align:center}
+    @media(min-width:992px){.col-lg-5{width:41.6667%}.col-lg-6{width:50%}.col-lg-7{width:58.3333%}}
 
-  <!-- FAVICON -->
-  <link rel="icon" type="image/jpeg" href="images/favicon.jpg" />
+    /* ============================================================
+       SITE THEME
+       :root holds the colour variables used all over this page.
+       Below them: the sticky dark header, brand block, menu links
+       and the cart icon with its red counter bubble.
+       ============================================================ */
+    :root{--ink:#0b1219;--ink-2:#121d26;--paper:#f7f4ed;--gold:#d4af63;--red:#b91431;--red-dark:#920d25;--line:#ded8cc;--white:#fff}
+    .site-header{height:76px;background:var(--ink);border-bottom:1px solid rgba(212,175,99,.45);position:sticky;top:0;z-index:50}
+    .navbar{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:10px;color:var(--gold)}
+    .brand-mark{width:52px;height:52px;border:2px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-size:27px}
+    .brand-logo{width:56px;height:56px;object-fit:contain;background:#fff;border-radius:50%;padding:2px}
+.footer-logo{width:150px;height:150px;object-fit:contain;background:#fff;border-radius:50%;padding:4px;margin-bottom:8px}
+    .brand-title{font-family:Georgia,serif;font-size:22px;font-weight:bold;letter-spacing:.5px;line-height:1}
+    .brand-sub{display:block;font-size:9px;letter-spacing:2px;margin-top:5px;color:#eee8dc}
+  .menu{display:flex;align-items:center;gap:27px;height:76px}
+.menu a{color:#f8f8f8;font-weight:bold;font-size:13px;height:76px;display:flex;align-items:center;position:relative}
+.menu a:hover,.menu a.active{color:var(--gold)}
+.menu a.active:after{content:"";position:absolute;right:0;bottom:15px;left:0;height:2px;background:var(--gold)}
+.nav-order{margin-left:4px}
+.cart-icon{color:var(--gold);font-size:27px;line-height:1;display:block}
+.cart-badge{position:absolute;top:17px;right:-11px;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:var(--red);color:#fff;font:10px Arial}
+    .cart{font-size:20px;color:var(--gold);position:relative}
+    .cart b{position:absolute;top:-8px;right:-11px;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:var(--red);color:#fff;font:10px Arial}
+    .menu-toggle{display:none;color:#fff;border:1px solid #53606a;background:transparent;border-radius:4px;font-size:23px;padding:2px 9px;cursor:pointer}
 
-  <!-- BOOTSTRAP -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    rel="stylesheet" />
+    /* Hero: replace image path only if your project uses another image folder. */
+    /* .hero:after lays a dark gradient over the photo so white text is readable. */
+    .hero{height:500px;position:relative;background:#111;overflow:hidden}.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.91),rgba(0,0,0,.68) 42%,rgba(0,0,0,.08))}
+    .hero-content{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;justify-content:center}
+    .eyebrow{margin:0 0 7px;color:#e2c47e;font-size:12px;font-weight:bold;letter-spacing:2px}.hero h1,.serif{font-family:Georgia,'Times New Roman',serif}
+    .hero h1{font-size:54px;font-weight:500;line-height:1;color:#fff;margin:0 0 12px}.hero p:not(.eyebrow){margin:0;color:#fff;font-size:15px}
+    .ornament{width:68px;height:2px;background:var(--gold);margin-top:19px;position:relative}
+    .ornament:after{content:"◇";position:absolute;color:var(--gold);font-size:16px;left:25px;top:-12px}
 
-  <!-- OUR CSS -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+    /* Contact cards and form */
+    /* .card = light info card, .form-card = same card but dark with a photo. */
+    .section-pad{padding:24px 0}.card{height:100%;padding:22px;background:#fdfbf6;border:1px solid var(--line);border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.035)}
+    .form-card{color:#fff;background:linear-gradient(rgba(10,17,23,.94),rgba(10,17,23,.94)),url('images/contact/contact-banner.jpg') center/cover;border-color:#293842}
+    .card h2{margin:0 0 3px;font:700 23px Georgia,serif;color:#1a3047}.form-card h2{color:#fff}.intro{font-size:12px;margin:0 0 17px;color:#4c5660}
+    .form-card .intro{color:#d9dde0}.contact-item{display:flex;gap:14px;margin:19px 0}
+    .icon{flex:0 0 39px;width:39px;height:39px;border-radius:50%;display:grid;place-items:center;background:var(--red);color:#fff;font-size:17px}
+    .contact-item h3{margin:0;color:#1b2a3c;font-size:13px}.contact-item p{margin:1px 0 0;font-size:12px;color:#48515b}.contact-item a:hover{color:var(--red)}
+    /* .field holds one input plus the little symbol shown inside it. */
+    .field{position:relative;margin:7px 0}.field span{position:absolute;left:12px;top:9px;color:#98a5ae;font-size:14px}
+    .form-control{width:100%;height:38px;border:1px solid #53626d;border-radius:4px;background:#17232d;padding:8px 12px 8px 34px;color:#fff;font-size:12px;outline:0}
+    .form-control:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(212,175,99,.18)}textarea.form-control{height:83px;resize:vertical}
+    .send{border:0;border-radius:3px;background:var(--red);color:#fff;width:100%;padding:12px;cursor:pointer;font-weight:bold;font-size:12px;transition:.2s}
+    .send:hover{background:var(--red-dark);transform:translateY(-1px)}
+    .notice{display:none;margin-top:10px;padding:9px 12px;border-radius:4px;background:#17492c;color:#d5ffe2;font-size:12px}
+
+    /* Map and hours */
+    /* .map-label is the white box floating on top of the map image. */
+    .map{height:257px;position:relative;overflow:hidden;border:1px solid var(--line);border-radius:6px;background:#dcd8cf}
+    .map>img{height:100%;width:100%;object-fit:cover}
+    .map-label{position:absolute;top:12px;left:12px;padding:10px 12px;background:rgba(255,255,255,.95);font-size:10px;border-radius:3px;box-shadow:0 2px 8px #777}
+    .map-label strong{display:block;font-size:12px}.map-label a{display:block;color:#2d74bd;margin-top:4px}.hours h2{display:flex;gap:10px;align-items:center}
+    .hours-symbol{font:18px Arial;width:30px;height:30px;display:grid;place-items:center;background:var(--red);border-radius:50%;color:#fff}
+    .hours-row{display:flex;justify-content:space-between;gap:15px;padding:9px 0;border-bottom:1px solid #ddd7cc;font-size:12px;font-weight:bold}
+    .hours-note{font-size:11px;color:#59626a;margin:16px 0}.visit{border-top:1px solid #ddd7cc;padding-top:13px;display:flex;gap:12px;align-items:center}
+    .visit img{width:110px;height:57px;object-fit:cover;border-radius:3px}.visit strong{font:italic 14px Georgia,serif;color:#92763d}
+    .visit small{display:block;font-size:10px;color:#5a6268}
+
+    /* FAQ */
+    /* Answers are hidden by default; the JavaScript adds the class "open"
+       to a .faq-item, and these rules then reveal its answer. */
+    .faq{background:var(--ink);border-top:1px solid #283641;border-bottom:1px solid var(--gold);padding:22px 0}
+    .faq h2{margin:0;color:#fff;font:700 22px Georgia,serif}.faq h2 span{color:var(--gold);margin-right:9px}
+    .faq>div>p{margin:2px 0 13px 34px;color:#d3d9de;font-size:11px}.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px 15px}
+    .faq-item{background:#0e171f;border:1px solid #34424d;border-radius:3px}
+    .faq-question{width:100%;display:flex;justify-content:space-between;align-items:center;padding:9px 11px;border:0;background:none;color:#fff;text-align:left;font-size:11px;cursor:pointer}
+    .faq-question span{font-size:18px;color:var(--gold);transition:.2s}.faq-answer{display:none;padding:0 11px 10px;color:#cfd5d9;font-size:10px}
+    .faq-item.open .faq-answer{display:block}.faq-item.open .faq-question span{transform:rotate(45deg)}
+
+    /* Call to action and footer */
+    .cta{position:relative;min-height:125px;overflow:hidden;border-bottom:1px solid var(--gold)}
+    .cta>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.cta:after{content:"";position:absolute;inset:0;background:rgba(5,10,13,.75)}
+    .cta-inner{position:relative;z-index:1;min-height:125px;display:flex;align-items:center;justify-content:center;gap:43px;color:#fff;text-align:center}
+    .cta small{font-size:9px;letter-spacing:1.5px;color:var(--gold)}.cta h2{font:500 23px Georgia,serif;margin:0}.cta p{font-size:10px;margin:2px 0}
+    .button{display:inline-block;background:var(--red);color:#fff;padding:10px 28px;border-radius:3px;font-weight:bold;font-size:11px}
+    .button:hover{background:var(--red-dark)}.benefits{display:flex;gap:17px}.benefit{font-size:9px;min-width:62px}
+    .benefit span{display:block;color:var(--gold);font-size:20px}
+    footer{background:var(--ink);color:#d7dde0;padding:26px 0 0}.footer-grid{display:grid;grid-template-columns:1.7fr 1fr 1fr 1.35fr;gap:28px;padding-bottom:20px}
+    .footer-brand{color:var(--gold);font:700 21px Georgia,serif}.footer-brand span{font:9px Arial;letter-spacing:1.5px;display:block}.slogan{font-size:10px}
+    .social a{display:inline-grid;place-items:center;width:22px;height:22px;border:1px solid #69737c;border-radius:50%;font-size:10px;margin-right:4px}
+    .footer-grid h3{font-size:12px;color:#fff;margin:2px 0 8px}.footer-grid ul{list-style:none;padding:0;margin:0}
+    .footer-grid li,.footer-grid p{font-size:10px;margin:0 0 4px}.footer-grid a:hover{color:var(--gold)}
+    .copy{border-top:1px solid #303b44;display:flex;justify-content:space-between;padding:10px 0;color:#aeb6bd;font-size:9px}
+
+    /* RESPONSIVE RULES
+       991px : menu links tighten, the benefit icons are hidden.
+       767px : the ☰ button appears and the menu becomes a drop-down,
+               the FAQ becomes one column, the footer becomes 2 columns.
+       420px : extra-small phones — brand text hidden, footer 1 column. */
+    @media(max-width:991px){.menu{gap:14px}.benefits{display:none}}@media(max-width:767px){.site-header,.navbar{height:64px}.brand-mark{width:43px;height:43px;font-size:22px}.brand-title{font-size:17px}.menu-toggle{display:block}.menu{display:none;position:absolute;top:64px;left:0;right:0;background:var(--ink);padding:7px 18px 14px;flex-direction:column;align-items:stretch;gap:0;border-top:1px solid #26343e}.menu.show{display:flex}.menu a{padding:10px 4px;border-bottom:1px solid #202b34}.menu a.active:after{display:none}.hero{height:275px}.hero h1{font-size:42px}.faq-grid{grid-template-columns:1fr}.cta-inner{padding:17px 0;min-height:200px;flex-direction:column;gap:10px}.cta{min-height:200px}.footer-grid{grid-template-columns:1fr 1fr}.footer-grid>div:first-child{grid-column:1/-1}.copy{flex-direction:column;text-align:center;gap:4px}}@media(max-width:420px){.brand-copy{display:none}.hero h1{font-size:35px}.footer-grid{grid-template-columns:1fr}.footer-grid>div:first-child{grid-column:auto}}
+  </style>
+
 </head>
 
 <body>
 
-  <!-- =====================================================
-       NAVIGATION BAR
-  ===================================================== -->
+  <!-- ======================================================================
+       SECTION 1 — HEADER / NAVIGATION (START)
+       Sticky dark bar. The ☰ button (id="menuToggle") is hidden on desktop
+       and only appears below 767px; the script at the bottom of the page
+       makes it show/hide the menu.
+       "Contact" carries class="active" because this is the current page.
+       ====================================================================== -->
+  <!-- Header / desktop navigation -->
   <header class="site-header">
-    <nav class="main-nav">
+    <div class="container navbar">
 
-      <!-- BRAND -->
-      <div class="brand">
-        <a href="index.html" class="brand-logo-link">
-          <img
-            src="images/logo.jpg"
-            alt="Premium Slaughter House Logo"
-            class="site-logo">
-        </a>
+      <!-- Brand: symbol + company name -->
+     <a class="brand" href="index.html" aria-label="Premium Slaughter House home">
+  <img src="images/logo.jpg" alt="Premium Slaughter House Logo" class="brand-logo">
+  <span class="brand-copy">
+    <span class="brand-title">PREMIUM</span>
+    <span class="brand-sub">SLAUGHTER HOUSE</span>
+  </span>
+</a>
 
-        <div class="brand-text">
-          <a href="index.html" class="site-title">
-            Premium Slaughter House
-          </a>
+      <!-- Mobile menu button -->
+      <button class="menu-toggle" type="button" id="menuToggle" aria-label="Open menu">☰</button>
 
-          <span class="site-tagline">
-            Fresh <span>|</span> Hygienic <span>|</span> <strong>100% Halal</strong>
-          </span>
-        </div>
-      </div>
-
-      <!-- NAVIGATION LINKS -->
-      <div class="nav-links">
+      <!-- Menu links + cart -->
+      <nav class="menu" id="menu">
         <a href="index.html">Home</a>
-
         <a href="about.html">About</a>
-
         <a href="products.html">Products</a>
-
         <a href="services.html">Services</a>
-
         <a href="facilities.html">Facilities</a>
+        <a href="gallery.html">Gallery</a>
+        <a class="active" href="contact.html">Contact</a>
+  <a href="order.html" class="nav-order" aria-label="View cart">
+  <span class="cart-icon">🛒</span>
+  <span class="cart-badge">0</span>
+</a>
+      </nav>
 
-        <a href="gallery.html" >Gallery</a>
+    </div>
+  </header>
+  <!-- SECTION 1 — HEADER / NAVIGATION (END) -->
 
-        <a href="contact.html" class="active">Contact</a>
 
-        <a href="order.html" class="order-button">
-          Order Now
-          <span class="cart-icon">🛒</span>
-        </a>
+  <!-- ======================================================================
+       SECTION 2 — HERO BANNER (START)
+       The photo is a real <img> tag (not a background image) and the dark
+       overlay comes from the .hero:after rule in the CSS above.
+       .ornament is the small gold line with the ◇ diamond on it.
+       ====================================================================== -->
+  <!-- Hero image and heading -->
+  <section class="hero">
+    <img src="images/contact/contact-banner.jpg" alt="Premium fresh meat">
+    <div class="container hero-content">
+      <p class="eyebrow">GET IN TOUCH</p>
+      <h1>Contact Us</h1>
+      <p>Have questions or need assistance?<br>We are here to help. Reach out to us anytime.</p>
+      <span class="ornament"></span>
+    </div>
+  </section>
+  <!-- SECTION 2 — HERO BANNER (END) -->
+
+
+  <main>
+
+    <!-- ====================================================================
+         SECTION 3 — CONTACT INFORMATION + MESSAGE FORM (START)
+         Two columns on large screens:
+           col-lg-5 : address, phone, email and business hours
+           col-lg-7 : the dark "Send Us a Message" form
+         Each input has an id (name, email, phone, subject, message) —
+         the script at the bottom uses those ids to check the fields.
+         ==================================================================== -->
+    <!-- Contact information and message form -->
+    <section class="section-pad">
+      <div class="container">
+        <div class="row" style="row-gap:24px">
+
+          <!-- LEFT COLUMN — contact details -->
+          <div class="col-12 col-lg-5">
+            <section class="card">
+              <h2>Contact Information</h2>
+              <p class="intro">Feel free to contact us through any of the following methods. Our team will get back to you as soon as possible.</p>
+
+              <!-- Address -->
+              <div class="contact-item">
+                <span class="icon">⌖</span>
+                <div>
+                  <h3>Our Address</h3>
+                  <p>Rivand–Manga Road, Lahore<br>Pakistan</p>
+                </div>
+              </div>
+
+              <!-- Phone (tel: link lets phones dial it directly) -->
+              <div class="contact-item">
+                <span class="icon">☎</span>
+                <div>
+                  <h3>Phone</h3>
+                  <p><a href="tel:+923081357658">+92 308 1357658</a></p>
+                </div>
+              </div>
+
+              <!-- Email (mailto: opens the visitor's mail app) -->
+              <div class="contact-item">
+                <span class="icon">✉</span>
+                <div>
+                  <h3>Email</h3>
+                  <p><a href="mailto:info@premiumslaughterhouse.com">info@premiumslaughterhouse.com</a></p>
+                </div>
+              </div>
+
+              <!-- Opening hours -->
+              <div class="contact-item">
+                <span class="icon">◷</span>
+                <div>
+                  <h3>Business Hours</h3>
+                  <p>Monday – Saturday: 8:00 AM – 6:00 PM<br>Sunday: Closed</p>
+                </div>
+              </div>
+
+            </section>
+          </div>
+
+          <!-- RIGHT COLUMN — message form -->
+          <div class="col-12 col-lg-7">
+            <section class="card form-card">
+              <h2>Send Us a Message</h2>
+              <p class="intro">Fill out the form below and we will get back to you shortly.</p>
+
+              <!-- Client-side demo form validation. Connect this form to your server to send email. -->
+              <!-- novalidate turns off the browser's own messages so our
+                   own JavaScript checks can run instead. -->
+              <form id="contactForm" novalidate>
+                <div class="field"><span>♙</span><input class="form-control" id="name" type="text" placeholder="Full Name" required></div>
+                <div class="field"><span>✉</span><input class="form-control" id="email" type="email" placeholder="Email Address" required></div>
+                <div class="field"><span>☎</span><input class="form-control" id="phone" type="tel" placeholder="Phone Number" required></div>
+                <div class="field"><span>▤</span><input class="form-control" id="subject" type="text" placeholder="Subject" required></div>
+                <div class="field"><span>▣</span><textarea class="form-control" id="message" placeholder="Your Message" required></textarea></div>
+                <button class="send" type="submit">➤ &nbsp; Send Message</button>
+                <!-- Hidden success note; the script makes it visible -->
+                <div class="notice" id="notice" role="status">Thank you! Your message is ready to be sent.</div>
+              </form>
+
+            </section>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- SECTION 3 — CONTACT INFORMATION + MESSAGE FORM (END) -->
+
+
+    <!-- ====================================================================
+         SECTION 4 — LOCATION MAP + BUSINESS HOURS (START)
+         col-lg-7 : map image with a white label box floating on top
+         col-lg-5 : hours table plus a small "Visit Our Location" block
+         The onerror on the small photo simply hides it if the file is
+         missing, so no broken-image icon appears.
+         ==================================================================== -->
+    <!-- Location and operating hours -->
+    <section class="section-pad" style="padding-top:0">
+      <div class="container">
+        <div class="row" style="row-gap:24px">
+
+          <!-- LEFT — map -->
+          <div class="col-12 col-lg-7">
+            <div class="map">
+              <img src="images/contact/location-map.jpg" alt="Map to Premium Slaughter House">
+              <div class="map-label">
+                <strong>Premium Slaughter House</strong>Rivand–Manga Road, Lahore<br>Pakistan
+                <a href="#">View larger map</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT — business hours -->
+          <div class="col-12 col-lg-5">
+            <section class="card hours">
+              <h2><span class="hours-symbol">◷</span>Our Business Hours</h2>
+              <div class="hours-row"><span>Monday – Saturday</span><span>8:00 AM – 6:00 PM</span></div>
+              <div class="hours-row"><span>Sunday</span><span>Closed</span></div>
+              <p class="hours-note">We are available during business hours to assist you with any inquiries, orders or support needs.</p>
+              <div class="visit">
+                <img src="images/contact/location.jpg" alt="Our location" onerror="this.style.display='none'">
+                <div>
+                  <strong>⌖ &nbsp; Visit Our Location</strong>
+                  <small>We look forward to seeing you!</small>
+                </div>
+              </div>
+            </section>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- SECTION 4 — LOCATION MAP + BUSINESS HOURS (END) -->
+
+
+    <!-- ====================================================================
+         SECTION 5 — FAQ ACCORDION (START)
+         Six question/answer pairs in a two-column grid.
+         Each .faq-item = a button (the question) + a hidden answer div.
+         Clicking a question runs the script at the bottom, which adds the
+         class "open" to that item and closes any other open one.
+         ==================================================================== -->
+    <!-- FAQ accordion -->
+    <section class="faq">
+      <div class="container">
+
+        <h2><span>❔</span>Frequently Asked Questions</h2>
+        <p>Find answers to the most common questions about our products, services and ordering process.</p>
+
+        <div class="faq-grid">
+
+          <!-- Q1 -->
+          <div class="faq-item">
+            <button class="faq-question">Do you provide home delivery?<span>+</span></button>
+            <div class="faq-answer">Yes. Contact our team to confirm delivery availability for your area.</div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="faq-item">
+            <button class="faq-question">Is your meat 100% halal?<span>+</span></button>
+            <div class="faq-answer">Please contact us for current product and certification information.</div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="faq-item">
+            <button class="faq-question">What payment methods do you accept?<span>+</span></button>
+            <div class="faq-answer">Available payment methods can be confirmed when you place your order.</div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="faq-item">
+            <button class="faq-question">What is your return policy?<span>+</span></button>
+            <div class="faq-answer">Our team can advise on replacement arrangements according to the order condition.</div>
+          </div>
+
+          <!-- Q5 -->
+          <div class="faq-item">
+            <button class="faq-question">How can I place a bulk order?<span>+</span></button>
+            <div class="faq-answer">Use the order page or contact us with your quantities and delivery details.</div>
+          </div>
+
+          <!-- Q6 -->
+          <div class="faq-item">
+            <button class="faq-question">How can I get a price list?<span>+</span></button>
+            <div class="faq-answer">Visit Products or ask our team for pricing on larger orders.</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- SECTION 5 — FAQ ACCORDION (END) -->
+
+
+    <!-- ====================================================================
+         SECTION 6 — ORDER CALL TO ACTION (START)
+         Background photo + dark overlay, an "Order Now" button and three
+         small benefit items (hidden on screens under 991px).
+         ==================================================================== -->
+    <!-- Order call-to-action -->
+    <section class="cta">
+      <img src="images/contact/contact-banner.jpg" alt="">
+      <div class="container cta-inner">
+
+        <!-- Left: headline -->
+        <div>
+          <small>READY TO ORDER?</small>
+          <h2>Get Fresh, Premium Meat Today</h2>
+          <p>Experience the best quality meat, delivered to your doorstep.</p>
+        </div>
+
+        <!-- Middle: button -->
+        <a class="button" href="order.html">🛒 &nbsp; Order Now</a>
+
+        <!-- Right: three quick selling points -->
+        <div class="benefits">
+          <div class="benefit"><span>♧</span>100% Halal</div>
+          <div class="benefit"><span>◇</span>Premium Quality</div>
+          <div class="benefit"><span>▣</span>Fast Delivery</div>
+        </div>
+
+      </div>
+    </section>
+    <!-- SECTION 6 — ORDER CALL TO ACTION (END) -->
+
+  </main>
+
+
+  <!-- ======================================================================
+       SECTION 7 — FOOTER (START)
+       Four columns: brand + social icons, quick links, product links,
+       and contact info. The copyright row sits underneath them.
+       ====================================================================== -->
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+
+        <!-- Column 1 — brand, slogan and social icons -->
+        <div>
+          <img src="images/logo.jpg" alt="Premium Slaughter House Logo" class="footer-logo">
+          <p class="slogan">Quality Meat • Healthy Living • Better Tomorrow</p>
+          <div class="social">
+            <a href="#" aria-label="Facebook">f</a>
+            <a href="#" aria-label="Instagram">◎</a>
+            <a href="#" aria-label="YouTube">▶</a>
+            <a href="#" aria-label="X">𝕏</a>
+          </div>
+        </div>
+
+        <!-- Column 2 — quick links -->
+        <div>
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="facilities.html">Facilities</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3 — product links (all open products.html) -->
+        <div>
+          <h3>Our Products</h3>
+          <ul>
+            <li><a href="products.html">Beef</a></li>
+            <li><a href="products.html">Mutton</a></li>
+            <li><a href="products.html">Camel</a></li>
+            <li><a href="products.html">Sheep</a></li>
+            <li><a href="products.html">By Products</a></li>
+            <li><a href="products.html">Cold Storage</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4 — contact details -->
+        <div>
+          <h3>Contact Info</h3>
+          <p>⌖ &nbsp; Rivand–Manga Road, Lahore<br>&nbsp;&nbsp;&nbsp;&nbsp; Pakistan</p>
+          <p>☎ &nbsp; +92 308 1357658</p>
+          <p>✉ &nbsp; info@premiumslaughterhouse.com</p>
+          <p>◷ &nbsp; Mon – Sat: 8:00 AM – 6:00 PM<br>&nbsp;&nbsp;&nbsp;&nbsp; Sun: Closed</p>
+        </div>
+
       </div>
 
-    </nav>
-  </header>
-  <!-- =====================================================
-     GALLERY HERO SECTION
-     ===================================================== -->
-
-<section class="gallery-hero">
-
-    <img
-        src="images/contact/contact-banner.jpg"
-        alt="Premium Slaughter House Gallery"
-        class="gallery-hero-image"
-    >
-
-    <div class="gallery-hero-overlay">
-
-        <h1>Contact Us</h1>
-
-        <p>
-           Have questions or need assistance with your meat order? Our team is here to help.
-            Contact Premium Slaughter House for product information, orders, delivery details, or any other inquiries.
-            We look forward to serving you with quality and reliable service.
-        </p>
+      <!-- Bottom copyright strip -->
+      <div class="copy">
+        <span>© 2026 Premium Slaughter House. All Rights Reserved.</span>
+        <span>Privacy Policy &nbsp; Terms &amp; Conditions</span>
+      </div>
 
     </div>
-
-</section>
-
-    <!-- =====================================================
-         CONTACT INTRODUCTION
-         ===================================================== -->
-
-    <section class="contact-intro">
-
-        <div class="section-container">
-
-            <h2>
-                Get In Touch With Us
-            </h2>
-
-            <p>
-                Whether you are looking for premium quality
-                meat products, want to learn more about our
-                services, or need assistance with an order,
-                our team is ready to help.
-            </p>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =====================================================
-         CONTACT INFORMATION + FORM
-         ===================================================== -->
-
-    <section class="contact-section">
-
-        <div class="contact-container">
-
-
-            <!-- =================================================
-                 CONTACT INFORMATION
-                 ================================================= -->
-
-            <div class="contact-information">
-
-                <h2>
-                    Contact Information
-                </h2>
-
-                <p>
-                    You can contact Premium Slaughter House
-                    using any of the following methods.
-                </p>
-
-
-                <!-- =============================================
-                     ADDRESS
-                     ============================================= -->
-
-                <div class="contact-card">
-
-                    <div class="contact-icon">
-                        📍
-                    </div>
-
-                    <div>
-
-                        <h3>
-                            Address
-                        </h3>
-
-                        <p>
-                            Premium Slaughter House,
-                            Main Industrial Area,
-                            Pakistan.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <!-- =============================================
-                     PHONE
-                     ============================================= -->
-
-                <div class="contact-card">
-
-                    <div class="contact-icon">
-                        📞
-                    </div>
-
-                    <div>
-
-                        <h3>
-                            Phone
-                        </h3>
-
-                        <p>
-                            <a href="tel:+923001234567">
-                                +92 300 1234567
-                            </a>
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <!-- =============================================
-                     EMAIL
-                     ============================================= -->
-
-                <div class="contact-card">
-
-                    <div class="contact-icon">
-                        ✉️
-                    </div>
-
-                    <div>
-
-                        <h3>
-                            Email
-                        </h3>
-
-                        <p>
-                            <a href="mailto:info@premiumslaughterhouse.com">
-                                info@premiumslaughterhouse.com
-                            </a>
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <!-- =============================================
-                     BUSINESS HOURS
-                     ============================================= -->
-
-                <div class="contact-card">
-
-                    <div class="contact-icon">
-                        🕒
-                    </div>
-
-                    <div>
-
-                        <h3>
-                            Business Hours
-                        </h3>
-
-                        <p>
-                            Monday – Saturday
-                        </p>
-
-                        <p>
-                            9:00 AM – 6:00 PM
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- =================================================
-                 CONTACT FORM
-                 ================================================= -->
-
-            <div class="contact-form-container">
-
-                <h2>
-                    Send Us A Message
-                </h2>
-
-                <p>
-                    Fill out the form below and our team
-                    will get back to you.
-                </p>
-
-
-                <form
-                    class="contact-form"
-                    action="#"
-                    method="post"
-                >
-
-
-                    <!-- =========================================
-                         FULL NAME
-                         ========================================= -->
-
-                    <div class="form-group">
-
-                        <label for="contact-name">
-                            Full Name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="contact-name"
-                            name="name"
-                            placeholder="Enter your full name"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- =========================================
-                         EMAIL
-                         ========================================= -->
-
-                    <div class="form-group">
-
-                        <label for="contact-email">
-                            Email Address
-                        </label>
-
-                        <input
-                            type="email"
-                            id="contact-email"
-                            name="email"
-                            placeholder="Enter your email address"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- =========================================
-                         PHONE
-                         ========================================= -->
-
-                    <div class="form-group">
-
-                        <label for="contact-phone">
-                            Phone Number
-                        </label>
-
-                        <input
-                            type="tel"
-                            id="contact-phone"
-                            name="phone"
-                            placeholder="03001234567"
-                        >
-
-                    </div>
-
-
-                    <!-- =========================================
-                         SUBJECT
-                         ========================================= -->
-
-                    <div class="form-group">
-
-                        <label for="contact-subject">
-                            Subject
-                        </label>
-
-                        <input
-                            type="text"
-                            id="contact-subject"
-                            name="subject"
-                            placeholder="Enter subject"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- =========================================
-                         MESSAGE
-                         ========================================= -->
-
-                    <div class="form-group">
-
-                        <label for="contact-message">
-                            Your Message
-                        </label>
-
-                        <textarea
-                            id="contact-message"
-                            name="message"
-                            rows="6"
-                            placeholder="Write your message here..."
-                            required
-                        ></textarea>
-
-                    </div>
-
-
-                    <!-- =========================================
-                         SUBMIT BUTTON
-                         ========================================= -->
-
-                    <button
-                        type="submit"
-                        class="contact-submit-button"
-                    >
-                        Send Message
-                    </button>
-
-                </form>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =====================================================
-         MAP / LOCATION SECTION
-         ===================================================== -->
-
-    <section class="contact-location">
-
-        <div class="section-container">
-
-            <h2>
-                Find Our Location
-            </h2>
-
-            <p>
-                Visit Premium Slaughter House for quality
-                meat processing and professional services.
-            </p>
-
-
-           <!-- ================================================= 
-     LOCATION IMAGE
-     
-     Replace the image filename below with your
-     actual location/map picture.
-     ================================================= -->
-
-<div class="map-placeholder">
-
-    <img 
-        src="images/contact/location-map.jpg"
-        alt="Premium Slaughter House Location"
-        class="contact-location-image"
-    >
-
-    <div class="map-location-info">
-
-        <div class="map-icon">
-            📍
-        </div>
-
-        <h3>
-            Premium Slaughter House
-        </h3>
-
-        <p>
-            Main Industrial Area, Pakistan
-        </p>
-
-    </div>
-
-</div>
-
-    </section>
-
-
-
-    <!-- =====================================================
-         FOOTER
-         ===================================================== -->
-
-    <footer class="site-footer">
-
-        <div class="footer-container">
-
-
-            <!-- =================================================
-                 FOOTER ABOUT
-                 ================================================= -->
-
-            <div class="footer-column">
-
-                <h3>
-                    Premium Slaughter House
-                </h3>
-
-                <p>
-                    Providing quality meat products with
-                    professional processing, hygienic
-                    facilities and reliable service.
-                </p>
-
-            </div>
-
-
-            <!-- =================================================
-                 QUICK LINKS
-                 ================================================= -->
-
-            <div class="footer-column">
-
-                <h3>
-                    Quick Links
-                </h3>
-
-                <ul>
-
-                    <li>
-                        <a href="index.html">
-                            Home
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="about.html">
-                            About
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="products.html">
-                            Products
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="services.html">
-                            Services
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="facilities.html">
-                            Facilities
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="gallery.html">
-                            Gallery
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="contact.html">
-                            Contact
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="order.html">
-                            Order
-                        </a>
-                    </li>
-
-                </ul>
-
-            </div>
-
-
-            <!-- =================================================
-                 FOOTER CONTACT
-                 ================================================= -->
-
-            <div class="footer-column">
-
-                <h3>
-                    Contact
-                </h3>
-
-                <p>
-                    📍 Main Industrial Area, Pakistan
-                </p>
-
-                <p>
-                    📞 +92 300 1234567
-                </p>
-
-                <p>
-                    ✉️ info@premiumslaughterhouse.com
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <!-- =====================================================
-             COPYRIGHT
-             ===================================================== -->
-
-        <div class="footer-bottom">
-
-            <p>
-                &copy; 2026 Premium Slaughter House.
-                All Rights Reserved.
-            </p>
-
-        </div>
-
-    </footer>
-
+  </footer>
+  <!-- SECTION 7 — FOOTER (END) -->
+
+
+  <!-- ======================================================================
+       SECTION 8 — PAGE JAVASCRIPT (START)
+       Three small jobs:
+         1. open/close the mobile menu
+         2. run the FAQ accordion
+         3. check the contact form before "sending"
+       Kept at the end of <body> so the HTML above already exists when
+       this code looks for it.
+       ====================================================================== -->
+  <script>
+    /* Toggle the compact mobile navigation. */
+    const menu = document.getElementById('menu');
+    document.getElementById('menuToggle').addEventListener('click', () => menu.classList.toggle('show'));
+    /* Tapping any link closes the menu again. */
+    document.querySelectorAll('.menu a').forEach(link => link.addEventListener('click', () => menu.classList.remove('show')));
+
+    /* Keep one FAQ answer open at a time. */
+    document.querySelectorAll('.faq-question').forEach(button => button.addEventListener('click', () => {
+      const item = button.parentElement;
+      /* Close every other item first ... */
+      document.querySelectorAll('.faq-item').forEach(other => { if (other !== item) other.classList.remove('open'); });
+      /* ... then open (or close) the one that was clicked. */
+      item.classList.toggle('open');
+    }));
+
+    /* Basic browser-side form checks; submit to your back end when it is ready. */
+    document.getElementById('contactForm').addEventListener('submit', event => {
+      event.preventDefault();                       /* stop the page reloading */
+      const fields = ['name','email','phone','subject','message'].map(id => document.getElementById(id));
+      /* 1. every field must contain something */
+      if (fields.some(field => !field.value.trim())) return alert('Please fill in every field before sending your message.');
+      /* 2. the email must look like name@site.com */
+      if (!/^\S+@\S+\.\S+$/.test(document.getElementById('email').value)) return alert('Please enter a valid email address.');
+      /* 3. show the green thank-you note and clear the form */
+      document.getElementById('notice').style.display = 'block';
+      event.currentTarget.reset();
+    });
+  </script>
+  <!-- SECTION 8 — PAGE JAVASCRIPT (END) -->
 
 </body>
-
 </html>
