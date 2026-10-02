@@ -42,24 +42,30 @@
     .badge{position:absolute;right:-5px;top:-5px;background:#c51318;border-radius:100%;font-size:10px;width:17px;height:17px;display:grid;place-items:center}
 
     /* ---------- 3. HERO BANNER AND BUTTON STYLES ---------------------- */
-    .hero{min-height:500px;background:linear-gradient(90deg,rgba(5,8,8,.96),rgba(5,8,8,.72) 41%,rgba(5,8,8,.05)),
-        url('images/order/order-hero1.jpeg') center/cover;color:#fff;display:flex;align-items:center}.hero-copy{width:54%;padding:35px 0}
-    .eyebrow{font-size:15px;font-weight:bold;color:var(--gold);letter-spacing:1px}
+    .hero{min-height:600px;background:linear-gradient(90deg,rgba(5,8,8,.96),rgba(5,8,8,.72) 41%,rgba(5,8,8,.05)),
+        url('images/order/hero-image3.jpg') center/cover;color:#fff;display:flex;align-items:center}.hero-copy{width:58%;padding:20px 0}
+    .eyebrow{font-size:25px;font-weight:bold;color:var(--gold);letter-spacing:1px}
     /* The gold line drawn after the eyebrow text */
-    .eyebrow:after{content:'';display:inline-block;width:100px;border-top:2px solid var(--gold);margin:0 0 5px 11px}h1{font:700 48px/.97 Georgia,serif;margin:12px 0 17px}.proof{display:flex;gap:18px;margin:16px 0}.proof span{font-size:12px;font-weight:bold;border-right:1px solid #aaa;padding-right:18px}.proof span:last-child{border:0}.proof b{font-size:23px;color:var(--gold);margin-right:6px}.hero p{max-width:310px;line-height:1.5}.gold,.red,.dark{border:0;border-radius:5px;padding:11px 20px;font-weight:bold;display:inline-block}.gold{background:var(--gold);color:#2d200a}.red{background:var(--red);color:#fff}.dark{background:#101719;color:#fff;font-size:10px;padding:8px 14px}.gold:hover{background:#f2c974}.red:hover{background:#780404}
+    .eyebrow:after{content:'';display:inline-block;width:100px;border-top:2px solid var(--gold);margin:0 0 5px 11px}
+    h1{font:700 48px/.97 Georgia,serif;margin:12px 0 17px}.proof{display:flex;gap:18px;margin:16px 0}
+    .proof span{font-size:16px;font-weight:bold;border-right:1px solid #aaa;padding-right:18px}
+    .proof span:last-child{border:0}.proof b{font-size:23px;color:var(--gold);margin-right:6px}
+    .hero p{max-width:310px;line-height:1.5}.gold,.red,.dark{border:0;border-radius:5px;padding:11px 20px;font-weight:bold;display:inline-block}
+    .gold{background:var(--gold);color:#2d200a}.red{background:var(--red);color:#fff}
+    .dark{background:#101719;color:#fff;font-size:10px;padding:8px 14px}.gold:hover{background:#f2c974}.red:hover{background:#780404}
 
     /* ---------- 4. SHOP LAYOUT: PRODUCTS + SIDE CART ------------------ */
     /* .shop = wide product area (1fr) plus a fixed 275px cart column. */
     .shop{display:grid;grid-template-columns:1fr 275px;gap:25px;padding:24px 0}.filters{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px}
-    .filter{border:0;border-radius:5px;background:#f1f0ec;padding:12px 8px;font-size:12px;font-weight:bold}.filter.active{background:var(--red);color:white}
-    .products{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.product{background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+    .filter{border:0;border-radius:25px;background:#f1f0ec;padding:15px 10px;font-size:16px;font-weight:bold}.filter.active{background:var(--red);color:white}
+    .products{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.product{background:#ded6d6;border:3px solid var(--line);border-radius:25px;overflow:hidden}
     /* .hidden is added by the filter code to products of other categories */
-    .product.hidden{display:none}.product img{display:block;width:100%;height:137px;object-fit:cover}.info{padding:11px}.product h3{font-size:13px;margin:0 0 6px}
-    .product p{font-size:10px;color:#666;line-height:1.4;height:29px;margin:0}.price{font-size:15px;color:#980808;font-weight:bold;margin:10px 0}
+    .product.hidden{display:none}.product img{display:block;width:100%;height:140px;object-fit:cover}.info{padding:18px}.product h3{font-size:16px;margin:0 0 6px}
+    .product p{font-size:13px;color:#242424;line-height:1.4;height:29px;margin:0}.price{font-size:15px;color:#980808;font-weight:bold;margin:10px 0}
     .price small{font-size:10px;color:#222}.qty{display:flex;height:27px;border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-bottom:9px}
-    .qty button{width:30px;background:#fff;border:0;font-size:16px}
-    .qty span{flex:1;text-align:center;border-left:1px solid var(--line);border-right:1px solid var(--line);padding-top:5px;font-size:11px}
-    .add{width:100%;padding:9px;border:0;border-radius:4px;background:var(--red);color:#fff;font-size:11px;font-weight:bold}
+    .qty button{width:35px;background:#d2b0b0;border:0;font-size:18px}
+    .qty span{flex:1;text-align:center;border-left:1px solid var(--line);border-right:1px solid var(--line);padding-top:5px;font-size:14px}
+    .add{width:100%;padding:9px;border:0;border-radius:4px;background:var(--red);color:#fff;font-size:13px;font-weight:bold}
 
     /* ---------- 5. SIDE CART ----------------------------------------- */
     /* position:sticky keeps the cart visible while the products scroll. */
@@ -95,14 +101,24 @@
     /* ---------- 9. FOOTER -------------------------------------------- */
     footer{padding:23px 0 12px}.footgrid{display:grid;grid-template-columns:2fr 1.2fr 1.7fr 1fr;gap:28px;font-size:10px}
     footer h4{font-size:12px;margin:4px 0 10px}footer ul{list-style:none;padding:0;margin:0;line-height:1.55}footer p{margin:0 0 8px}
-    .socials span{border:1px solid #aaa;border-radius:50%;width:25px;height:25px;display:inline-grid;place-items:center;margin-right:6px}.copy{border-top:1px solid #9a7839;margin-top:16px;padding-top:10px;font-size:9px;display:flex;justify-content:space-between}
+    .socials span{border:1px solid #aaa;border-radius:50%;width:25px;height:25px;display:inline-grid;place-items:center;margin-right:6px}
+    .copy{border-top:1px solid #9a7839;margin-top:16px;padding-top:10px;font-size:9px;display:flex;justify-content:space-between}
 
     /* ---------- 10. CHECKOUT DRAWER AND OVERLAY ---------------------- */
     /* The drawer is parked off-screen at right:-450px. The JavaScript adds
        the class "show", which changes it to right:0 and slides it in.
        The overlay is the dark layer behind it that closes it when clicked. */
     .overlay{position:fixed;inset:0;background:#0009;opacity:0;visibility:hidden;transition:.25s;z-index:1100}
-    .drawer{position:fixed;right:-450px;top:0;height:100vh;width:min(430px,100%);background:#fbfaf7;z-index:1101;padding:24px;overflow:auto;transition:.3s;box-shadow:-8px 0 30px #0005}.overlay.show{visibility:visible;opacity:1}.drawer.show{right:0}.dhead{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:14px}.dhead h2{font:700 25px Georgia,serif;margin:0}.close{border:0;background:transparent;font-size:28px}.empty{text-align:center;padding:25px 5px;color:#777;font-size:12px}.formtitle{font:700 16px Georgia,serif;margin:22px 0 11px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field.wide{grid-column:1/-1}.field label{display:block;font-size:10px;font-weight:bold;margin-bottom:5px}.field input,.field textarea{width:100%;border:1px solid #d8d4cb;border-radius:4px;padding:10px;font-size:12px}.field textarea{height:68px;resize:vertical}.place{width:100%;margin:17px 0;font-size:13px}.note{text-align:center;color:#666;font-size:10px}
+    .drawer{position:fixed;right:-450px;top:0;height:100vh;width:min(430px,100%)
+      ;background:#fbfaf7;z-index:1101;padding:24px;overflow:auto;transition:.3s;box-shadow:-8px 0 30px #0005}
+      .overlay.show{visibility:visible;opacity:1}.drawer.show{right:0}
+      .dhead{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:14px}
+      .dhead h2{font:700 25px Georgia,serif;margin:0}.close{border:0;background:transparent;font-size:28px}
+      .empty{text-align:center;padding:25px 5px;color:#777;font-size:12px}.formtitle{font:700 16px Georgia,serif;margin:22px 0 11px}
+      .formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field.wide{grid-column:1/-1}
+      .field label{display:block;font-size:10px;font-weight:bold;margin-bottom:5px}
+      .field input,.field textarea{width:100%;border:1px solid #d8d4cb;border-radius:4px;padding:10px;font-size:12px}
+      .field textarea{height:68px;resize:vertical}.place{width:100%;margin:17px 0;font-size:13px}.note{text-align:center;color:#666;font-size:10px}
 
     /* ---------- 11. RESPONSIVE RULES --------------------------------- */
     /* 900px : menu links and the side cart are hidden (the cart icon in
@@ -464,23 +480,23 @@
 /* PRODUCT LIST: replace the image path for the eight Premium products below whenever you add their photos. */
 const products=[
  /* CARD 1 — change only the value after i: to change this card image. */
- {n:'Fresh Beef',c:'beef',p:1500,i:'images/products/premium-frozen-beef.jpg',d:'Premium quality beef, healthy and tender.'},
+ {n:'Fresh Beef',c:'beef',p:1500,i:'images/order/fresh-beef.jpg',d:'Premium quality beef, healthy and tender.'},
  /* CARD 2 */
- {n:'Fresh Mutton',c:'mutton',p:2400,i:'images/fresh-mutton.jpg',d:'Naturally raised, rich in flavor and nutrition.'},
+ {n:'Fresh Mutton',c:'mutton',p:2400,i:'images/order/fresh-mutton.jpg',d:'Naturally raised, rich in flavor and nutrition.'},
  /* CARD 3 */
- {n:'Fresh Camel',c:'camel',p:1600,i:'images/fresh-camel.jpg',d:'Lean, healthy and full of natural goodness.'},
+ {n:'Fresh Camel',c:'camel',p:1600,i:'images/order/fresh-camel.jpg',d:'Lean, healthy and full of natural goodness.'},
  /* CARD 4 */
- {n:'Fresh Sheep',c:'sheep',p:2300,i:'images/sheep.jpg',d:'Tender and flavorful, perfect for all recipes.'},
+ {n:'Fresh Sheep',c:'sheep',p:2300,i:'images/order/fresh-sheep.jpg',d:'Tender and flavorful, perfect for all recipes.'},
  /* CARD 5 — replace premium-beef.jpg with your Beef Mince image filename. */
- {n:'Premium Beef Mince',c:'beef',p:1600,i:'images/order/beef-mince.jpg',d:'Finely prepared premium beef mince.'},
+ {n:'Premium Beef Mince',c:'beef',p:1600,i:'images/order/premium-beef-mince.jpg',d:'Finely prepared premium beef mince.'},
  /* CARD 6 — replace premium-mutton.jpg with your Mutton Mince image filename. */
  {n:'Premium Mutton Mince',c:'mutton',p:2800,i:'images/order/mutton-mince.jpg',d:'Rich and tender premium mutton mince.'},
  /* CARD 7 — replace premium-beef.jpg with your Beef Boneless image filename. */
- {n:'Premium Beef Boneless',c:'beef',p:1500,i:'images/order/beef-boneless.jpg',d:'Clean-cut, tender boneless beef.'},
+ {n:'Premium Beef Boneless',c:'beef',p:1500,i:'images/order/premium-beef-boneless.jpg',d:'Clean-cut, tender boneless beef.'},
  /* CARD 8 — replace premium-mutton.jpg with your Mutton Boneless image filename. */
- {n:'Premium Mutton Boneless',c:'mutton',p:2650,i:'images/order/mutton-boneless.jpg',d:'Fresh, carefully trimmed mutton.'},
+ {n:'Premium Mutton Boneless',c:'mutton',p:2650,i:'images/order/premium-mutton-boneless.jpg',d:'Fresh, carefully trimmed mutton.'},
  /* CARD 9 — replace fresh-mutton.jpg with your Mutton Chops image filename. */
- {n:'Premium Mutton Chops',c:'mutton',p:3000,i:'images/order/mutton-chops.jpg',d:'Flavorful, premium-cut mutton chops.'},
+ {n:'Premium Mutton Chops',c:'mutton',p:3000,i:'images/order/premium-mutton-chops.jpg',d:'Flavorful, premium-cut mutton chops.'},
  /* CARD 10 — replace sheep.jpg with your Sheep Mince image filename. */
  {n:'Premium Sheep Mince',c:'sheep',p:2600,i:'images/order/sheep-mince.jpg',d:'Freshly prepared sheep mince.'},
  /* CARD 11 — replace fresh-beef.jpg with your Beef Tenderloin image filename. */
