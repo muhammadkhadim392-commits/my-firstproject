@@ -1,5 +1,25 @@
+/* ##########################################################################
+   PREMIUM SLAUGHTER HOUSE - SHARED STYLESHEET (all 8 pages)
+   Pages: index, about, products, order, services, facilities, gallery, contact
+   HOW TO EDIT:
+   - Change brand colours ONLY in the :root block (design tokens) below.
+   - Sections are in this order: tokens > base > loader/progress > buttons >
+     navbar > hero > feature strip > chips > product cards > banners > marquee >
+     story > footer > floating buttons > reveal animation > deal modal >
+     page banner > about > announcement bar > cut visualizer > live toast >
+     products/search/qty > cart/order > services/calculator > gallery >
+     facilities > testimonials/contact > responsive > reduced-motion
+   ########################################################################## */
 /* Premium Slaughter House – shared design system (index + about) */
+
+/* ============================================================
+   DESIGN TOKENS - brand colours, radius (edit colours here)
+   ============================================================ */
 :root{--ink:#0E0B0A;--coal:#181311;--coal2:#221A17;--gold:#D4AF37;--lgold:#F0D98A;--crimson:#A31F2F;--crimson2:#7E1220;--cream:#FBF6EE;--sand:#F3EADB;--text:#2A2220;--muted:#8a7f78;--r:18px}
+
+/* ============================================================
+   BASE - body, headings, fonts, selection colour
+   ============================================================ */
 html{scroll-behavior:smooth}
 body{font-family:'Poppins',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
 h1,h2,h3,h4,.serif{font-family:'Playfair Display',serif}
@@ -7,6 +27,10 @@ h1,h2,h3,h4,.serif{font-family:'Playfair Display',serif}
 a{text-decoration:none}
 ::selection{background:var(--gold);color:#000}
 /* preloader + progress + glow */
+
+/* ============================================================
+   PRELOADER + SCROLL PROGRESS BAR + CURSOR GLOW
+   ============================================================ */
 #loader{position:fixed;inset:0;background:var(--ink);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;transition:opacity .6s,visibility .6s}
 #loader.done{opacity:0;visibility:hidden}
 #loader .ring{width:70px;height:70px;border:3px solid #2b2220;border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite}
@@ -15,10 +39,18 @@ a{text-decoration:none}
 #progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--crimson),var(--gold));z-index:2000}
 #glow{position:fixed;width:340px;height:340px;border-radius:50%;pointer-events:none;z-index:1;background:radial-gradient(circle,rgba(212,175,55,.13),transparent 65%);transform:translate(-50%,-50%);mix-blend-mode:multiply;opacity:0;transition:opacity .4s}
 /* promo bar */
+
+/* ============================================================
+   OLD PROMO BAR (replaced by .ann announcement bar further below - safe to delete)
+   ============================================================ */
 .promo{background:linear-gradient(90deg,var(--crimson2),var(--crimson),var(--crimson2));background-size:200% 100%;animation:slide 6s linear infinite;color:#fff;font-size:13px;font-weight:500;padding:8px 0;text-align:center;letter-spacing:.5px}
 .promo b{color:var(--lgold)}
 @keyframes slide{to{background-position:200% 0}}
 /* buttons */
+
+/* ============================================================
+   BUTTONS - gold (primary), crimson, outline
+   ============================================================ */
 .btn-gold{background:linear-gradient(135deg,var(--lgold),var(--gold) 55%,#B8932B);color:#1a1209;font-weight:600;border:0;border-radius:50px;padding:12px 28px;position:relative;overflow:hidden;transition:.35s;box-shadow:0 8px 22px rgba(212,175,55,.35)}
 .btn-gold::after{content:'';position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.65),transparent);transform:skewX(-20deg);transition:.7s}
 .btn-gold:hover::after{left:140%}
@@ -28,6 +60,10 @@ a{text-decoration:none}
 .btn-line{border:1.5px solid var(--gold);color:var(--lgold);border-radius:50px;padding:11px 26px;font-weight:600;transition:.3s}
 .btn-line:hover{background:var(--gold);color:#111}
 /* navbar */
+
+/* ============================================================
+   NAVBAR - sticky dark nav, search box, cart badge
+   ============================================================ */
 .navbar{background:rgba(14,11,10,.9);backdrop-filter:blur(14px);border-bottom:1px solid rgba(212,175,55,.35);transition:.35s;padding:12px 0}
 .navbar.scrolled{padding:5px 0;box-shadow:0 10px 35px rgba(0,0,0,.5)}
 .navbar .logo{width:50px;height:50px;object-fit:contain;border-radius:8px}
@@ -44,7 +80,12 @@ a{text-decoration:none}
 .bump{animation:bump .5s}
 @keyframes bump{40%{transform:scale(1.5)}}
 /* hero */
-.hero{background:radial-gradient(circle at 75% 40%,rgba(163,31,47,.25),transparent 55%),linear-gradient(90deg,rgba(14,11,10,.98) 0%,rgba(14,11,10,.8) 45%,rgba(14,11,10,.25) 100%),url("../images/order/hero-image.jpg") center/cover;color:#fff;padding:90px 0 130px;position:relative;overflow:hidden}
+
+/* ============================================================
+   HOME HERO - dark marble image + rgba(0,0,0,.6) overlay, halal seal, floating card
+   ============================================================ */
+.hero{background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),radial-gradient(circle at 78% 35%,rgba(163,31,47,.28),transparent 55%),
+   url("../images/hero-marble.jpg") center/cover,url("../images/home/hero-image1.jpg") center/cover,#1c2128;color:#fff;padding:90px 0 130px;position:relative;overflow:hidden}
 .hero h1{font-size:clamp(42px,6.5vw,76px);font-weight:800;line-height:1.05;margin:10px 0 16px}
 .hero h1 em{font-style:normal;color:var(--gold);background:linear-gradient(90deg,var(--lgold),var(--gold),var(--lgold));background-size:200%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shine 4s linear infinite}
 @keyframes shine{to{background-position:200%}}
@@ -59,6 +100,10 @@ a{text-decoration:none}
 .ember{position:absolute;bottom:-10px;width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:0;animation:rise linear infinite}
 @keyframes rise{10%{opacity:.8}100%{transform:translateY(-650px) translateX(40px);opacity:0}}
 /* feature strip */
+
+/* ============================================================
+   FEATURE STRIP - floating white card under the hero
+   ============================================================ */
 .strip{margin-top:-70px;position:relative;z-index:5}
 .strip .box{background:#fff;border-radius:var(--r);box-shadow:0 25px 60px rgba(40,20,10,.18);padding:26px 18px}
 .strip .it{display:flex;align-items:center;gap:14px;padding:6px 14px}
@@ -66,16 +111,28 @@ a{text-decoration:none}
 .strip .it:hover .ic{background:var(--crimson);color:#fff;transform:rotateY(360deg)}
 .strip b{font-size:14px;display:block}.strip small{color:var(--muted)}
 /* titles */
+
+/* ============================================================
+   SECTION TITLES + DARK SECTION VARIANT
+   ============================================================ */
 .eyebrow{color:var(--crimson);font-weight:700;letter-spacing:3px;font-size:12px;text-transform:uppercase}
 .sec{padding:80px 0}
 .sec-title{font-size:clamp(28px,4vw,42px);font-weight:700}
 .dark{background:var(--ink);color:#e9e2dc}
 .dark .sec-title{color:#fff}.dark .eyebrow{color:var(--gold)}
 /* chips */
+
+/* ============================================================
+   CATEGORY CHIPS / FILTER PILLS
+   ============================================================ */
 .chip{border:0;background:#fff;color:var(--text);padding:8px 22px;border-radius:50px;font-size:13px;font-weight:500;box-shadow:0 3px 12px rgba(0,0,0,.07);transition:.3s;margin:3px}
 .chip:hover{transform:translateY(-2px)}
 .chip.on{background:var(--gold);color:#1a1209;font-weight:600;box-shadow:0 8px 20px rgba(212,175,55,.45)}
 /* product card */
+
+/* ============================================================
+   PRODUCT CARDS (home grid + products page)
+   ============================================================ */
 .pitem{transition:opacity .4s,transform .4s}
 .pitem.hide{display:none}
 .pcard{background:#fff;border-radius:var(--r);overflow:hidden;box-shadow:0 10px 30px rgba(60,30,15,.1);height:100%;position:relative;transition:box-shadow .4s,transform .15s;transform-style:preserve-3d}
@@ -92,6 +149,10 @@ a{text-decoration:none}
 .add{background:var(--gold);border:0;border-radius:50px;padding:7px 18px;font-weight:600;font-size:13px;transition:.3s}
 .add:hover{background:var(--crimson);color:#fff}
 /* promo banners */
+
+/* ============================================================
+   PROMO BANNERS (Beef Combo / Mutton Festival)
+   ============================================================ */
 .banner{border-radius:var(--r);padding:36px;min-height:240px;color:#fff;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;transition:.4s}
 .banner:hover{transform:translateY(-6px)}
 .banner::before{content:'';position:absolute;inset:0;z-index:0}
@@ -102,11 +163,19 @@ a{text-decoration:none}
 .offer{display:inline-block;background:var(--gold);color:#111;font-weight:700;padding:3px 14px;border-radius:50px;animation:pulse 1.8s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(212,175,55,.7)}100%{box-shadow:0 0 0 18px transparent}}
 /* marquee */
+
+/* ============================================================
+   SCROLLING MARQUEE STRIP
+   ============================================================ */
 .marq{background:var(--coal);overflow:hidden;white-space:nowrap;padding:16px 0;border-block:1px solid rgba(212,175,55,.3)}
 .marq div{display:inline-block;animation:mq 28s linear infinite;color:var(--lgold);font:600 20px 'Playfair Display';letter-spacing:2px}
 .marq span{margin:0 28px}.marq i{color:var(--crimson);margin-right:28px}
 @keyframes mq{to{transform:translateX(-50%)}}
 /* more than meat */
+
+/* ============================================================
+   'MORE THAN JUST MEAT' STORY SECTION + TESTIMONIAL BOX
+   ============================================================ */
 .more{background:linear-gradient(180deg,var(--sand),var(--cream))}
 .more img.mainimg{border-radius:var(--r);width:100%;height:380px;object-fit:cover;box-shadow:0 30px 60px rgba(0,0,0,.25)}
 .mini{background:#fff;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 6px 18px rgba(0,0,0,.07);font-weight:500;font-size:14px;transition:.3s}
@@ -114,8 +183,16 @@ a{text-decoration:none}
 .mini i{color:var(--crimson);font-size:20px}
 .quote{background:#fff;border-radius:var(--r);padding:22px;box-shadow:0 18px 40px rgba(0,0,0,.12);animation:float 6s ease-in-out infinite}
 /* order strip */
+
+/* ============================================================
+   WHATSAPP / ORDER CALL-TO-ACTION STRIP
+   ============================================================ */
 .appstrip{background:linear-gradient(110deg,var(--ink),var(--crimson2));border:1px solid var(--gold);border-radius:var(--r);color:#fff;padding:26px 34px}
 /* footer */
+
+/* ============================================================
+   FOOTER + NEWSLETTER BOX + SOCIAL ICONS
+   ============================================================ */
 footer{background:var(--ink);color:#b9aea6;font-size:14px;border-top:2px solid var(--gold)}
 footer h5{color:var(--lgold);font:600 17px 'Playfair Display';margin-bottom:16px}
 footer a{color:#cfc5bd;display:block;margin-bottom:8px;transition:.3s}footer a:hover{color:var(--gold);padding-left:6px}
@@ -125,17 +202,34 @@ footer a{color:#cfc5bd;display:block;margin-bottom:8px;transition:.3s}footer a:h
 .news input{background:#120d0c;border:1px solid #3a2e2a;color:#fff;border-radius:50px;padding:9px 16px}
 .fbottom{border-top:1px solid #2a211e;font-size:13px}
 /* floating */
+
+/* ============================================================
+   FLOATING ELEMENTS - back-to-top, cart toast, WhatsApp pill
+   ============================================================ */
 #toTop,.deal-fab{position:fixed;z-index:1030}
 #toTop{right:18px;bottom:18px;width:46px;height:46px;border-radius:50%;border:0;background:var(--gold);color:#111;font-size:20px;opacity:0;visibility:hidden;transition:.4s;box-shadow:0 8px 20px rgba(0,0,0,.35)}
 #toTop.show{opacity:1;visibility:visible}
 #toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,120px);background:var(--ink);color:#fff;border:1px solid var(--gold);padding:12px 24px;border-radius:50px;z-index:3000;transition:.5s;font-size:14px}
 #toast.show{transform:translate(-50%,0)}
-.wa{position:fixed;right:18px;bottom:74px;z-index:1030;width:46px;height:46px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;animation:pulse 2s infinite}
+.wa{position:fixed;right:18px;bottom:74px;z-index:1030;height:50px;padding:0 20px 0 14px;border-radius:50px;background:#25D366;color:#fff;display:flex;align-items:center;gap:8px;font-size:22px;font-weight:600;box-shadow:0 8px 22px rgba(37,211,102,.5);animation:wapulse 2s infinite;transition:.3s}
+.wa span{font-size:13px}.wa:hover{color:#fff;transform:scale(1.07)}
+@keyframes wapulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.7)}100%{box-shadow:0 0 0 18px transparent}}
+.btn-wa{background:#25D366;color:#fff;border-radius:50px;padding:12px 24px;font-weight:600;border:0;transition:.3s}.btn-wa:hover{background:#1da851;color:#fff;transform:translateY(-3px)}
+.navwa{color:#25D366;font-size:23px;transition:.3s}.navwa:hover{color:#4be28a;transform:scale(1.2)}
+@media(max-width:576px){.wa span{display:none}.wa{padding:0 14px}}
 /* reveal */
+
+/* ============================================================
+   SCROLL REVEAL ANIMATION (class .reveal, + .l .r .z for direction)
+   ============================================================ */
 .reveal{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
 .reveal.l{transform:translateX(-60px)}.reveal.r{transform:translateX(60px)}.reveal.z{transform:scale(.88)}
 .reveal.in{opacity:1;transform:none}
 /* deal modal */
+
+/* ============================================================
+   DEAL OF THE DAY MODAL
+   ============================================================ */
 .modal-content.dm{background:var(--coal);border:1px solid var(--gold);border-radius:20px;overflow:hidden}
 .dm-head{padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2f2522}
 .dm-head h2{color:#fff;font-size:24px;margin:0}.dm-head h2 span{color:var(--lgold)}.dm-head small{color:var(--gold);letter-spacing:2px;font-weight:700;font-size:11px}
@@ -150,34 +244,62 @@ footer a{color:#cfc5bd;display:block;margin-bottom:8px;transition:.3s}footer a:h
 #dealCar .carousel-indicators button{width:32px;height:4px;border:0;border-radius:4px;background:var(--gold)}
 .deal-fab{left:18px;bottom:18px;display:none;background:linear-gradient(135deg,var(--lgold),var(--gold));color:#111;border:0;border-radius:30px;padding:11px 20px;font-weight:700;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.4)}
 /* ABOUT page */
-.phero{background:linear-gradient(90deg,rgba(14,11,10,.95),rgba(14,11,10,.55)),url("../images/quality-team.jpg") center/cover fixed;color:#fff;padding:120px 0 110px;position:relative;overflow:hidden}
+
+/* ============================================================
+   INNER-PAGE BANNER (.phero) - the hero IMAGE is set inline in each HTML file (style="background-image:...url('images/...')")
+   ============================================================ */
+.phero{background-color:#1c2128;background-size:cover;background-position:center;background-attachment:fixed;color:#fff;padding:110px 0 100px;position:relative;overflow:hidden}
 .phero h1{font-size:clamp(40px,6vw,70px);font-weight:800}
 .crumb a{color:var(--lgold)}
+
+/* ============================================================
+   IMAGE FRAME WITH GOLD OFFSET BORDER + EXPERIENCE BADGE
+   ============================================================ */
 .imgwrap{position:relative}
 .imgwrap img{width:100%;height:360px;object-fit:cover;border-radius:var(--r);box-shadow:0 25px 55px rgba(0,0,0,.25)}
 .imgwrap::before{content:'';position:absolute;inset:18px -18px -18px 18px;border:2px solid var(--gold);border-radius:var(--r);z-index:-1;transition:.5s}
 .imgwrap:hover::before{inset:10px -10px -10px 10px}
 .exp{position:absolute;left:-14px;bottom:26px;background:var(--crimson);color:#fff;border-radius:14px;padding:14px 20px;box-shadow:0 14px 30px rgba(163,31,47,.5);animation:float 4s ease-in-out infinite}
 .exp b{font:800 30px 'Playfair Display';display:block;line-height:1}
+
+/* ============================================================
+   ABOUT - ANIMATED COUNTER GRID
+   ============================================================ */
 .stat{text-align:center;padding:30px 10px;border-right:1px solid rgba(212,175,55,.25)}
 .stat b{font:800 clamp(34px,5vw,52px) 'Playfair Display';color:var(--gold);display:block}
 .stat:last-child{border:0}
+
+/* ============================================================
+   ABOUT - STORY TIMELINE
+   ============================================================ */
 .tl{position:relative;padding-left:34px}
 .tl::before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--gold),var(--crimson))}
 .tl .t{position:relative;margin-bottom:26px}
 .tl .t::before{content:'';position:absolute;left:-34px;top:5px;width:18px;height:18px;border-radius:50%;background:var(--cream);border:4px solid var(--crimson)}
 .tl b{color:var(--crimson)}
+
+/* ============================================================
+   ABOUT - MISSION / VISION CARDS
+   ============================================================ */
 .mv{border-radius:var(--r);padding:36px;height:100%;color:#fff;transition:.4s}
 .mv:hover{transform:translateY(-8px) rotate(-.5deg)}
 .mv i{font-size:42px;color:var(--lgold)}
 .mv1{background:linear-gradient(135deg,var(--crimson),var(--crimson2))}
 .mv2{background:var(--coal);border:1px solid var(--gold)}
+
+/* ============================================================
+   ABOUT - CORE VALUE CARDS
+   ============================================================ */
 .val{background:#fff;border-radius:var(--r);padding:26px 12px;text-align:center;height:100%;box-shadow:0 8px 24px rgba(60,30,15,.08);transition:.4s;position:relative;overflow:hidden}
 .val::after{content:'';position:absolute;left:0;bottom:0;height:4px;width:0;background:linear-gradient(90deg,var(--gold),var(--crimson));transition:.5s}
 .val:hover{transform:translateY(-10px);box-shadow:0 22px 44px rgba(163,31,47,.18)}.val:hover::after{width:100%}
 .val i{font-size:30px;color:var(--crimson);display:inline-block;transition:.5s}.val:hover i{transform:scale(1.3) rotate(10deg)}
 .val b{display:block;margin-top:6px;font-size:14px}.val small{color:var(--muted);font-size:11.5px}
 .check li{list-style:none;margin-bottom:12px;display:flex;gap:10px}.check i{color:var(--gold)}
+
+/* ============================================================
+   CERTIFICATE / TEAM CARDS
+   ============================================================ */
 .cert{background:#fff;border-radius:var(--r);text-align:center;padding:28px 12px;height:100%;border:1px solid var(--sand);transition:.4s}
 .cert:hover{background:var(--ink);color:#fff;transform:translateY(-8px)}
 .cert b{font:800 32px 'Playfair Display';color:var(--crimson);display:block}.cert:hover b{color:var(--gold)}
@@ -186,10 +308,90 @@ footer a{color:#cfc5bd;display:block;margin-bottom:8px;transition:.3s}footer a:h
 .member:hover img{transform:scale(1.1)}
 .member .cap{position:absolute;inset:auto 0 0 0;background:linear-gradient(transparent,rgba(14,11,10,.95));padding:50px 18px 16px;color:#fff;transform:translateY(30px);transition:.5s}
 .member:hover .cap{transform:none}.member .cap small{color:var(--lgold)}
+
+/* ============================================================
+   FAQ ACCORDION (Bootstrap override)
+   ============================================================ */
 .accordion-item{border:0;border-radius:14px!important;margin-bottom:12px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.07)}
 .accordion-button:not(.collapsed){background:var(--ink);color:var(--lgold);box-shadow:none}
 .accordion-button:focus{box-shadow:none}
+
+/* ============================================================
+   CALL-TO-ACTION BANNER
+   ============================================================ */
 .cta{background:linear-gradient(rgba(14,11,10,.8),rgba(126,18,32,.85)),url("../images/home/fresh-beef.jpeg") center/cover fixed;color:#fff;text-align:center;padding:90px 0}
+
+/* ============================================================
+   RESPONSIVE RULES (tablet / mobile)
+   ============================================================ */
 @media(max-width:991px){.hero-card,.fresh-tag{display:none}.nsearch{display:none}.stat{border:0}}
 @media(max-width:700px){.deal-body{padding:26px 22px 44px}.deal::before{background:rgba(0,0,0,.72)}.phero{background-attachment:scroll}.cta{background-attachment:scroll}}
+
+/* ============================================================
+   ACCESSIBILITY - turns animations off for users who prefer reduced motion
+   ============================================================ */
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* ===== announcement bar ===== */
+.ann{background:#0a0807;color:#d9d1ca;font-size:12.5px;padding:7px 0;border-bottom:1px solid rgba(212,175,55,.25)}
+.ann a{color:#d9d1ca}.ann i{color:var(--gold)}.ann .tick{background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.4);padding:2px 14px;border-radius:50px;color:var(--lgold)}
+#ticker{transition:opacity .4s}
+/* hero trust badges */
+.tbadges{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
+.tb{background:rgba(255,255,255,.08);border:1px solid rgba(212,175,55,.45);backdrop-filter:blur(6px);color:#fff;padding:7px 14px;border-radius:50px;font-size:12.5px;display:inline-flex;gap:7px;align-items:center}.tb i{color:var(--gold)}
+/* cut visualizer */
+.cutsec{background:linear-gradient(180deg,#14100f,#1c1512)}
+.cutnav .nav-link{color:#e9e2dc!important;border:1px solid rgba(212,175,55,.4);border-radius:50px;margin:4px;padding:8px 24px!important;background:transparent}
+.cutnav .nav-link::after{display:none}.cutnav .nav-link.active{background:var(--gold);color:#111!important;font-weight:600}
+.cutbox{background:rgba(255,255,255,.04);border:1px solid rgba(212,175,55,.3);border-radius:var(--r);padding:30px}
+.cutsvg{width:100%;max-height:260px;animation:float 5s ease-in-out infinite}
+/* live toast */
+.live-toast{background:rgba(14,11,10,.96);color:#fff;border:1px solid var(--gold);border-radius:14px;font-size:13.5px;max-width:320px}
+.deal-fab{bottom:90px!important}
+/* filters / search / qty */
+.chip.active{background:var(--gold);color:#1a1209;font-weight:600}
+.searchbox{position:relative}.searchbox i{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.searchbox input{width:100%;border:0;border-radius:50px;padding:14px 20px 14px 46px;box-shadow:0 8px 26px rgba(60,30,15,.12);outline:0;transition:.3s}.searchbox input:focus{box-shadow:0 0 0 3px var(--gold)}
+.halal{position:absolute;bottom:10px;left:10px;z-index:2;background:rgba(14,11,10,.85);color:var(--lgold);font-size:10.5px;padding:3px 10px;border-radius:50px}
+.qty{display:inline-flex;align-items:center;border:1.5px solid var(--sand);border-radius:50px;overflow:hidden;background:#fff}
+.qty button{border:0;background:var(--sand);width:30px;height:34px;font-weight:700;transition:.2s}.qty button:hover{background:var(--gold)}
+.qv{min-width:22px;text-align:center;font-weight:600}.qk{font-size:12px;color:var(--muted);margin-right:4px}
+.product-card-wrapper{animation:fadeInUp .45s ease both}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+/* cart / order */
+.panel{background:#fff;border-radius:var(--r);padding:28px;box-shadow:0 18px 44px rgba(60,30,15,.12)}
+.citem{display:flex;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--sand);animation:fadeInUp .4s}
+.citem img{width:64px;height:64px;object-fit:cover;border-radius:12px}.citem .nm{font-weight:600}
+.citem .del{border:0;background:none;color:var(--crimson);font-size:20px;transition:.3s}.citem .del:hover{transform:scale(1.3) rotate(8deg)}
+.totals>div{display:flex;justify-content:space-between;padding:8px 0}.totals .grand{border-top:2px dashed var(--gold);margin-top:6px;font-size:20px;font-weight:700;color:var(--crimson2)}
+.empty{text-align:center;padding:30px 0;color:var(--muted)}.empty i{font-size:46px;color:var(--gold)}
+.form-control,.form-select{border-radius:12px;padding:11px 14px;border:1.5px solid #e6dccd}.form-control:focus,.form-select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,175,55,.25)}
+.form-label{font-weight:500;font-size:13px}
+.qa{background:#1c1512;border:1px solid rgba(212,175,55,.3);border-radius:14px;padding:12px;text-align:center;color:#fff;transition:.3s}.qa:hover{transform:translateY(-6px)}
+.qa img{width:100%;height:100px;object-fit:cover;border-radius:10px;margin-bottom:8px}.qa b{display:block;font-size:13px}.qa small{display:block;color:var(--lgold);margin-bottom:8px}
+/* services */
+.svc{background:#fff;border-radius:var(--r);padding:30px 24px;text-align:center;height:100%;box-shadow:0 12px 34px rgba(60,30,15,.1)}
+.svc-ic{width:84px;height:84px;margin:0 auto 16px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;position:relative}
+.svc-ic::before{content:'';position:absolute;inset:-7px;border-radius:50%;border:2px solid var(--gold);border-top-color:transparent;animation:spin 6s linear infinite}
+.svc h4{font-size:19px}.svc p{color:var(--muted);font-size:14px}
+.calc{background:rgba(255,255,255,.05);border:1px solid rgba(212,175,55,.35);border-radius:var(--r);padding:28px}.calc .form-label{color:#ddd}
+.calc-out{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}.calc-out div{background:rgba(0,0,0,.35);border-radius:12px;padding:14px 6px}.calc-out b{display:block;font:700 20px 'Playfair Display';color:var(--lgold)}.calc-out small{color:#aaa}
+.tiers td{border-color:rgba(255,255,255,.12)}
+.gi{position:relative;overflow:hidden;border-radius:var(--r);cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.18);aspect-ratio:4/3;background:#222}
+.gi img{width:100%;height:100%;object-fit:cover;transition:.7s}.gi:hover img{transform:scale(1.12)}
+.gi span{position:absolute;inset:auto 0 0 0;padding:34px 14px 12px;color:#fff;font-weight:500;font-size:14px;background:linear-gradient(transparent,rgba(0,0,0,.85));transform:translateY(8px);transition:.4s}.gi:hover span{transform:none}
+.gal-item.hide{display:none}.lb-img{max-width:92vw;max-height:78vh;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.6);animation:fadeInUp .4s}
+/* facilities */
+.stg{background:#fff;border-radius:var(--r);padding:30px 22px;height:100%;text-align:center;position:relative;box-shadow:0 12px 34px rgba(60,30,15,.1);transition:.4s}.stg:hover{transform:translateY(-8px)}
+.stg .num{position:absolute;top:-18px;left:50%;transform:translateX(-50%);background:var(--crimson);color:#fff;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;box-shadow:0 0 0 5px var(--cream)}
+.stg i{font-size:38px;color:var(--gold)}.stg h5{font-size:17px;margin:10px 0}.stg p{color:var(--muted);font-size:13.5px;margin:0}
+@media(min-width:992px){.stages .col-lg-3:not(:last-child)::after{content:'';position:absolute;top:2px;right:-12px;width:24px;border-top:2px dashed var(--gold)}.stages .col-lg-3{position:relative}}
+.certb{background:rgba(255,255,255,.05);border:1px solid rgba(212,175,55,.35);border-radius:var(--r);padding:30px 18px;text-align:center;height:100%;transition:.4s}.certb:hover{background:rgba(212,175,55,.1);transform:translateY(-8px)}
+.certb .ring{width:82px;height:82px;margin:0 auto 14px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:34px;color:var(--gold);box-shadow:0 0 0 7px rgba(212,175,55,.12)}.certb h5{color:#fff;font-size:18px}.certb small{color:#aaa}
+/* about / contact */
+.tcard{background:#fff;color:var(--text);border-radius:var(--r);padding:36px 30px 54px;text-align:center}
+.tind{bottom:14px}.tind button{background:var(--gold)!important;width:26px!important;height:4px!important;border:0!important}
+.cinfo{display:flex;gap:14px;align-items:center;background:#fff;border-radius:14px;padding:16px;box-shadow:0 8px 22px rgba(60,30,15,.08);transition:.3s;height:100%}.cinfo:hover{transform:translateX(8px);border-left:4px solid var(--gold)}
+.ci{width:48px;height:48px;border-radius:50%;background:var(--ink);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:20px;flex:none}
+.mapbox{border-radius:var(--r);overflow:hidden;box-shadow:0 14px 36px rgba(0,0,0,.2);height:100%;min-height:340px}.mapbox iframe{width:100%;height:100%;min-height:340px;border:0}
+.was-validated .form-control:invalid{border-color:var(--crimson)}

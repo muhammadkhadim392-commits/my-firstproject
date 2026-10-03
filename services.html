@@ -1,549 +1,65 @@
-<!doctype html>
-<html lang="en">
-
-<!-- ==========================================================================
-     PAGE      : services.html
-     PURPOSE   : Lists the eight services, the commitment strip, an FAQ
-                 accordion with a contact box, and an order banner.
-     LIBRARIES : Bootstrap 5.3.3 (grid + accordion) and Font Awesome 6.5.2
-                 (all the <i class="fa-..."> icons).
-     STRUCTURE : HEAD > HEADER > HERO > SERVICE CARDS > COMMITMENT >
-                 FAQ + CONTACT BOX > CTA > FOOTER > SCRIPT
-     ========================================================================== -->
-
-<head>
-
-  <!-- ======================================================================
-       META INFORMATION AND EXTERNAL FILES
-       bootstrap   : gives us container, row, col-*, navbar and accordion
-       font awesome: gives us the icons (fa-cow, fa-truck, fa-gear ...)
-       ====================================================================== -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Premium Slaughter House services">
-  <title>Services | Premium Slaughter House</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-
-  <style>
-    /* ---------- 1. VARIABLES AND PAGE BASICS -------------------------- */
-    /* This page uses a serif font (Georgia) for a more formal look. */
-    :root{--ink:#101516;--wine:#4a100d;--gold:#e5b75d;--cream:#f7f4ee;--copy:#3d4343}
-    *{box-sizing:border-box} body{margin:0;color:var(--copy);background:var(--cream);font:15px/1.55 Georgia,'Times New Roman',serif} a{text-decoration:none}
-
-    /* ---------- 2. HEADER / NAVIGATION -------------------------------- */
-    /* .navbar-nav .nav-link.active:after draws the short gold line under
-       the current page's menu item. */
-    .topbar{background:#0d1213;border-bottom:1px solid #72706b;min-height:68px}.navbar{padding:7px 0}
-    .logo{width:245px;max-height:53px;object-fit:contain;object-position:left center}
-    .navbar-nav .nav-link{color:#fff!important;font-size:13px;padding:19px 16px!important;position:relative}
-    .navbar-nav .nav-link.active:after{content:'';height:2px;width:45px;background:var(--gold);bottom:6px;left:50%;transform:translateX(-50%);position:absolute}.cart{font-size:19px;color:#fff;position:relative}.cart b{background:#e32020;border-radius:50%;font:9px Arial;color:#fff;position:absolute;padding:1px 4px;top:-8px;right:-9px}.order-btn{border:0;border-radius:30px;background:linear-gradient(90deg,#f4d17b,#e7b453);padding:10px 23px;color:#21170a;font:700 12px Arial}
-
-    /* ---------- 3. HERO BANNER ---------------------------------------- */
-    /* Photo + dark gradient on the left so the white heading is readable. */
-    .hero{min-height:500px;background:linear-gradient(90deg,rgba(5,12,13,.94) 0%,rgba(8,15,16,.78) 35%,rgba(9,14,14,.08) 72%),
-        url('images/services/halal-slaughtering.jpg') center/cover}.hero .container{min-height:325px;display:flex;align-items:center}.eyebrow{font:700 11px Arial;letter-spacing:2px;color:#fff}.title{color:#fff;font-size:42px;line-height:1.05;font-weight:700;margin:7px 0}.subtitle{color:#fff;font-size:17px}.line{width:60px;height:3px;background:var(--gold);margin:16px 0}.hero p{color:#fff;max-width:450px;margin:0}
-
-    /* ---------- 4. SERVICE CARDS -------------------------------------- */
-    /* Each card: photo on top, then a body. The round icon (.service-icon)
-       is pulled upwards with top:-24px so it overlaps the photo. */
-    .services{padding:20px 0}.service-card{height:100%;background:#faf9f5;border:1px solid #d8d3ca;border-radius:5px;overflow:hidden;box-shadow:0 1px 2px #aaa4}
-    .service-card .photo{height:122px;overflow:hidden}.service-card img{width:100%;height:100%;object-fit:cover;transition:.25s}
-    .service-card:hover img{transform:scale(1.04)}   /* slow zoom on hover */
-    .card-body{padding:22px 15px 13px;position:relative}
-    .service-icon{background:#55130e;color:#f2cc71;border:2px solid #e1b65e;width:45px;height:45px;
-        border-radius:50%;display:grid;place-items:center;font-size:19px;position:absolute;top:-24px;left:14px}
-    .service-card h3{font-size:16px;font-weight:700;color:#1c2020;margin:4px 0 7px}
-    .service-card p{font-size:13px;margin:0;line-height:1.48}
-
-    /* ---------- 5. COMMITMENT STRIP ----------------------------------- */
-    /* Dark red band with four items separated by gold vertical lines. */
-    .commitment{position:relative;overflow:hidden;background:linear-gradient(90deg,rgba(67,13,10,.97),rgba(55,10,8,.91)),
-        url('images/services/customer_order_services.jpg') right center/46% auto no-repeat;color:#fff;padding:19px 0}
-    .commitment .eyebrow{color:#e9c76e;font-size:9px}.commitment h2{font-size:25px;margin:2px 0 20px}
-    .commitment-item{border-right:1px solid #e3c37b;height:80px;text-align:center}
-    .commitment-item:last-child{border:0}.commitment-item i{font-size:32px;color:#f0c55d;display:block;margin-bottom:4px}
-    .commitment-item h3{font-size:13px;font-weight:700;margin:0}.commitment-item p{font-size:12px;margin:2px auto;line-height:1.25;max-width:125px}
-
-    /* ---------- 6. FAQ AND CONTACT BOX -------------------------------- */
-    /* The accordion itself is handled by Bootstrap's JavaScript; these
-       rules only change how it looks. */
-    .faq{padding:22px 0 0}.faq h2{font-size:26px;color:#252728;line-height:1.1}
-    .faq-art{height:180px;background:url('images/products/fresh-chilled-beef.jpg') left bottom/contain no-repeat}
-    .faq-lead{font-size:13px;max-width:240px}.accordion-item{border:1px solid #dedbd5;margin-bottom:7px}
-    .accordion-button{font:12px Georgia;background:#faf9f6;padding:13px}.accordion-button:not(.collapsed){background:#fff;color:#31231b;box-shadow:none}
-    .accordion-button:focus{box-shadow:none}.contact-box{border:1px solid #dedbd5;background:#faf9f6;padding:13px 20px;min-height:193px}
-    .contact-box h3{font-size:16px;color:#252728;font-weight:700}.contact-row{display:flex;gap:13px;margin:11px 0}
-    .contact-row i{font-size:21px;color:#55130e;width:25px}.contact-row strong{font-size:12px;display:block}
-    .contact-row span{font-size:12px;display:block}.hours{width:100%;font-size:12px}.hours td{padding:0 0 2px}
-    .hours td:last-child{text-align:right}   /* pushes the times to the right */
-
-    /* ---------- 7. CALL TO ACTION AND FOOTER -------------------------- */
-    .cta{margin-top:18px;padding:13px 0;background:linear-gradient(rgba(18,16,9,.62),rgba(18,16,9,.62)),
-        url('images/heroimage3.jpg') center 52%/cover;color:#fff;text-align:center;border-bottom:1px solid #a98741}
-    .cta h2{font-size:17px;margin:0 0 2px}.cta p{font:11px Arial;margin:0 0 8px}.cta .order-btn{padding:9px 25px}
-    .footer{background:#0c1214;color:#f2f0ea;padding-top:15px}.footer .logo{width:225px;height:49px}
-    .footer p,.footer a,.footer li{font-size:11px;color:#e9e8e5;margin:0 0 3px}
-    .footer h3{font-size:12px;color:#fff;font-weight:700;margin:0 0 7px}.footer ul{list-style:none;padding:0;margin:0;columns:2}.social a{display:inline-grid;place-items:center;background:#444;border-radius:50%;width:25px;height:25px;margin-right:7px}.footer-bottom{border-top:1px solid #46494a;padding:9px 0 14px;margin-top:9px;font:10px Arial;color:#cfcfcf}.footer-bottom span{float:right}
-
-    /* ---------- 8. RESPONSIVE RULES ----------------------------------- */
-    /* 991px : menu tightens, hero shrinks, the commitment items stack and
-               the decorative FAQ image is hidden.
-       575px : smaller title and taller service photos on phones. */
-    @media(max-width:991px){.navbar-nav .nav-link{padding:8px!important}
-    .navbar-nav .nav-link.active:after{display:none}.logo{width:205px}.hero{min-height:300px}.hero .container{min-height:300px}.commitment{background:#4a100d}
-    .commitment-item{margin-bottom:15px;border:0}.faq-art{display:none}}@media(max-width:575px){.title{font-size:34px}.service-card .photo{height:150px}
-    .footer-bottom span{float:none;display:block;margin-top:5px}}
-  </style>
-
-</head>
-
-<body>
-
-  <!-- ======================================================================
-       SECTION 1 — HEADER / NAVIGATION (START)
-       Bootstrap navbar. The toggler button opens #mainNav on small screens
-       (data-bs-toggle / data-bs-target do this automatically).
-       "Services" carries class="active" because we are on that page.
-       ====================================================================== -->
-  <header class="topbar sticky-top">
-    <nav class="navbar navbar-expand-lg container">
-
-      <!-- Logo -->
-      <a class="navbar-brand p-0" href="index.html">
-        <img class="logo" src="images/logo.jpg" alt="Premium Slaughter House">
-      </a>
-
-      <!-- Mobile toggle button -->
-      <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <!-- Menu links + cart icon -->
-      <div class="collapse navbar-collapse justify-content-end" id="mainNav">
-        <ul class="navbar-nav align-items-lg-center me-lg-4">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
-          <li class="nav-item"><a class="nav-link active" href="services.html">Services</a></li>
-          <li class="nav-item"><a class="nav-link" href="facilities.html">Facilities</a></li>
-          <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-        </ul>
-        <!-- Cart icon with its red counter -->
-        <a class="cart me-4" href="order.html"><i class="fa-solid fa-cart-shopping"></i><b>0</b></a>
-      </div>
-
-    </nav>
-  </header>
-  <!-- SECTION 1 — HEADER / NAVIGATION (END) -->
-
-
-  <main>
-
-    <!-- ====================================================================
-         SECTION 2 — HERO BANNER (START)
-         Background photo set in CSS (.hero). The gold .line is just a
-         decorative divider between the subtitle and the paragraph.
-         ==================================================================== -->
-    <section class="hero">
-      <div class="container">
-        <div>
-          <div class="eyebrow">OUR SERVICES</div>
-          <h1 class="title">What We Offer</h1>
-          <div class="subtitle">Quality Meat, Safe Process, Happy Customers</div>
-          <div class="line"></div>
-          <p>We provide a complete range of professional meat processing and supply services to ensure the highest standards of quality,
-            hygiene and customer satisfaction.</p>
-        </div>
-      </div>
-    </section>
-    <!-- SECTION 2 — HERO BANNER (END) -->
-
-
-    <!-- ====================================================================
-         SECTION 3 — SERVICE CARDS (START)
-         Eight cards inside one Bootstrap row.
-         col-sm-6 col-lg-3 = 1 card per row on phones, 2 on small tablets,
-         4 on large screens.
-         Every card has the same three parts: photo, round icon, text.
-         ==================================================================== -->
-    <section class="services">
-      <div class="container">
-        <div class="row g-3">
-
-          <!-- Card 1 — Halal Slaughtering -->
-          <div class="col-sm-6 col-lg-3">
-            <article class="service-card">
-              <div class="photo">
-                <img src="images/services/halal-slaughtering.jpg" alt="Halal slaughtering">
-              </div>
-              <div class="card-body">
-                <span class="service-icon"><i class="fa-solid fa-cow"></i></span>
-                <h3>Halal Slaughtering</h3>
-                <p>We follow Islamic principles and strict halal guidelines in our slaughtering process.</p>
-              </div>
-            </article>
-          </div>
-
-          <!-- Card 2 — Hygienic Processing -->
-          <div class="col-sm-6 col-lg-3">
-            <article class="service-card">
-              <div class="photo">
-                <img src="images/services/meat-processing.jpg" alt="Hygienic processing">
-              </div>
-              <div class="card-body">
-                <span class="service-icon"><i class="fa-solid fa-gear"></i></span>
-                <h3>Hygienic Processing</h3>
-                <p>Our processing units are equipped with modern technology and maintain strict hygiene standards.</p>
-              </div>
-            </article>
-          </div>
-
-          <!-- Card 3 — Quality Inspection -->
-          <div class="col-sm-6 col-lg-3">
-            <article class="service-card">
-              <div class="photo">
-                <img src="images/services/quality-inspection.jpg" alt="Quality inspection">
-              </div>
-              <div class="card-body">
-                <span class="service-icon"><i class="fa-regular fa-shield"></i></span>
-                <h3>Quality Inspection</h3>
-                <p>We conduct thorough quality checks at every stage to ensure safe and premium meat products.</p>
-              </div>
-            </article>
-          </div>
-
-          <!-- Card 4 — Cold Storage -->
-          <div class="col-sm-6 col-lg-3">
-            <article class="service-card">
-              <div class="photo">
-                <img src="images/services/cold-storage-service.jpg" alt="Cold storage">
-              </div>
-              <div class="card-body">
-                <span class="service-icon"><i class="fa-regular fa-snowflake"></i></span>
-                <h3>Cold Storage</h3>
-                <p>Our advanced cold storage facilities maintain the ideal temperature to preserve freshness and quality.</p>
-              </div>
-            </article>
-          </div>
-
-          <!-- Card 5 — Packaging -->
-          <div class="col-sm-6 col-lg-3">
-            <article class="service-card">
-              <div class="photo">
-                <img src="images/services/meat-packaging.jpg" alt="Meat packaging">
-              </div>
-              <div class="card-body">
-                <span class="service-icon"><i class="fa-solid fa-box-open"></i></span>
-                <h3>Packaging</h3>
-                <p>We use safe and durable packaging solutions to keep the meat fresh, clean and ready for market.</p>
-              </div>
-            </article>
-          </div>
-
-          <!-- Card 6 — Custom Order -->
-          <div class="col-sm-6 col-lg-3">
-            <article class="service-card">
-              <div class="photo">
-                <img src="images/services/customer_order_services.jpg" alt="Custom meat order">
-              </div>
-              <div class="card-body">
-                <span class="service-icon"><i class="fa-solid fa-gear"></i></span>
-                <h3>Custom Order</h3>
-                <p>We also fulfil special orders as per your requirements with the same quality and care.</p>
-              </div>
-            </article>
-          </div>
-
-          <!-- Card 7 — Delivery -->
-          <div class="col-sm-6 col-lg-3">
-            <article class="service-card">
-              <div class="photo">
-                <img src="images/services/delivery-service.jpg" alt="Delivery vehicle">
-              </div>
-              <div class="card-body">
-                <span class="service-icon"><i class="fa-solid fa-truck"></i></span>
-                <h3>Delivery</h3>
-                <p>We ensure timely and safe delivery with a reliable cold chain system across the region.</p>
-              </div>
-            </article>
-          </div>
-
-          <!-- Card 8 — Bulk Supply -->
-          <div class="col-sm-6 col-lg-3">
-            <article class="service-card">
-              <div class="photo">
-                <img src="images/services/bulk-meat-supply.jpg" alt="Bulk supply">
-              </div>
-              <div class="card-body">
-                <span class="service-icon"><i class="fa-solid fa-boxes-stacked"></i></span>
-                <h3>Bulk Supply</h3>
-                <p>We cater to hotels, restaurants, retailers and businesses with consistent bulk supply and competitive rates.</p>
-              </div>
-            </article>
-          </div>
-
-        </div>
-      </div>
-    </section>
-    <!-- SECTION 3 — SERVICE CARDS (END) -->
-
-
-    <!-- ====================================================================
-         SECTION 4 — COMMITMENT STRIP (START)
-         Four promises in one row (col-6 on phones, col-md-3 on desktop).
-         Each has a Font Awesome icon, a short title and one line of text.
-         ==================================================================== -->
-    <section class="commitment">
-      <div class="container text-center">
-
-        <div class="eyebrow">WHY CHOOSE US</div>
-        <h2>Our Commitment to Excellence</h2>
-
-        <div class="row">
-
-          <!-- Item 1 -->
-          <div class="col-6 col-md-3 commitment-item">
-            <i class="fa-regular fa-certificate"></i>
-            <h3>100% Halal</h3>
-            <p>Islamic principles in every step.</p>
-          </div>
-
-          <!-- Item 2 -->
-          <div class="col-6 col-md-3 commitment-item">
-            <i class="fa-regular fa-shield"></i>
-            <h3>Hygienic Processing</h3>
-            <p>Clean, safe &amp; modern facilities.</p>
-          </div>
-
-          <!-- Item 3 -->
-          <div class="col-6 col-md-3 commitment-item">
-            <i class="fa-solid fa-star"></i>
-            <h3>Premium Quality</h3>
-            <p>Only the best for you.</p>
-          </div>
-
-          <!-- Item 4 (last one has no right border) -->
-          <div class="col-6 col-md-3 commitment-item">
-            <i class="fa-solid fa-truck-fast"></i>
-            <h3>Fast Delivery</h3>
-            <p>On time, every time.</p>
-          </div>
-
-        </div>
-      </div>
-    </section>
-    <!-- SECTION 4 — COMMITMENT STRIP (END) -->
-
-
-    <!-- ====================================================================
-         SECTION 5 — FAQ + CONTACT BOX (START)
-         Three columns:
-           col-lg-4 : heading and decorative image
-           col-lg-4 : the Bootstrap accordion (id="questions")
-           col-lg-4 : business hours, phone and email
-         How the accordion works: each button has data-bs-target="#q1" etc.
-         pointing at the answer panel below it, and data-bs-parent="#questions"
-         makes opening one answer close the others.
-         ==================================================================== -->
-    <section class="faq">
-      <div class="container">
-        <div class="row g-4 align-items-start">
-
-          <!-- COLUMN 1 — heading -->
-          <div class="col-lg-4">
-            <div class="eyebrow text-dark">FREQUENTLY ASKED QUESTIONS</div>
-            <h2>Have Any Questions?</h2>
-            <p class="faq-lead">Find answers to the most common questions about our services, products and processes.</p>
-            <div class="faq-art"></div>
-          </div>
-
-          <!-- COLUMN 2 — the accordion -->
-          <div class="col-lg-4">
-            <div class="accordion" id="questions">
-
-              <!-- Question 1 -->
-              <div class="accordion-item">
-                <h3 class="accordion-header">
-                  <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q1">Is your meat 100% halal?</button>
-                </h3>
-                <div id="q1" class="accordion-collapse collapse" data-bs-parent="#questions">
-                  <div class="accordion-body">Yes. Our slaughtering process follows halal practices.</div>
-                </div>
-              </div>
-
-              <!-- Question 2 -->
-              <div class="accordion-item">
-                <h3 class="accordion-header">
-                  <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q2">What are your processing standards?</button>
-                </h3>
-                <div id="q2" class="accordion-collapse collapse" data-bs-parent="#questions">
-                  <div class="accordion-body">We use hygienic, carefully monitored processing methods.</div>
-                </div>
-              </div>
-
-              <!-- Question 3 -->
-              <div class="accordion-item">
-                <h3 class="accordion-header">
-                  <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q3">Do you provide custom orders?</button>
-                </h3>
-                <div id="q3" class="accordion-collapse collapse" data-bs-parent="#questions">
-                  <div class="accordion-body">Yes, contact us with your required cuts, quantities and packaging.</div>
-                </div>
-              </div>
-
-              <!-- Question 4 -->
-              <div class="accordion-item">
-                <h3 class="accordion-header">
-                  <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q4">How do you ensure freshness?</button>
-                </h3>
-                <div id="q4" class="accordion-collapse collapse" data-bs-parent="#questions">
-                  <div class="accordion-body">Cold storage and controlled delivery help protect freshness.</div>
-                </div>
-              </div>
-
-              <!-- Question 5 -->
-              <div class="accordion-item">
-                <h3 class="accordion-header">
-                  <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q5">What is your delivery area?</button>
-                </h3>
-                <div id="q5" class="accordion-collapse collapse" data-bs-parent="#questions">
-                  <div class="accordion-body">Please contact us for current delivery-area availability.</div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- COLUMN 3 — hours and contact details -->
-          <aside class="col-lg-4">
-            <div class="contact-box">
-
-              <!-- Business hours table -->
-              <div class="contact-row">
-                <i class="fa-regular fa-clock"></i>
-                <div>
-                  <h3>Business Hours</h3>
-                  <table class="hours">
-                    <tr><td>Monday - Friday</td><td>8:00 AM - 6:00 PM</td></tr>
-                    <tr><td>Saturday</td><td>8:00 AM - 4:00 PM</td></tr>
-                    <tr><td>Sunday</td><td>Closed</td></tr>
-                  </table>
-                </div>
-              </div>
-
-              <!-- Phone -->
-              <div class="contact-row">
-                <i class="fa-solid fa-phone"></i>
-                <div>
-                  <strong>Need Help? Call Us</strong>
-                  <span>+92 308 1357658</span>
-                </div>
-              </div>
-
-              <!-- Email -->
-              <div class="contact-row">
-                <i class="fa-solid fa-envelope"></i>
-                <div>
-                  <strong>Email Us</strong>
-                  <span>premiumslaughterhouse@gmail.com</span>
-                </div>
-              </div>
-
-            </div>
-          </aside>
-
-        </div>
-      </div>
-    </section>
-    <!-- SECTION 5 — FAQ + CONTACT BOX (END) -->
-
-
-    <!-- ====================================================================
-         SECTION 6 — CALL TO ACTION (START)
-         Small banner with a gold button that opens the order page.
-         ==================================================================== -->
-    <section class="cta">
-      <div class="container">
-        <h2>Ready to Experience the Best?</h2>
-        <p>Order now and enjoy premium quality meat delivered to your doorstep.</p>
-        <a class="order-btn" href="order.html"><i class="fa-solid fa-cart-shopping me-2"></i>Order Now</a>
-      </div>
-    </section>
-    <!-- SECTION 6 — CALL TO ACTION (END) -->
-
-  </main>
-
-
-  <!-- ======================================================================
-       SECTION 7 — FOOTER (START)
-       Four columns: logo + slogan, quick links (shown in 2 short columns
-       because of "columns:2" in the CSS), contact details and social icons.
-       The footer-bottom strip holds the copyright line.
-       NOTE: this year still reads 2025 while the other pages read 2026 —
-       update it if you want all pages to match.
-       ====================================================================== -->
-  <footer class="footer">
-    <div class="container">
-      <div class="row gy-3">
-
-        <!-- Column 1 — logo and slogan -->
-        <div class="col-md-4">
-          <a href="index.html"><img class="logo" src="images/logo.jpg" alt="Premium Slaughter House"></a>
-          <p class="mt-2">Fresh &nbsp; • &nbsp; Hygienic &nbsp; • &nbsp; Premium Quality</p>
-        </div>
-
-        <!-- Column 2 — quick links -->
-        <div class="col-md-3">
-          <h3>Quick Links</h3>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="products.html">Products</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="facilities.html">Facilities</a></li>
-            <li><a href="gallery.html">Gallery</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="order.html">Order Now</a></li>
-          </ul>
-        </div>
-
-        <!-- Column 3 — contact details -->
-        <div class="col-md-3">
-          <h3>Contact Us</h3>
-          <p><i class="fa-solid fa-location-dot me-2"></i>Riwand-Manga Road, Lahore, Pakistan</p>
-          <p><i class="fa-solid fa-phone me-2"></i>+92 308 1357658</p>
-          <p><i class="fa-solid fa-envelope me-2"></i>premiumslaughterhouse@gmail.com</p>
-        </div>
-
-        <!-- Column 4 — social icons -->
-        <div class="col-md-2">
-          <h3>Follow Us</h3>
-          <div class="social">
-            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Bottom copyright strip -->
-      <div class="footer-bottom">© 2025 Premium Slaughter House. All Rights Reserved.<span>100% Halal &nbsp; | &nbsp; Quality &nbsp; | &nbsp; Trust</span>
-      </div>
-
-    </div>
-  </footer>
-  <!-- SECTION 7 — FOOTER (END) -->
-
-
-  <!-- ======================================================================
-       SCRIPT
-       Bootstrap's JavaScript bundle. Without it the mobile menu and the
-       FAQ accordion will not open. Keep it at the end of <body>.
-       ====================================================================== -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Cold-chain delivery, custom butchery, Qurbani booking and B2B supply.">
+<title>Services | Premium Slaughter House</title>
+<link rel="icon" href="images/favicon.jpg" type="image/jpeg">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>#loader{position:fixed;inset:0;background:#0E0B0A;z-index:9999;animation:ldx .5s 1.6s forwards}@keyframes ldx{to{opacity:0;visibility:hidden;pointer-events:none}}</style>
+<link href="css/style.css" rel="stylesheet">
+</head><body>
+<div id="loader"><div class="ring"></div><b>PREMIUM</b></div><div id="progress"></div><div id="glow"></div>
+<!-- ===== SECTION: Top Announcement Bar ===== -->
+<div class="ann"><div class="container d-flex flex-wrap justify-content-center justify-content-lg-between align-items-center gap-2">
+<span><i class="bi bi-truck"></i> Free delivery above <b>Rs 5,000</b></span><span class="d-none d-md-inline"><i class="bi bi-clock"></i> Mon&ndash;Sat 8:00 AM &ndash; 6:00 PM</span><a href="tel:+923081357658"><i class="bi bi-telephone"></i> +92 308 1357658</a>
+<span class="tick"><i class="bi bi-lightning-charge-fill"></i> <b id="ticker">Fresh halal meat delivered daily</b></span></div></div>
+<!-- ===== END SECTION: Top Announcement Bar ===== -->
+<!-- ===== SECTION: Navigation Bar ===== -->
+<nav class="navbar navbar-expand-lg sticky-top"><div class="container">
+<a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><img class="logo" src="images/logo.jpg" alt="Logo"><div><div class="brand-t">PREMIUM</div><div class="brand-s">Slaughter House</div></div></a>
+<button class="navbar-toggler border-warning" data-bs-toggle="collapse" data-bs-target="#nv"><i class="bi bi-list text-white fs-3"></i></button>
+<div class="collapse navbar-collapse" id="nv"><ul class="navbar-nav mx-auto"><li><a class="nav-link" href="index.html">Home</a></li><li><a class="nav-link" href="about.html">About</a></li><li><a class="nav-link" href="products.html">Products</a></li><li><a class="nav-link active" href="services.html">Services</a></li><li><a class="nav-link" href="facilities.html">Facilities</a></li><li><a class="nav-link" href="gallery.html">Gallery</a></li><li><a class="nav-link" href="contact.html">Contact</a></li></ul>
+<div class="d-flex align-items-center gap-3"><label class="nsearch"><i class="bi bi-search"></i><input placeholder="Search meat..."></label><a data-wa class="navwa" target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a><a href="order.html" class="cart"><i class="bi bi-cart3"></i><span>0</span></a><a href="order.html" class="btn btn-gold py-2 magnetic">Order Now</a></div>
+</div></div></nav>
+<!-- ===== END SECTION: Navigation Bar ===== -->
+
+<!-- ===== SECTION: Page Banner ===== -->
+<section class="phero" style="background-image:linear-gradient(90deg,rgba(14,11,10,.92),rgba(14,11,10,.55)),url('images/services/halal-slaughtering.jpg')"><div class="container position-relative" style="z-index:2"><p class="crumb reveal"><a href="index.html">Home</a> &nbsp;/&nbsp; Services</p><span class="script reveal">Our Services</span><h1 class="reveal" data-d="100">What We <span style="color:var(--gold)">Offer</span></h1><div class="reveal" data-d="200" style="background:var(--gold);width:70px;height:3px;margin-top:20px"></div></div></section>
+<!-- ===== END SECTION: Page Banner ===== -->
+
+<!-- ===== SECTION: 4-Card Service Feature Grid ===== -->
+<section class="sec"><div class="container"><div class="text-center mb-5 reveal"><span class="eyebrow">Premium Services</span><h2 class="sec-title">Quality Meat, Safe Process, Happy Customers</h2></div><div class="row g-4"><div class="col-md-6 col-xl-3 reveal" data-d="0"><div class="svc tilt"><div class="svc-ic"><svg viewBox="0 0 48 48" width="34" height="34" fill="none" stroke="#D4AF37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M24 4v40M6 14l36 20M6 34l36-20M18 7l6 5 6-5M18 41l6-5 6 5"/></svg></div><h4>Express Cold-Chain Delivery</h4><p>Temperature-controlled logistics holding 0&ndash;4&deg;C from our chiller to your door.</p><a data-wa data-msg="Hello, I need help with: Cold-Chain Delivery" target="_blank" class="btn btn-wa btn-sm"><i class="bi bi-whatsapp"></i> Enquire on WhatsApp</a></div></div><div class="col-md-6 col-xl-3 reveal" data-d="100"><div class="svc tilt"><div class="svc-ic"><svg viewBox="0 0 48 48" width="34" height="34" fill="none" stroke="#D4AF37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 40L30 10l8 6-22 28z"/><path d="M30 10l6-6 8 8-6 4M14 36l4 2"/></svg></div><h4>Custom Cut &amp; Butchery</h4><p>Karahi, biryani, boneless, mince or whole carcass &mdash; cut exactly the way you like.</p><a data-wa data-msg="Hello, I need help with: Custom Cut & Butchery" target="_blank" class="btn btn-wa btn-sm"><i class="bi bi-whatsapp"></i> Enquire on WhatsApp</a></div></div><div class="col-md-6 col-xl-3 reveal" data-d="200"><div class="svc tilt"><div class="svc-ic"><svg viewBox="0 0 48 48" width="34" height="34" fill="none" stroke="#D4AF37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M30 6a18 18 0 1 0 12 30A14 14 0 0 1 30 6z"/><circle cx="36" cy="14" r="2"/></svg></div><h4>Qurbani Booking Service</h4><p>Hassle-free slaughter, skinning, packaging and distribution handled completely for you.</p><a data-wa data-msg="Hello, I need help with: Qurbani Booking" target="_blank" class="btn btn-wa btn-sm"><i class="bi bi-whatsapp"></i> Enquire on WhatsApp</a></div></div><div class="col-md-6 col-xl-3 reveal" data-d="300"><div class="svc tilt"><div class="svc-ic"><svg viewBox="0 0 48 48" width="34" height="34" fill="none" stroke="#D4AF37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 42V16l14-8v34M20 42V22h22v20M4 42h40M27 28h4M27 34h4M35 28h4M35 34h4"/></svg></div><h4>Commercial &amp; B2B Supply</h4><p>Bulk supply for restaurants, hotels and event caterers at tiered rates.</p><a data-wa data-msg="Hello, I need help with: Commercial & B2B Supply" target="_blank" class="btn btn-wa btn-sm"><i class="bi bi-whatsapp"></i> Enquire on WhatsApp</a></div></div></div></div></section>
+<!-- ===== END SECTION: 4-Card Service Feature Grid ===== -->
+
+<!-- ===== SECTION: B2B Bulk Rate Calculator ===== -->
+<section class="sec dark"><div class="container"><div class="row g-5 align-items-center">
+<div class="col-lg-5 reveal l"><span class="eyebrow">Commercial &amp; B2B</span><h2 class="sec-title">Bulk Rate Calculator</h2><p class="text-white-50">Restaurants, hotels and caterers: enter your expected weight to get an instant estimated quote. Larger volumes unlock better rates.</p>
+<table class="table table-dark table-sm tiers"><tr><td>10 &ndash; 49 kg</td><td>Standard</td></tr><tr><td>50 &ndash; 99 kg</td><td>3% off</td></tr><tr><td>100 &ndash; 249 kg</td><td>6% off</td></tr><tr><td>250 &ndash; 499 kg</td><td>9% off</td></tr><tr><td>500+ kg</td><td>12% off</td></tr></table></div>
+<div class="col-lg-7 reveal r"><form id="b2bForm" class="calc" onsubmit="return false"><div class="row g-3"><div class="col-md-6"><label class="form-label">Meat Type</label><select id="b2bType" class="form-select"><option value="1500">Beef &ndash; Rs 1,500/kg</option><option value="2400">Mutton &ndash; Rs 2,400/kg</option><option value="1600">Camel &ndash; Rs 1,600/kg</option><option value="2300">Sheep &ndash; Rs 2,300/kg</option></select></div>
+<div class="col-md-6"><label class="form-label">Expected Weight (kg)</label><input id="b2bKg" type="number" min="10" value="100" class="form-control"></div></div>
+<div class="calc-out mt-4" id="b2bOut"></div><a id="b2bWa" data-wa target="_blank" class="btn btn-wa mt-3 w-100"><i class="bi bi-whatsapp"></i> Request this quote on WhatsApp</a></form></div></div></div></section>
+<!-- ===== END SECTION: B2B Bulk Rate Calculator ===== -->
+
+<!-- ===== SECTION: All Services Gallery ===== -->
+<section class="sec"><div class="container"><div class="text-center mb-4 reveal"><span class="eyebrow">Complete Range</span><h2 class="sec-title">Everything We Do</h2></div><div class="row g-3"><div class="col-6 col-lg-3 reveal z" data-d="0"><div class="gi"><img src="images/services/halal-slaughtering.jpg" alt="Halal Slaughtering" loading="lazy"><span>Halal Slaughtering</span></div></div><div class="col-6 col-lg-3 reveal z" data-d="80"><div class="gi"><img src="images/services/meat-processing.jpg" alt="Hygienic Processing" loading="lazy"><span>Hygienic Processing</span></div></div><div class="col-6 col-lg-3 reveal z" data-d="160"><div class="gi"><img src="images/services/quality-inspection.jpg" alt="Quality Inspection" loading="lazy"><span>Quality Inspection</span></div></div><div class="col-6 col-lg-3 reveal z" data-d="240"><div class="gi"><img src="images/services/cold-storage-service.jpg" alt="Cold Storage" loading="lazy"><span>Cold Storage</span></div></div><div class="col-6 col-lg-3 reveal z" data-d="0"><div class="gi"><img src="images/services/meat-packaging.jpg" alt="Packaging" loading="lazy"><span>Packaging</span></div></div><div class="col-6 col-lg-3 reveal z" data-d="80"><div class="gi"><img src="images/services/customer_order_services.jpg" alt="Custom Orders" loading="lazy"><span>Custom Orders</span></div></div><div class="col-6 col-lg-3 reveal z" data-d="160"><div class="gi"><img src="images/services/delivery-service.jpg" alt="Delivery" loading="lazy"><span>Delivery</span></div></div><div class="col-6 col-lg-3 reveal z" data-d="240"><div class="gi"><img src="images/services/bulk-meat-supply.jpg" alt="Bulk Supply" loading="lazy"><span>Bulk Supply</span></div></div></div></div></section>
+<!-- ===== END SECTION: All Services Gallery ===== -->
+
+<!-- ===== SECTION: FAQ ===== -->
+<section class="sec pt-0"><div class="container"><div class="row justify-content-center"><div class="col-lg-8"><div class="text-center mb-4 reveal"><span class="eyebrow">FAQ</span><h2 class="sec-title">Have Any Questions?</h2></div><div class="accordion reveal" id="sfaq"><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#sf0">Is your meat 100% halal?</button></h2><div id="sf0" class="accordion-collapse collapse show" data-bs-parent="#sf"><div class="accordion-body text-secondary">Yes. Every animal is processed following Islamic principles and strict halal guidelines.</div></div></div><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#sf1">What is the minimum for bulk orders?</button></h2><div id="sf1" class="accordion-collapse collapse" data-bs-parent="#sf"><div class="accordion-body text-secondary">Bulk rates begin from 10 kg. Use the calculator above or WhatsApp us for a custom quote.</div></div></div><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#sf2">How do you keep meat fresh during delivery?</button></h2><div id="sf2" class="accordion-collapse collapse" data-bs-parent="#sf"><div class="accordion-body text-secondary">Cold-chain vehicles hold 0&ndash;4&deg;C from dispatch to your doorstep.</div></div></div><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#sf3">How does Qurbani booking work?</button></h2><div id="sf3" class="accordion-collapse collapse" data-bs-parent="#sf"><div class="accordion-body text-secondary">Book in advance on WhatsApp &mdash; we handle slaughter, skinning, cutting, packing and distribution.</div></div></div></div></div></div></div></section>
+<!-- ===== END SECTION: FAQ ===== -->
+
+<!-- ===== SECTION: Footer ===== -->
+<footer><div class="container pt-5 pb-4"><div class="row g-4">
+<div class="col-lg-3"><div class="d-flex align-items-center gap-2 mb-3"><img src="images/logo.jpg" alt="Logo" width="52" height="52" style="object-fit:contain;border-radius:8px"><div><div class="brand-t">PREMIUM</div><div class="brand-s">Slaughter House</div></div></div><p>Fresh, hygienic, 100% halal premium meat — from our facility to your table.</p><div class="social"><a href="#"><i class="bi bi-facebook"></i></a><a href="#"><i class="bi bi-instagram"></i></a><a href="#"><i class="bi bi-youtube"></i></a><a href="#"><i class="bi bi-whatsapp"></i></a></div></div>
+<div class="col-6 col-lg-2"><h5>Quick Links</h5><a href="index.html">Home</a><a href="about.html">About</a><a href="products.html">Products</a><a href="services.html">Services</a><a href="gallery.html">Gallery</a></div>
+<div class="col-6 col-lg-3"><h5>Contact Us</h5><div class="mb-2"><i class="bi bi-geo-alt text-warning"></i> Raiwind&ndash;Manga Road, Lahore, Pakistan</div><a href="tel:+923081357658"><i class="bi bi-telephone text-warning"></i> +92 308 1357658</a><a href="mailto:info@premiumslaughterhouse.com"><i class="bi bi-envelope text-warning"></i> info@premiumslaughterhouse.com</a><div><i class="bi bi-clock text-warning"></i> Mon &ndash; Sat: 8:00 AM &ndash; 6:00 PM</div></div>
+<div class="col-lg-4"><div class="news"><h5 class="mb-1">Exclusive Offers</h5><small>Subscribe for weekly deals &amp; fresh arrivals.</small><form id="newsForm" class="d-flex gap-2 mt-3"><input type="email" required class="form-control" placeholder="Enter your email"><button class="btn btn-gold">Subscribe</button></form></div></div>
+</div></div><div class="fbottom py-3"><div class="container d-flex flex-wrap justify-content-between gap-2"><span>&copy; 2026 Premium Slaughter House. All Rights Reserved.</span><span>Privacy Policy &nbsp;|&nbsp; Terms &amp; Conditions &nbsp;|&nbsp; Fresh. Halal. Trusted. <i class="bi bi-heart-fill text-danger"></i></span></div></div></footer>
+<a class="wa" data-wa data-msg="Hello Premium Slaughter House, I want to place an order." target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i><span>Chat on WhatsApp</span></a>
+<!-- ===== END SECTION: Footer ===== -->
+<button id="toTop" aria-label="Top"><i class="bi bi-arrow-up"></i></button><div id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/script.js"></script>
+</body></html>
