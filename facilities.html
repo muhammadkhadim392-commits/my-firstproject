@@ -8,12 +8,11 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>#loader{position:fixed;inset:0;background:#0E0B0A;z-index:9999;animation:ldx .5s 1.6s forwards}@keyframes ldx{to{opacity:0;visibility:hidden;pointer-events:none}}</style>
-<link href="css/style.css?v=20261004" rel="stylesheet">
+<link href="css/style.css?v=20261005" rel="stylesheet">
 </head><body>
 <!-- Loading screen (hidden automatically by CSS after ~2s and by JS on page load) -->
 <div id="loader"><div class="ring"></div><b>PREMIUM</b></div><!-- Gold scroll-progress line at very top; width is set by script.js -->
-<div id="progress"></div><!-- Soft cursor glow that follows the mouse -->
-<div id="glow"></div>
+<div id="progress"></div>
 <!-- ===== SECTION: Top Announcement Bar ===== -->
 <div class="ann"><div class="container d-flex flex-wrap justify-content-center justify-content-lg-between align-items-center gap-2">
 <span><i class="bi bi-truck"></i> Free delivery above <b>Rs 5,000</b></span><span class="d-none d-md-inline"><i class="bi bi-clock"></i> Mon&ndash;Sat 8:00 AM &ndash; 6:00 PM</span><a href="tel:+923081357658"><i class="bi bi-telephone"></i> +92 308 1357658</a>
@@ -24,10 +23,10 @@
 <!-- Logo + brand name -->
 <a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><img class="logo" src="images/logo.jpg" alt="Logo"><div><div class="brand-t">PREMIUM</div><div class="brand-s">Slaughter House</div></div></a>
 <!-- Mobile menu button -->
-<button class="navbar-toggler border-warning" data-bs-toggle="collapse" data-bs-target="#nv"><i class="bi bi-list text-white fs-3"></i></button>
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nv" aria-controls="nv" aria-expanded="false" aria-label="Menu"><span class="tg"></span><span class="tg"></span><span class="tg"></span></button><!-- animated hamburger: turns into X -->
 <!-- Menu links; the current page gets a gold underline (class "active") -->
 <div class="collapse navbar-collapse" id="nv"><ul class="navbar-nav mx-auto"><li><a class="nav-link" href="index.html">Home</a></li><li><a class="nav-link" href="about.html">About</a></li><li><a class="nav-link" href="products.html">Products</a></li><li><a class="nav-link" href="services.html">Services</a></li><li><a class="nav-link active" href="facilities.html">Facilities</a></li><li><a class="nav-link" href="gallery.html">Gallery</a></li><li><a class="nav-link" href="contact.html">Contact</a></li></ul>
-<div class="d-flex align-items-center gap-3"><!-- Navbar search: press Enter -> filters on Products page, or redirects to products.html?search=... --><label class="nsearch"><i class="bi bi-search"></i><input id="navSearch" type="search" placeholder="Search meat..." aria-label="Search meat"></label><!-- WhatsApp icon (number is set in js/script.js) --><a data-wa class="navwa" target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a><!-- Cart icon: number = total kg in cart (kept in sync on every page by script.js) --><a href="order.html" class="cart"><i class="bi bi-cart3"></i><span id="cartBadgeCount">0</span></a><a href="order.html" class="btn btn-gold py-2 magnetic">Order Now</a></div>
+<div class="d-flex align-items-center gap-3 flex-wrap nav-tools"><!-- Navbar search: press Enter -> filters on Products page, or redirects to products.html?search=... --><label class="nsearch"><i class="bi bi-search"></i><input id="navSearch" type="search" placeholder="Search meat..." aria-label="Search meat"></label><!-- WhatsApp icon (number is set in js/script.js) --><a data-wa class="navwa" target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a><!-- Cart icon: number = total kg in cart (kept in sync on every page by script.js) --><a href="order.html" class="cart"><i class="bi bi-cart3"></i><span id="cartBadgeCount">0</span></a><a href="order.html" class="btn btn-gold py-2 magnetic">Order Now</a></div>
 </div></div></nav>
 <!-- ===== END SECTION: Navigation Bar ===== -->
 
@@ -63,7 +62,9 @@
 <div class="col-lg-4"><div class="news"><h5 class="mb-1">Exclusive Offers</h5><small>Subscribe for weekly deals &amp; fresh arrivals.</small><form id="newsForm" class="d-flex gap-2 mt-3"><input type="email" required class="form-control" placeholder="Enter your email"><button class="btn btn-gold">Subscribe</button></form></div></div>
 </div></div><!-- Copyright row -->
 <div class="fbottom py-3"><div class="container d-flex flex-wrap justify-content-between gap-2"><span>&copy; 2026 Premium Slaughter House. All Rights Reserved.</span><span>Privacy Policy &nbsp;|&nbsp; Terms &amp; Conditions &nbsp;|&nbsp; Fresh. Halal. Trusted. <i class="bi bi-heart-fill text-danger"></i></span></div></div></footer>
-<!-- Floating WhatsApp button (bottom-right) -->
+<!-- Mobile bottom action bar (phones only): Call / WhatsApp / Cart -->
+<nav class="mbar" aria-label="Quick actions"><a href="tel:+923081357658"><i class="bi bi-telephone"></i>Call</a><a data-wa data-msg="Hello Premium Slaughter House" target="_blank"><i class="bi bi-whatsapp"></i>WhatsApp</a><a href="order.html"><i class="bi bi-cart3"></i><span>Cart <b id="cartBadgeMobile">0</b></span></a></nav>
+<!-- Floating WhatsApp button (bottom-right, desktop/tablet) -->
 <a class="wa" data-wa data-msg="Hello Premium Slaughter House, I want to place an order." target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i><span>Chat on WhatsApp</span></a>
 <!-- ===== END SECTION: Footer ===== -->
 <!-- Back-to-top button -->

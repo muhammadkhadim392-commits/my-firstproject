@@ -8,12 +8,11 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>#loader{position:fixed;inset:0;background:#0E0B0A;z-index:9999;animation:ldx .5s 1.6s forwards}@keyframes ldx{to{opacity:0;visibility:hidden;pointer-events:none}}</style>
-<link href="css/style.css?v=20261004" rel="stylesheet">
+<link href="css/style.css?v=20261005" rel="stylesheet">
 </head><body>
 <!-- Loading screen (hidden automatically by CSS after ~2s and by JS on page load) -->
 <div id="loader"><div class="ring"></div><b>PREMIUM</b></div><!-- Gold scroll-progress line at very top; width is set by script.js -->
-<div id="progress"></div><!-- Soft cursor glow that follows the mouse -->
-<div id="glow"></div>
+<div id="progress"></div>
 <!-- ===== SECTION: Top Announcement Bar ===== -->
 <div class="ann"><div class="container d-flex flex-wrap justify-content-center justify-content-lg-between align-items-center gap-2">
 <span><i class="bi bi-truck"></i> Free delivery above <b>Rs 5,000</b></span><span class="d-none d-md-inline"><i class="bi bi-clock"></i> Mon&ndash;Sat 8:00 AM &ndash; 6:00 PM</span><a href="tel:+923081357658"><i class="bi bi-telephone"></i> +92 308 1357658</a>
@@ -24,10 +23,10 @@
 <!-- Logo + brand name -->
 <a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><img class="logo" src="images/logo.jpg" alt="Logo"><div><div class="brand-t">PREMIUM</div><div class="brand-s">Slaughter House</div></div></a>
 <!-- Mobile menu button -->
-<button class="navbar-toggler border-warning" data-bs-toggle="collapse" data-bs-target="#nv"><i class="bi bi-list text-white fs-3"></i></button>
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nv" aria-controls="nv" aria-expanded="false" aria-label="Menu"><span class="tg"></span><span class="tg"></span><span class="tg"></span></button><!-- animated hamburger: turns into X -->
 <!-- Menu links; the current page gets a gold underline (class "active") -->
 <div class="collapse navbar-collapse" id="nv"><ul class="navbar-nav mx-auto"><li><a class="nav-link" href="index.html">Home</a></li><li><a class="nav-link active" href="about.html">About</a></li><li><a class="nav-link" href="products.html">Products</a></li><li><a class="nav-link" href="services.html">Services</a></li><li><a class="nav-link" href="facilities.html">Facilities</a></li><li><a class="nav-link" href="gallery.html">Gallery</a></li><li><a class="nav-link" href="contact.html">Contact</a></li></ul>
-<div class="d-flex align-items-center gap-3"><!-- Navbar search: press Enter -> filters on Products page, or redirects to products.html?search=... --><label class="nsearch"><i class="bi bi-search"></i><input id="navSearch" type="search" placeholder="Search meat..." aria-label="Search meat"></label><!-- WhatsApp icon (number is set in js/script.js) --><a data-wa class="navwa" target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a><!-- Cart icon: number = total kg in cart (kept in sync on every page by script.js) --><a href="order.html" class="cart"><i class="bi bi-cart3"></i><span id="cartBadgeCount">0</span></a><a href="order.html" class="btn btn-gold py-2 magnetic">Order Now</a></div>
+<div class="d-flex align-items-center gap-3 flex-wrap nav-tools"><!-- Navbar search: press Enter -> filters on Products page, or redirects to products.html?search=... --><label class="nsearch"><i class="bi bi-search"></i><input id="navSearch" type="search" placeholder="Search meat..." aria-label="Search meat"></label><!-- WhatsApp icon (number is set in js/script.js) --><a data-wa class="navwa" target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a><!-- Cart icon: number = total kg in cart (kept in sync on every page by script.js) --><a href="order.html" class="cart"><i class="bi bi-cart3"></i><span id="cartBadgeCount">0</span></a><a href="order.html" class="btn btn-gold py-2 magnetic">Order Now</a></div>
 </div></div></nav>
 <!-- ===== END SECTION: Navigation Bar ===== -->
 
@@ -45,15 +44,14 @@
 <section class="dark" id="statsSection"><div class="container"><div class="row"><div class="col-6 col-md-3 stat"><b><span class="counter-val" data-target="5000" data-suf="+">0</span></b><small>Happy Families Served</small></div><div class="col-6 col-md-3 stat"><b><span class="counter-val" data-target="100" data-suf="%">0</span></b><small>Certified Halal</small></div><div class="col-6 col-md-3 stat"><b><span class="counter-val" data-target="15" data-suf="+">0</span></b><small>Years Experience</small></div><div class="col-6 col-md-3 stat"><b><span class="counter-val" data-target="0" data-suf="">0</span></b><small>Temperature Breakages</small></div></div></div></section>
 <!-- ===== END SECTION: Animated Counter Grid ===== -->
 
-<!-- ===== SECTION: Our Journey Timeline ===== -->
-<section class="sec"><div class="container"><div class="row g-5 align-items-center">
-<div class="col-lg-6 order-lg-2 reveal r"><div class="imgwrap"><img src="images/staff-working2.jpg" alt="Our team at work"></div></div>
-<div class="col-lg-6 reveal l"><span class="eyebrow">How We Grew</span><h2 class="sec-title mb-4">Our Journey</h2><div class="tl">
-<div class="t"><b>The Vision</b><p class="mb-0 text-secondary">Founded to provide safe, halal and high-quality meat to our community.</p></div>
-<div class="t"><b>Modern Facility</b><p class="mb-0 text-secondary">Invested in modern processing, chilling and packaging technology.</p></div>
-<div class="t"><b>International Standards</b><p class="mb-0 text-secondary">Adopted GMP, HACCP and ISO systems for consistent safety.</p></div>
-<div class="t"><b>Trusted Today</b><p class="mb-0 text-secondary">A trusted name serving thousands of families and businesses.</p></div></div></div></div></div></section>
-<!-- ===== END SECTION: Our Journey Timeline ===== -->
+<!-- ===== SECTION: Our Journey - animated timeline (line draws while scrolling; script.js section 9) ===== -->
+<section class="sec"><div class="container"><div class="text-center mb-5 reveal"><span class="eyebrow">Our Journey</span><h2 class="sec-title">How We Grew</h2></div>
+<div class="tl2"><!-- years are SAMPLE values consistent with "15+ years" - confirm real dates with the client -->
+<div class="ti reveal l"><span class="yr">2011</span><h5>Founded</h5><p>Started with one promise: clean, honest, halal meat for local families.</p></div>
+<div class="ti reveal r"><span class="yr">2015</span><h5>Modern Facility</h5><p>Invested in a modern slaughter, chilling and packaging plant.</p></div>
+<div class="ti reveal l"><span class="yr">2020</span><h5>ISO &amp; HACCP</h5><p>Adopted international food-safety systems and routine lab testing.</p></div>
+<div class="ti reveal r"><span class="yr">2026</span><h5>Regional Expansion</h5><p>Cold-chain delivery and bulk supply growing across the region.</p></div></div></div></section>
+<!-- ===== END SECTION: Our Journey - animated timeline (line draws while scrolling; script.js section 9) ===== -->
 
 <!-- ===== SECTION: Mission & Vision ===== -->
 <section class="pb-5"><div class="container"><div class="row g-4">
@@ -70,7 +68,7 @@
 <!-- ===== END SECTION: Customer Testimonial Slider ===== -->
 
 <!-- ===== SECTION: Our Team ===== -->
-<section class="sec"><div class="container"><div class="text-center mb-5 reveal"><span class="eyebrow">Our Team</span><h2 class="sec-title">The People Behind Premium</h2></div><div class="row g-4"><div class="col-md-4 reveal" data-d="0"><div class="member tilt"><img src="images/quality-team.jpg" alt="Quality Control Team"><div class="cap"><b>Quality Control Team</b><br><small>Inspection &amp; Safety</small></div></div></div><div class="col-md-4 reveal" data-d="120"><div class="member tilt"><img src="images/staff-working2.jpg" alt="Processing Team"><div class="cap"><b>Processing Team</b><br><small>Hygienic Handling</small></div></div></div><div class="col-md-4 reveal" data-d="240"><div class="member tilt"><img src="images/staff-working3.jpeg" alt="Packaging Team"><div class="cap"><b>Packaging Team</b><br><small>Chilling &amp; Storage</small></div></div></div></div></div></section>
+<section class="sec"><div class="container"><div class="text-center mb-5 reveal"><span class="eyebrow">Our Team</span><h2 class="sec-title">The People Behind Premium</h2><!-- sample names: replace with real staff --></div><div class="row g-4"><div class="col-md-4 reveal" data-d="0"><!-- team member: Dr. Ahmed Raza --><article class="tm"><div class="ph"><img src="images/quality-team.jpg" alt="Dr. Ahmed Raza" loading="lazy" onerror="this.onerror=null;this.src='images/premium-beef.jpg'"><!-- 1:1 photo --></div><div class="tm-body"><h5>Dr. Ahmed Raza</h5><!-- name --><div class="role">Head of Quality Control</div><!-- position --><p>Leads daily inspection and food-safety audits across every batch.</p><!-- short description --></div></article></div><div class="col-md-4 reveal" data-d="120"><!-- team member: Usman Tariq --><article class="tm"><div class="ph"><img src="images/staff-working2.jpg" alt="Usman Tariq" loading="lazy" onerror="this.onerror=null;this.src='images/premium-beef.jpg'"><!-- 1:1 photo --></div><div class="tm-body"><h5>Usman Tariq</h5><!-- name --><div class="role">Production Manager</div><!-- position --><p>Oversees halal slaughter, deboning and hygienic processing.</p><!-- short description --></div></article></div><div class="col-md-4 reveal" data-d="240"><!-- team member: Bilal Hussain --><article class="tm"><div class="ph"><img src="images/staff-working3.jpeg" alt="Bilal Hussain" loading="lazy" onerror="this.onerror=null;this.src='images/premium-beef.jpg'"><!-- 1:1 photo --></div><div class="tm-body"><h5>Bilal Hussain</h5><!-- name --><div class="role">Cold-Chain &amp; Logistics Lead</div><!-- position --><p>Keeps every delivery between 0 and 4 degrees from dispatch to doorstep.</p><!-- short description --></div></article></div></div></div></section>
 <!-- ===== END SECTION: Our Team ===== -->
 
 <!-- ===== SECTION: FAQ ===== -->
@@ -93,7 +91,9 @@
 <div class="col-lg-4"><div class="news"><h5 class="mb-1">Exclusive Offers</h5><small>Subscribe for weekly deals &amp; fresh arrivals.</small><form id="newsForm" class="d-flex gap-2 mt-3"><input type="email" required class="form-control" placeholder="Enter your email"><button class="btn btn-gold">Subscribe</button></form></div></div>
 </div></div><!-- Copyright row -->
 <div class="fbottom py-3"><div class="container d-flex flex-wrap justify-content-between gap-2"><span>&copy; 2026 Premium Slaughter House. All Rights Reserved.</span><span>Privacy Policy &nbsp;|&nbsp; Terms &amp; Conditions &nbsp;|&nbsp; Fresh. Halal. Trusted. <i class="bi bi-heart-fill text-danger"></i></span></div></div></footer>
-<!-- Floating WhatsApp button (bottom-right) -->
+<!-- Mobile bottom action bar (phones only): Call / WhatsApp / Cart -->
+<nav class="mbar" aria-label="Quick actions"><a href="tel:+923081357658"><i class="bi bi-telephone"></i>Call</a><a data-wa data-msg="Hello Premium Slaughter House" target="_blank"><i class="bi bi-whatsapp"></i>WhatsApp</a><a href="order.html"><i class="bi bi-cart3"></i><span>Cart <b id="cartBadgeMobile">0</b></span></a></nav>
+<!-- Floating WhatsApp button (bottom-right, desktop/tablet) -->
 <a class="wa" data-wa data-msg="Hello Premium Slaughter House, I want to place an order." target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i><span>Chat on WhatsApp</span></a>
 <!-- ===== END SECTION: Footer ===== -->
 <!-- Back-to-top button -->

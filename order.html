@@ -8,12 +8,11 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>#loader{position:fixed;inset:0;background:#0E0B0A;z-index:9999;animation:ldx .5s 1.6s forwards}@keyframes ldx{to{opacity:0;visibility:hidden;pointer-events:none}}</style>
-<link href="css/style.css?v=20261004" rel="stylesheet">
+<link href="css/style.css?v=20261005" rel="stylesheet">
 </head><body>
 <!-- Loading screen (hidden automatically by CSS after ~2s and by JS on page load) -->
 <div id="loader"><div class="ring"></div><b>PREMIUM</b></div><!-- Gold scroll-progress line at very top; width is set by script.js -->
-<div id="progress"></div><!-- Soft cursor glow that follows the mouse -->
-<div id="glow"></div>
+<div id="progress"></div>
 <!-- ===== SECTION: Top Announcement Bar ===== -->
 <div class="ann"><div class="container d-flex flex-wrap justify-content-center justify-content-lg-between align-items-center gap-2">
 <span><i class="bi bi-truck"></i> Free delivery above <b>Rs 5,000</b></span><span class="d-none d-md-inline"><i class="bi bi-clock"></i> Mon&ndash;Sat 8:00 AM &ndash; 6:00 PM</span><a href="tel:+923081357658"><i class="bi bi-telephone"></i> +92 308 1357658</a>
@@ -24,10 +23,10 @@
 <!-- Logo + brand name -->
 <a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><img class="logo" src="images/logo.jpg" alt="Logo"><div><div class="brand-t">PREMIUM</div><div class="brand-s">Slaughter House</div></div></a>
 <!-- Mobile menu button -->
-<button class="navbar-toggler border-warning" data-bs-toggle="collapse" data-bs-target="#nv"><i class="bi bi-list text-white fs-3"></i></button>
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nv" aria-controls="nv" aria-expanded="false" aria-label="Menu"><span class="tg"></span><span class="tg"></span><span class="tg"></span></button><!-- animated hamburger: turns into X -->
 <!-- Menu links; the current page gets a gold underline (class "active") -->
 <div class="collapse navbar-collapse" id="nv"><ul class="navbar-nav mx-auto"><li><a class="nav-link" href="index.html">Home</a></li><li><a class="nav-link" href="about.html">About</a></li><li><a class="nav-link" href="products.html">Products</a></li><li><a class="nav-link" href="services.html">Services</a></li><li><a class="nav-link" href="facilities.html">Facilities</a></li><li><a class="nav-link" href="gallery.html">Gallery</a></li><li><a class="nav-link" href="contact.html">Contact</a></li></ul>
-<div class="d-flex align-items-center gap-3"><!-- Navbar search: press Enter -> filters on Products page, or redirects to products.html?search=... --><label class="nsearch"><i class="bi bi-search"></i><input id="navSearch" type="search" placeholder="Search meat..." aria-label="Search meat"></label><!-- WhatsApp icon (number is set in js/script.js) --><a data-wa class="navwa" target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a><!-- Cart icon: number = total kg in cart (kept in sync on every page by script.js) --><a href="order.html" class="cart"><i class="bi bi-cart3"></i><span id="cartBadgeCount">0</span></a><a href="order.html" class="btn btn-gold py-2 magnetic">Order Now</a></div>
+<div class="d-flex align-items-center gap-3 flex-wrap nav-tools"><!-- Navbar search: press Enter -> filters on Products page, or redirects to products.html?search=... --><label class="nsearch"><i class="bi bi-search"></i><input id="navSearch" type="search" placeholder="Search meat..." aria-label="Search meat"></label><!-- WhatsApp icon (number is set in js/script.js) --><a data-wa class="navwa" target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a><!-- Cart icon: number = total kg in cart (kept in sync on every page by script.js) --><a href="order.html" class="cart"><i class="bi bi-cart3"></i><span id="cartBadgeCount">0</span></a><a href="order.html" class="btn btn-gold py-2 magnetic">Order Now</a></div>
 </div></div></nav>
 <!-- ===== END SECTION: Navigation Bar ===== -->
 
@@ -35,27 +34,34 @@
 <section class="phero" style="background-image:linear-gradient(90deg,rgba(14,11,10,.92),rgba(14,11,10,.55)),url('images/order/hero-image5.jpg')"><div class="container position-relative" style="z-index:2"><p class="crumb reveal"><a href="index.html">Home</a> &nbsp;/&nbsp; Order</p><span class="script reveal">Your Cart</span><h1 class="reveal" data-d="100">Order Fresh <span style="color:var(--gold)">Meat Online</span></h1><div class="reveal" data-d="200" style="background:var(--gold);width:70px;height:3px;margin-top:20px"></div></div></section>
 <!-- ===== END SECTION: Page Banner ===== -->
 
-<!-- ===== SECTION: Two-Column Checkout (left: live cart, right: delivery details) ===== -->
+<!-- ===== SECTION: Two-Column Checkout (left: customer + delivery, right: sticky order summary) ===== -->
 <section class="sec"><div class="container"><div class="row g-4">
-<!-- LEFT COLUMN: live order summary read from localStorage by script.js section 15 -->
-<div class="col-lg-6 reveal l"><div class="panel"><h3 class="mb-3"><i class="bi bi-cart3 text-danger"></i> Your Cart <span class="badge bg-dark" id="cartCount">0</span></h3>
-<div id="cartList"><!-- items are drawn here: name, kg, unit price, line total, [x] remove --></div>
-<div id="cartTotals" class="totals"><!-- price breakdown --><div><span>Subtotal</span><b id="tSub">Rs 0</b></div><div><span>Delivery Fee <small class="text-muted">(free above Rs 5,000, else Rs 200)</small></span><b id="tDel">Rs 0</b></div><div class="grand"><span>Grand Total</span><b id="tGrand">Rs 0</b></div></div>
-<a href="products.html" class="btn btn-line text-dark border-dark mt-3"><i class="bi bi-arrow-left"></i> Continue Shopping</a></div></div>
-<!-- RIGHT COLUMN: customer delivery details -->
-<div class="col-lg-6 reveal r"><div class="panel"><h3 class="mb-3"><i class="bi bi-truck text-danger"></i> Delivery Details</h3>
-<form id="orderForm" onsubmit="checkoutViaWhatsApp(event)"><div class="row g-3">
-<div class="col-md-6"><label class="form-label">Full Name</label><input id="custName" class="form-control" required placeholder="Your full name"></div><!-- name -->
-<div class="col-md-6"><label class="form-label">Phone Number</label><!-- Pakistani mobile: 03XXXXXXXXX (green = valid, red = invalid) --><input id="custPhone" type="tel" class="form-control" required pattern="03[0-9]{9}" maxlength="11" inputmode="numeric" placeholder="03001234567" title="11-digit mobile number starting with 03"><div class="invalid-feedback">Enter 11 digits starting with 03.</div></div>
-<div class="col-md-6"><label class="form-label">City</label><select id="custCity" class="form-select"><!-- city --><option>Lahore</option><option>Other (we'll confirm)</option></select></div>
-<div class="col-md-6"><label class="form-label">Area / Society</label><select id="custArea" class="form-select" required><!-- area dropdown --><option value="">Select your area</option><option>DHA Lahore</option><option>Johar Town</option><option>Model Town</option><option>Gulberg</option><option>Bahria Town</option><option>Wapda Town</option><option>Raiwind</option><option>Township</option><option>Other area (we'll confirm)</option></select></div>
-<div class="col-12"><label class="form-label">Full Address</label><textarea id="custAddress" rows="2" class="form-control" required placeholder="House #, street, landmark"></textarea></div><!-- address -->
-<div class="col-md-6"><label class="form-label">Delivery Date</label><input id="custDate" type="date" class="form-control" required></div><!-- date (past dates blocked by JS) -->
-<div class="col-md-6"><label class="form-label">Delivery Slot</label><select id="custSlot" class="form-select"><!-- time slot --><option>9 AM &ndash; 12 PM</option><option>12 PM &ndash; 3 PM</option><option>3 PM &ndash; 6 PM</option></select></div>
-<div class="col-12"><label class="form-label">Payment Method</label><select id="custPay" class="form-select"><!-- payment --><option>Cash on Delivery</option><option>EasyPaisa</option></select></div></div>
-<!-- Replaces normal form submit: builds the receipt and opens WhatsApp -->
-<button type="submit" class="btn btn-wa btn-lg w-100 mt-4 magnetic"><i class="bi bi-whatsapp"></i> Send Order via WhatsApp</button><p class="small text-muted text-center mt-2 mb-0">Your order opens in WhatsApp &mdash; we confirm it by reply.</p></form></div></div></div></div></section>
-<!-- ===== END SECTION: Two-Column Checkout (left: live cart, right: delivery details) ===== -->
+<!-- LEFT COLUMN: customer & delivery details (stacks first on mobile) -->
+<div class="col-lg-7 reveal l"><div class="panel"><h3 class="mb-1"><i class="bi bi-truck text-danger"></i> Customer &amp; Delivery</h3><p class="text-secondary small mb-4">We confirm every order on WhatsApp before delivery.</p>
+<form id="orderForm" onsubmit="checkoutViaWhatsApp(event)" novalidate><div class="row g-3">
+<div class="col-md-6"><label class="form-label" for="custName">Full Name</label><input id="custName" class="form-control" required minlength="3" placeholder="Your full name"><div class="invalid-feedback">Please enter your name.</div></div><!-- name -->
+<div class="col-md-6"><label class="form-label" for="custPhone">Phone Number</label><!-- Pakistani mobile 03XXXXXXXXX --><input id="custPhone" type="tel" class="form-control" required pattern="03[0-9]{9}" maxlength="11" inputmode="numeric" placeholder="03001234567" title="11-digit mobile number starting with 03"><div class="invalid-feedback">Enter 11 digits starting with 03.</div></div>
+<div class="col-md-6"><label class="form-label" for="custCity">City</label><select id="custCity" class="form-select"><option>Lahore</option><option>Other (we'll confirm)</option></select></div><!-- city -->
+<div class="col-md-6"><label class="form-label" for="custArea">Area / Society</label><select id="custArea" class="form-select" required><option value="">Select your area</option><option>DHA Lahore</option><option>Johar Town</option><option>Model Town</option><option>Gulberg</option><option>Bahria Town</option><option>Wapda Town</option><option>Raiwind</option><option>Township</option><option>Other area (we'll confirm)</option></select><div class="invalid-feedback">Please choose your area.</div></div><!-- area dropdown -->
+<div class="col-12"><label class="form-label" for="custAddress">Full Address</label><textarea id="custAddress" rows="2" class="form-control" required minlength="8" placeholder="House #, street, landmark"></textarea><div class="invalid-feedback">Please enter your full address.</div></div><!-- address -->
+<div class="col-md-6"><label class="form-label" for="custDate">Delivery Date</label><input id="custDate" type="date" class="form-control" required><div class="invalid-feedback">Choose a delivery date.</div></div><!-- date -->
+<div class="col-md-6"><label class="form-label" for="custSlot">Delivery Slot</label><select id="custSlot" class="form-select"><option>9 AM &ndash; 12 PM</option><option>12 PM &ndash; 3 PM</option><option>3 PM &ndash; 6 PM</option></select></div><!-- time slot -->
+<div class="col-12"><label class="form-label" for="custPay">Payment Method</label><select id="custPay" class="form-select"><option>Cash on Delivery</option><option>EasyPaisa</option></select></div></div></form></div></div>
+<!-- RIGHT COLUMN: live order summary (sticky on desktop) -->
+<div class="col-lg-5 reveal r"><div class="panel sticky-sum sum-head"><h3 class="mb-3"><i class="bi bi-cart3 text-danger"></i> Your Order <span class="badge bg-dark" id="cartCount">0</span></h3>
+<div id="cartList"><!-- items: name, kg, unit price, line total, [x] remove (drawn by script.js) --></div>
+<div id="cartTotals" class="totals"><!-- price breakdown --><div><span>Subtotal</span><b id="tSub">Rs 0</b></div><div><span>Delivery <small class="text-muted">(free above Rs 5,000)</small></span><b id="tDel">Rs 0</b></div><div class="grand"><span>TOTAL</span><b id="tGrand">Rs 0</b></div></div>
+<!-- Place order: this button is outside the form but linked to it with form="orderForm" -->
+<button type="submit" form="orderForm" class="btn btn-wa btn-lg w-100 mt-3"><i class="bi bi-whatsapp"></i> Place Order on WhatsApp</button>
+<a href="products.html" class="btn btn-link text-secondary w-100 mt-1"><i class="bi bi-arrow-left"></i> Continue Shopping</a></div></div></div></div></section>
+<!-- ===== END SECTION: Two-Column Checkout (left: customer + delivery, right: sticky order summary) ===== -->
+
+<!-- ===== SECTION: Order Success Confirmation (shown after placing the order) ===== -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content text-center p-4" style="border-radius:var(--radius-lg)">
+<div class="ok-icon"><i class="bi bi-check-lg"></i></div><h3>Order Sent!</h3><p class="text-secondary mb-1">Thank you, <b id="okName"></b>. Your order opened in WhatsApp &mdash; just press <b>Send</b>.</p>
+<p class="mb-1">Reference: <b id="okRef"></b> &middot; Total: <b id="okTotal"></b></p><p class="small text-muted">We will confirm your delivery slot by reply.</p>
+<a href="index.html" class="btn btn-gold">Back to Home</a></div></div></div>
+<!-- ===== END SECTION: Order Success Confirmation (shown after placing the order) ===== -->
 
 <!-- ===== SECTION: Quick Add Popular Items ===== -->
 <section class="sec dark"><div class="container"><div class="text-center mb-4"><span class="eyebrow">Forgot Something?</span><h2 class="sec-title">Quick Add</h2></div><div class="row g-3"><div class="col-6 col-md-3"><!-- quick add: Fresh Beef --><div class="qa"><img src="images/order/fresh-beef.jpg" alt="Fresh Beef" loading="lazy" onerror="this.onerror=null;this.src='images/premium-beef.jpg'"><b>Fresh Beef</b><small>Rs 1,500/kg</small><button class="add" data-name="Fresh Beef" data-price="1500" data-img="images/order/fresh-beef.jpg">+ Add 1kg</button></div></div><div class="col-6 col-md-3"><!-- quick add: Fresh Mutton --><div class="qa"><img src="images/order/fresh-mutton.jpg" alt="Fresh Mutton" loading="lazy" onerror="this.onerror=null;this.src='images/premium-beef.jpg'"><b>Fresh Mutton</b><small>Rs 2,400/kg</small><button class="add" data-name="Fresh Mutton" data-price="2400" data-img="images/order/fresh-mutton.jpg">+ Add 1kg</button></div></div><div class="col-6 col-md-3"><!-- quick add: Premium Mutton Mince --><div class="qa"><img src="images/order/mutton-mince.jpg" alt="Premium Mutton Mince" loading="lazy" onerror="this.onerror=null;this.src='images/premium-beef.jpg'"><b>Premium Mutton Mince</b><small>Rs 2,800/kg</small><button class="add" data-name="Premium Mutton Mince" data-price="2800" data-img="images/order/mutton-mince.jpg">+ Add 1kg</button></div></div><div class="col-6 col-md-3"><!-- quick add: Premium Mutton Boneless --><div class="qa"><img src="images/order/premium-mutton-boneless.jpg" alt="Premium Mutton Boneless" loading="lazy" onerror="this.onerror=null;this.src='images/premium-beef.jpg'"><b>Premium Mutton Boneless</b><small>Rs 2,650/kg</small><button class="add" data-name="Premium Mutton Boneless" data-price="2650" data-img="images/order/premium-mutton-boneless.jpg">+ Add 1kg</button></div></div></div></div></section>
@@ -73,7 +79,9 @@
 <div class="col-lg-4"><div class="news"><h5 class="mb-1">Exclusive Offers</h5><small>Subscribe for weekly deals &amp; fresh arrivals.</small><form id="newsForm" class="d-flex gap-2 mt-3"><input type="email" required class="form-control" placeholder="Enter your email"><button class="btn btn-gold">Subscribe</button></form></div></div>
 </div></div><!-- Copyright row -->
 <div class="fbottom py-3"><div class="container d-flex flex-wrap justify-content-between gap-2"><span>&copy; 2026 Premium Slaughter House. All Rights Reserved.</span><span>Privacy Policy &nbsp;|&nbsp; Terms &amp; Conditions &nbsp;|&nbsp; Fresh. Halal. Trusted. <i class="bi bi-heart-fill text-danger"></i></span></div></div></footer>
-<!-- Floating WhatsApp button (bottom-right) -->
+<!-- Mobile bottom action bar (phones only): Call / WhatsApp / Cart -->
+<nav class="mbar" aria-label="Quick actions"><a href="tel:+923081357658"><i class="bi bi-telephone"></i>Call</a><a data-wa data-msg="Hello Premium Slaughter House" target="_blank"><i class="bi bi-whatsapp"></i>WhatsApp</a><a href="order.html"><i class="bi bi-cart3"></i><span>Cart <b id="cartBadgeMobile">0</b></span></a></nav>
+<!-- Floating WhatsApp button (bottom-right, desktop/tablet) -->
 <a class="wa" data-wa data-msg="Hello Premium Slaughter House, I want to place an order." target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i><span>Chat on WhatsApp</span></a>
 <!-- ===== END SECTION: Footer ===== -->
 <!-- Back-to-top button -->
