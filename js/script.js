@@ -8,7 +8,7 @@
    13 Home chips | 14 Products (URL search, filter, live search) |
    15 Order page (cart, fee, phone validation, WhatsApp receipt) |
    16 B2B calculator | 17 Gallery lightbox | 18 Contact form |
-   19 Deal modal | 20 Live order notifications
+   19 Deal modal | 20 Live order notifications | 21 Product Quick View
    ########################################################################## */
 
 /* ===== 1. SETTINGS - change your WhatsApp number HERE only (country code, no + or spaces) ===== */
@@ -92,35 +92,16 @@ var co = new IntersectionObserver(function (es) {
 }, { threshold: 0.5 });
 $$('.counter-val,[data-count]').forEach(function (e) { co.observe(e); }); // watch all counters
 
-/* ===== 9. VISUAL EFFECTS: 3D tilt, magnetic buttons, cursor glow, hero embers ===== */
-$$('.tilt').forEach(function (c) {                                // cards that lean toward the mouse
-  c.addEventListener('mousemove', function (e) {
-    var r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5; // mouse position inside card
-    c.style.transform = 'perspective(800px) rotateY(' + x * 8 + 'deg) rotateX(' + -y * 8 + 'deg) translateY(-8px)'; // tilt + lift -8px
-  });
-  c.addEventListener('mouseleave', function () { c.style.transform = ''; }); // reset when mouse leaves
-});
-$$('.magnetic').forEach(function (b) {                            // buttons that drift toward the cursor
-  b.addEventListener('mousemove', function (e) {
-    var r = b.getBoundingClientRect();
-    b.style.transform = 'translate(' + (e.clientX - r.left - r.width / 2) * .25 + 'px,' + (e.clientY - r.top - r.height / 2) * .35 + 'px)';
-  });
-  b.addEventListener('mouseleave', function () { b.style.transform = ''; });
-});
-var g = $('#glow');                                               // soft light that follows the mouse
-if (g && matchMedia('(hover:hover)').matches) {                   // only on devices with a real mouse
-  addEventListener('mousemove', function (e) { g.style.opacity = 1; g.style.left = e.clientX + 'px'; g.style.top = e.clientY + 'px'; });
-}
-var heroEl = $('.hero,.phero');                                   // hero section on any page
-if (heroEl) {
-  for (var i = 0; i < 22; i++) {                                  // create 22 tiny gold sparks
-    var s = document.createElement('i'); s.className = 'ember';
-    s.style.left = Math.random() * 100 + '%';                     // random horizontal position
-    s.style.animationDuration = (6 + Math.random() * 8) + 's';    // random speed
-    s.style.animationDelay = (Math.random() * 8) + 's';           // random start time
-    heroEl.appendChild(s);
+/* ===== 9. SUBTLE MOTION ONLY (premium = smooth, not flashy) =====
+   Removed in v2: 3D tilt, magnetic buttons, cursor glow, hero sparks. Kept: reveal-on-scroll,
+   hover lift, and the About-page timeline line that draws as you scroll. */
+$$('.tl2').forEach(function (t) {                                 // About page timeline
+  function update() {
+    var r = t.getBoundingClientRect(), p = (innerHeight * 0.6 - r.top) / r.height; // how far the viewer has scrolled through it
+    t.style.setProperty('--p', Math.max(0, Math.min(1, p)));      // CSS reads --p to set the gold line height
   }
-}
+  addEventListener('scroll', update, { passive: true }); update(); // run on scroll + once at start
+});
 
 /* ===== 10. TOAST MESSAGE (small "added to cart" popup) + wishlist hearts + newsletter ===== */
 var tt;                                                           // timer handle
@@ -164,6 +145,7 @@ function saveCart(c) {
 }
 function badge(bump) {                                            // updates <span id="cartBadgeCount">
   var kg = getCart().reduce(function (a, i) { return a + i.qty; }, 0), b = $('#cartBadgeCount'); // total kg in cart
+  var mb = $('#cartBadgeMobile'); if (mb) mb.textContent = kg;   // mobile bottom-bar counter
   if (b) { b.textContent = kg; if (bump) { b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump'); } } // show number (+ pop)
 }
 function addToCart(name, price, qty, img) {
@@ -177,6 +159,10 @@ document.addEventListener('click', function (e) {                 // one listene
   if (a) {
     var card = a.closest('.pcard'), q = card && $('.qv', card) ? +$('.qv', card).textContent : 1; // quantity from card (default 1kg)
     addToCart(a.dataset.name, a.dataset.price, q, a.dataset.img); // put in cart
+    if (!a.classList.contains('added')) {                        // button animation: turns green and says Added for 1.2s
+      var orig = a.innerHTML; a.classList.add('added'); a.innerHTML = '<i class="bi bi-check2"></i> Added';
+      setTimeout(function () { a.classList.remove('added'); a.innerHTML = orig; }, 1200);
+    }
     if ($('#cartList')) renderCart();                             // refresh order page list if open
     return;
   }
@@ -203,7 +189,7 @@ function applyProducts() {                                        // runs on eve
   var box = $('#searchInput'), q = (box ? box.value : '').toLowerCase().trim(), n = 0; // search text
   $$('.product-card-wrapper').forEach(function (card) {
     var cats = ' ' + card.getAttribute('data-category') + ' ';    // card categories e.g. " beef minced "
-    var ok = (curCat === 'all' || cats.indexOf(' ' + curCat + ' ') > -1) && card.querySelector('.card-title').innerText.toLowerCase().indexOf(q) > -1; // category AND text match
+    var ok = (curCat === 'all' || cats.indexOf(' ' + curCat + ' ') > -1) && card.querySelector('.card-title').textContent.toLowerCase().indexOf(q) > -1; // category AND text match
     card.style.display = ok ? 'block' : 'none';                   // show / hide
     if (ok) { n++; card.classList.add('in'); card.style.animation = 'none'; void card.offsetWidth; card.style.animation = 'fadeInUp 0.4s ease forwards'; } // replay fadeInUp 0.4s
   });
@@ -286,67 +272,94 @@ if (ph) {
   };
   ph.addEventListener('input', checkPhone); checkPhone();
 }
-/* 15f. WhatsApp receipt: reads details + cart from localStorage, formats text, opens WhatsApp */
+/* 15f. Place order: validate -> build receipt -> open WhatsApp -> show success confirmation */
 window.checkoutViaWhatsApp = function (event) {
   event.preventDefault();                                         // stop normal form submit
+  var f = $('#orderForm'), cart = getCart();
+  if (!cart.length) { toast('Your cart is empty - add items first'); return; } // nothing to order
+  if (!f.checkValidity()) {                                       // some field is missing / wrong
+    f.classList.add('was-validated');                             // show green / red feedback on every field
+    var bad = f.querySelector(':invalid'); if (bad) { bad.focus(); bad.scrollIntoView({ behavior: 'smooth', block: 'center' }); } // jump to first problem
+    return;
+  }
   saveCustomer();                                                 // make sure latest details are stored
-  var cart = getCart();
-  if (!cart.length) { alert('Your cart is empty!'); return; }     // nothing to order
   var cu = {}; try { cu = JSON.parse(localStorage.getItem('customer') || '{}'); } catch (e) {} // read customer from localStorage
-  var t = totals(cart);                                           // subtotal / fee / total
-  var text = '*NEW ORDER - PREMIUM SLAUGHTER HOUSE*\n\n' +        // receipt title
-    '*Name:* ' + cu.custName + '\n*Phone:* ' + cu.custPhone + '\n' + // customer
-    '*Address:* ' + cu.custAddress + ', ' + cu.custArea + ', ' + cu.custCity + '\n' + // address
-    '*Delivery:* ' + cu.custDate + ' (' + cu.custSlot + ')\n*Payment:* ' + cu.custPay + '\n\n*Items Ordered:*\n'; // slot + payment
+  var t = totals(cart), ref = 'PSH-' + Date.now().toString().slice(-6); // totals + short order reference
+  var text = '*NEW ORDER - PREMIUM SLAUGHTER HOUSE*\n*Order Ref:* ' + ref + '\n\n' +
+    '*Name:* ' + cu.custName + '\n*Phone:* ' + cu.custPhone + '\n' +
+    '*Address:* ' + cu.custAddress + ', ' + cu.custArea + ', ' + cu.custCity + '\n' +
+    '*Delivery:* ' + cu.custDate + ' (' + cu.custSlot + ')\n*Payment:* ' + cu.custPay + '\n\n*Items Ordered:*\n';
   cart.forEach(function (it, i) { text += (i + 1) + '. ' + it.name + ' (' + it.qty + 'kg) - Rs ' + (it.price * it.qty) + '\n'; }); // one line per item
-  text += '\n*Subtotal:* Rs ' + t.sub + '\n*Delivery Fee:* Rs ' + t.del + '\n*Grand Total:* Rs ' + t.grand; // totals
+  text += '\n*Subtotal:* Rs ' + t.sub + '\n*Delivery Fee:* Rs ' + t.del + '\n*Grand Total:* Rs ' + t.grand;
   window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(text), '_blank'); // open WhatsApp with the receipt
+  $('#okRef').textContent = ref; $('#okTotal').textContent = money(t.grand); $('#okName').textContent = cu.custName; // fill success box
+  new bootstrap.Modal($('#successModal')).show();                 // success confirmation
+  saveCart([]); renderCart(); f.classList.remove('was-validated'); // empty the cart (customer details stay saved)
 };
 
-/* ===== 16. SERVICES PAGE: B2B bulk rate calculator ===== */
+/* ===== 16. SERVICES PAGE: interactive B2B bulk calculator =====
+   Select meat -> enter KG (or use slider/chips) -> base price, bulk discount, price/kg, total,
+   "You qualify for X% bulk discount" message, progress to next tier, WhatsApp quote. */
 var b2 = $('#b2bForm');
 if (b2) {
+  var TIERS = [{ min: 500, d: .12 }, { min: 250, d: .09 }, { min: 100, d: .06 }, { min: 50, d: .03 }]; // volume discount tiers
   var calc = function () {
-    var base = +$('#b2bType').value, kg = Math.max(0, +$('#b2bKg').value || 0); // chosen rate + weight
-    var d = kg >= 500 ? .12 : kg >= 250 ? .09 : kg >= 100 ? .06 : kg >= 50 ? .03 : 0; // tier discount
-    var rate = base * (1 - d), tot = rate * kg;                   // discounted rate + estimated total
-    $('#b2bOut').innerHTML = '<div><small>Rate / kg</small><b>' + money(rate) + '</b></div><div><small>Discount</small><b>' + Math.round(d * 100) + '%</b></div><div><small>Estimated Total</small><b>' + money(tot) + '</b></div>'; // show results
-    $('#b2bWa').href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent('Hello, B2B quote request: ' + $('#b2bType').selectedOptions[0].text.split(' \u2013')[0] + ', ' + kg + ' kg, est. ' + money(tot) + ' (' + money(rate) + '/kg).'); // WhatsApp quote link
+    var base = +$('#b2bType').value, kg = Math.max(0, +$('#b2bKg').value || 0);   // price per kg + weight
+    var tier = TIERS.filter(function (t) { return kg >= t.min; })[0], d = tier ? tier.d : 0; // highest tier reached
+    var next = TIERS.slice().reverse().filter(function (t) { return t.min > kg; })[0];       // next tier to unlock
+    var baseTotal = base * kg, saving = baseTotal * d, rate = base * (1 - d), tot = baseTotal - saving;
+    $('#b2bOut').innerHTML = '<div><small>Base Price</small><b>' + money(baseTotal) + '</b></div><div><small>Bulk Discount (' + Math.round(d * 100) + '%)</small><b>- ' + money(saving) + '</b></div><div><small>Price / KG</small><b>' + money(rate) + '</b></div><div><small>Estimated Total</small><b>' + money(tot) + '</b></div>'; // 4 result boxes
+    var msg = $('#b2bMsg');
+    if (kg < 10) { msg.className = 'calc-msg'; msg.textContent = 'Minimum bulk order is 10 kg.'; }
+    else if (d) { msg.className = 'calc-msg win'; msg.textContent = '\u2713 You qualify for ' + Math.round(d * 100) + '% bulk discount' + (next ? ' - add ' + (next.min - kg) + ' kg more to reach ' + Math.round(next.d * 100) + '%' : ' (our best rate!)'); }
+    else { msg.className = 'calc-msg'; msg.textContent = 'Order ' + (50 - kg) + ' kg more to unlock a 3% bulk discount.'; }
+    $('#b2bBar').style.width = Math.min(100, next ? kg / next.min * 100 : 100) + '%'; // progress to next tier
+    $('#b2bRange').value = Math.min(kg, 1000);                    // keep slider in sync
+    $('#b2bWa').href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent('Hello, B2B quote request:\n' + $('#b2bType').selectedOptions[0].text.split(' \u2013')[0] + ' - ' + kg + ' kg\nDiscount: ' + Math.round(d * 100) + '%\nPrice/kg: ' + money(rate) + '\nEstimated total: ' + money(tot)); // WhatsApp quote
   };
+  $('#b2bRange').addEventListener('input', function () { $('#b2bKg').value = this.value; calc(); }); // slider -> number box
+  $$('.kgchip').forEach(function (c) { c.onclick = function () { $('#b2bKg').value = c.dataset.kg; calc(); }; }); // quick chips
   ['input', 'change'].forEach(function (ev) { b2.addEventListener(ev, calc); }); calc(); // recalc live + once at start
 }
 
-/* ===== 17. GALLERY: category filter tabs + fullscreen lightbox with next/prev ===== */
+/* ===== 17. GALLERY: masonry filter (fade), lightbox with next / previous / ESC / swipe ===== */
 $$('[data-gf]').forEach(function (b) {                            // filter tab buttons
   b.onclick = function () {
     $$('[data-gf]').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); // move highlight
-    $$('.gal-item').forEach(function (i) {
-      var s = b.dataset.gf === 'all' || i.dataset.cat === b.dataset.gf; // matches category?
-      i.classList.toggle('hide', !s); if (s) i.classList.add('in'); // show / hide
-    });
+    var items = $$('.gal-item'); items.forEach(function (i) { i.classList.add('out'); }); // 1) fade everything out
+    setTimeout(function () {                                      // 2) after the fade, swap what is visible
+      items.forEach(function (i) { i.classList.toggle('hide', !(b.dataset.gf === 'all' || i.dataset.cat === b.dataset.gf)); });
+      requestAnimationFrame(function () { items.forEach(function (i) { i.classList.remove('out'); }); }); // 3) fade the matches back in
+    }, 280);
   };
 });
 var lbList = [], lbIndex = 0, lbModal = null;                     // lightbox state
-function lbShow() {                                               // draw the current image in the modal
+function lbShow() {                                               // draw the current image in the modal (with fade)
   var el = lbList[lbIndex]; if (!el) return;
-  $('#modalImage').src = el.dataset.src;                          // high-res image
-  $('#modalImage').alt = el.dataset.title;                        // alt text
-  $('#modalTitle').innerText = el.dataset.title;                  // image title
-  $('#modalDesc').innerText = el.dataset.desc;                    // image description
-  $('#modalCount').innerText = (lbIndex + 1) + ' / ' + lbList.length; // position counter
+  var img = $('#modalImage'); img.classList.add('swap');          // fade out
+  setTimeout(function () {
+    img.src = el.dataset.src; img.alt = el.dataset.title;         // swap picture
+    $('#modalTitle').textContent = el.dataset.title;                // title
+    $('#modalDesc').textContent = el.dataset.desc;                  // description
+    $('#modalCount').textContent = (lbIndex + 1) + ' / ' + lbList.length; // position counter
+    img.onload = function () { img.classList.remove('swap'); };   // fade in once loaded
+    if (img.complete) img.classList.remove('swap');
+  }, 150);
 }
 window.openLightbox = function (el) {                             // called by onclick on a thumbnail
-  lbList = $$('.gal-item:not(.hide) .gi');                        // only the thumbnails currently visible
-  lbIndex = lbList.indexOf(el); if (lbIndex < 0) lbIndex = 0;     // which one was clicked
-  lbShow();
-  lbModal = lbModal || new bootstrap.Modal($('#galleryModal'));   // create the Bootstrap modal once
-  lbModal.show();                                                 // open it fullscreen
+  lbList = $$('.gal-item:not(.hide) .gi');                        // only thumbnails currently visible
+  lbIndex = Math.max(0, lbList.indexOf(el)); lbShow();
+  lbModal = lbModal || new bootstrap.Modal($('#galleryModal'));   // Bootstrap closes on ESC and backdrop click by default
+  lbModal.show();
 };
-window.lbStep = function (d) { lbIndex = (lbIndex + d + lbList.length) % lbList.length; lbShow(); }; // next (+1) / previous (-1), wraps around
+window.lbStep = function (d) { lbIndex = (lbIndex + d + lbList.length) % lbList.length; lbShow(); }; // next / previous (wraps)
 document.addEventListener('keydown', function (e) {               // keyboard arrows while lightbox is open
   if (!$('#galleryModal.show')) return;
   if (e.key === 'ArrowRight') lbStep(1); if (e.key === 'ArrowLeft') lbStep(-1);
 });
+var gm = $('#galleryModal'), tx = 0;                              // touch swipe on phones
+if (gm) { gm.addEventListener('touchstart', function (e) { tx = e.touches[0].clientX; }, { passive: true });
+  gm.addEventListener('touchend', function (e) { var dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) lbStep(dx < 0 ? 1 : -1); }); }
 
 /* ===== 18. CONTACT FORM: validates, then sends the message to WhatsApp ===== */
 var cf = $('#contactForm');
@@ -382,11 +395,32 @@ if (dm) {
     'Ayesha from Gulberg ordered 1kg Mutton Mince', 'Hamza from Bahria Town ordered 5kg Fresh Beef'];
   var le = $('#liveToast');
   function show() {
-    $('#toastBody').innerText = orders[Math.floor(Math.random() * orders.length)]; // pick a random message
+    $('#toastBody').textContent = orders[Math.floor(Math.random() * orders.length)]; // pick a random message
     bootstrap.Toast.getOrCreateInstance(le).show();               // slide it in
   }
   function loop() { setTimeout(function () { show(); loop(); }, 12000 + Math.random() * 3000); } // next one in 12-15 seconds
   setTimeout(function () { show(); loop(); }, 7000);              // first notification after 7 seconds
 })();
+
+
+/* ===== 21. PRODUCT QUICK VIEW (home + products): click image or "Quick View" ===== */
+var qvEl = $('#quickView'), qvModal = null, qvCard = null;       // modal element, Bootstrap instance, card being shown
+function qvTotal() { $('#qvTotal').textContent = money(+qvCard.dataset.price * +$('#qvQty').textContent); } // live total for chosen kg
+function openQV(card) {
+  qvCard = card; var d = card.dataset;                            // product info lives in data-* attributes on the card
+  $('#qvImg').src = d.img; $('#qvImg').alt = d.name;              // photo
+  $('#qvName').textContent = d.name;                              // name
+  var r = +d.rating || 4.8; $('#qvStars').innerHTML = '<span class="stars">' + '<i class="bi bi-star-fill"></i>'.repeat(Math.floor(r)) + (r % 1 >= .5 ? '<i class="bi bi-star-half"></i>' : '') + '</span> <small class="text-muted">' + r + '</small>'; // star rating
+  $('#qvPrice').innerHTML = money(+d.price) + ' <small class="text-muted fs-6">/ kg</small>'; // price
+  $('#qvDesc').textContent = d.desc;                              // description
+  $('#qvQty').textContent = 1; qvTotal();                         // start at 1 kg
+  qvModal = qvModal || new bootstrap.Modal(qvEl); qvModal.show(); // smooth modal animation (CSS .qvm)
+}
+if (qvEl) document.addEventListener('click', function (e) {
+  var o = e.target.closest('.qv-open'); if (o && o.closest('.pcard')) { openQV(o.closest('.pcard')); return; } // open from card
+  var s = e.target.closest('#qvMinus,#qvPlus');                   // weight [-] / [+] inside the modal
+  if (s) { var q = $('#qvQty'); q.textContent = Math.max(1, Math.min(100, +q.textContent + (s.id === 'qvPlus' ? 1 : -1))); qvTotal(); return; }
+  if (e.target.closest('#qvAdd')) { addToCart(qvCard.dataset.name, qvCard.dataset.price, +$('#qvQty').textContent, qvCard.dataset.img); qvModal.hide(); } // add + close
+});
 
 })();

@@ -1,5 +1,5 @@
 /* ##########################################################################
-   PREMIUM SLAUGHTER HOUSE - MAIN STYLESHEET  (css/style.css, used by all 8 pages)
+   PREMIUM SLAUGHTER HOUSE - MAIN STYLESHEET (v2 - premium polish)  (css/style.css, used by all 8 pages)
    Client palette: Charcoal #1a1d20 | Crimson #c0392b | Gold #f39c12 | Off-white #f8f9fa
    Edit colours ONLY in the :root block. Every rule below has a comment.
    ########################################################################## */
@@ -35,7 +35,6 @@ a{text-decoration:none}                                        /* no underline o
 #loader b{color:var(--lgold);letter-spacing:6px;font:600 13px 'Poppins'}  /* "PREMIUM" label under ring */
 @keyframes spin{to{transform:rotate(360deg)}}                  /* generic rotate animation */
 #progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--crimson),var(--gold));z-index:2000}  /* top scroll-progress line */
-#glow{position:fixed;width:340px;height:340px;border-radius:50%;pointer-events:none;z-index:1;background:radial-gradient(circle,rgba(243,156,18,.13),transparent 65%);transform:translate(-50%,-50%);mix-blend-mode:multiply;opacity:0;transition:opacity .4s}  /* soft light following mouse */
 
 /* ===== 4. BUTTONS ===== */
 .btn-gold{background:linear-gradient(135deg,var(--lgold),var(--gold) 60%,#d68910);color:#1a1209;font-weight:600;border:0;border-radius:50px;padding:12px 28px;position:relative;overflow:hidden;transition:.35s;box-shadow:0 8px 22px rgba(243,156,18,.35)}  /* primary gold pill button */
@@ -77,23 +76,7 @@ a{text-decoration:none}                                        /* no underline o
 @keyframes bump{40%{transform:scale(1.5)}}                     /* pop effect */
 
 /* ===== 7. HOME HERO ===== */
-.hero{background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),radial-gradient(circle at 78% 35%,rgba(192,57,43,.28),transparent 55%),url("../images/hero-marble.jpg") center/cover,url("../images/home/hero-image1.jpg") center/cover,#1a1d20;color:#fff;padding:90px 0 130px;position:relative;overflow:hidden}  /* rgba(0,0,0,.6) overlay as client asked; first image wins, 2nd is backup */
-.hero h1{font-size:clamp(40px,6vw,72px);font-weight:800;line-height:1.08;margin:10px 0 16px}  /* big hero headline */
-.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--lgold),var(--gold),var(--lgold));background-size:200%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shine 4s linear infinite}  /* animated gold text */
-@keyframes shine{to{background-position:200%}}                /* moves the gold gradient */
-.hero p.lead2{color:#d9d6d0;max-width:480px}                   /* hero paragraph */
-.hero-card{position:absolute;right:6%;bottom:70px;background:rgba(26,29,32,.8);border:1px solid var(--gold);backdrop-filter:blur(8px);border-radius:16px;padding:14px 20px;animation:float 4s ease-in-out infinite}  /* floating "happy families" card */
-.hero-card b{font:700 28px 'Poppins';color:var(--lgold);display:block;line-height:1}  /* big number */
-.fresh-tag{position:absolute;right:9%;top:70px;text-align:center;animation:float 5s ease-in-out infinite}  /* floating halal seal wrapper */
-.fresh-tag .script{font-size:2rem;transform:rotate(-8deg);display:block}  /* "Freshly Cut" tilted text */
-.halal-seal{width:110px;height:110px;border-radius:50%;border:3px double var(--gold);color:var(--lgold);display:inline-flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.55);font-weight:700;letter-spacing:2px;font-size:12px;animation:spin 18s linear infinite reverse}  /* rotating halal badge */
-.halal-seal i{font-size:30px}                                  /* moon icon size */
 @keyframes float{50%{transform:translateY(-14px)}}             /* gentle up/down bob */
-.ember{position:absolute;bottom:-10px;width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:0;animation:rise linear infinite}  /* tiny floating sparks (made by JS) */
-@keyframes rise{10%{opacity:.8}100%{transform:translateY(-650px) translateX(40px);opacity:0}}  /* sparks drift upward */
-.tbadges{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}  /* row of hero trust badges */
-.tb{background:rgba(255,255,255,.08);border:1px solid rgba(243,156,18,.45);backdrop-filter:blur(6px);color:#fff;padding:7px 14px;border-radius:50px;font-size:12.5px;display:inline-flex;gap:7px;align-items:center}  /* single badge */
-.tb i{color:var(--gold)}                                       /* badge icon colour */
 
 /* ===== 8. TRUST & QUALITY BADGES GRID (4 columns under hero) ===== */
 .strip{margin-top:-70px;position:relative;z-index:5}           /* overlaps bottom of hero */
@@ -106,8 +89,8 @@ a{text-decoration:none}                                        /* no underline o
 
 /* ===== 9. SECTION TITLES + DARK SECTIONS ===== */
 .eyebrow{color:var(--crimson);font-weight:700;letter-spacing:3px;font-size:12px;text-transform:uppercase}  /* small red label above titles */
-.sec{padding:80px 0}                                           /* standard section spacing */
-.sec-title{font-size:clamp(28px,4vw,42px);font-weight:800}     /* big section title */
+.sec{padding:var(--section-y) 0}                                           /* standard section spacing */
+.sec-title{font-size:clamp(28px,4vw,42px);font-weight:800;margin:6px 0 0}     /* big section title */
 .dark{background:var(--ink);color:#e9e6e1}                     /* dark section background */
 .dark .sec-title{color:#fff}                                   /* white titles on dark */
 .dark .eyebrow{color:var(--gold)}                              /* gold label on dark */
@@ -122,11 +105,10 @@ a{text-decoration:none}                                        /* no underline o
 .pitem.hide{display:none}                                      /* hidden by filter */
 .pcard{background:#fff;border-radius:var(--r);overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.08);height:100%;position:relative;transition:transform .3s ease,box-shadow .3s ease;transform-style:preserve-3d}  /* card base: transition transform .3s + shadow .3s */
 .pcard:hover{transform:translateY(-8px);box-shadow:0 15px 30px rgba(0,0,0,.12)}  /* exact client hover values */
-.pimg{overflow:hidden;position:relative;aspect-ratio:4/3}      /* fixed 4:3 frame so photos never distort */
+.pimg{overflow:hidden;position:relative;aspect-ratio:1/1}      /* fixed 4:3 frame so photos never distort */
 .pimg img{width:100%;height:100%;object-fit:cover;transition:.8s}  /* cover = crop, never stretch */
-.pcard:hover .pimg img{transform:scale(1.1)}                   /* slow zoom on hover */
+.pcard:hover .pimg img{transform:scale(1.03)}                   /* slow zoom on hover */
 .ptag{position:absolute;top:12px;left:12px;z-index:2;background:var(--crimson);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:50px}  /* corner badge (Bestseller etc.) */
-.halal{position:absolute;bottom:10px;left:10px;z-index:2;background:rgba(26,29,32,.88);color:var(--lgold);font-size:10.5px;padding:3px 10px;border-radius:50px}  /* 100% Halal ribbon */
 .heart{position:absolute;top:10px;right:10px;z-index:2;width:34px;height:34px;border:0;border-radius:50%;background:rgba(255,255,255,.92);color:var(--crimson);transition:.3s}  /* wishlist heart */
 .heart.on{background:var(--crimson);color:#fff;animation:bump .5s}  /* filled heart */
 .pinfo{padding:16px 18px 18px}                                 /* text area of card */
@@ -157,7 +139,7 @@ a{text-decoration:none}                                        /* no underline o
 .cutnav .nav-link{color:#e9e6e1!important;border:1px solid rgba(243,156,18,.4);border-radius:50px;margin:4px;padding:8px 24px!important;background:transparent}  /* tab pills */
 .cutnav .nav-link.active{background:var(--gold);color:#111!important;font-weight:600}  /* active tab */
 .cutbox{background:rgba(255,255,255,.04);border:1px solid rgba(243,156,18,.3);border-radius:var(--r);padding:30px}  /* panel around diagram */
-.cutsvg{width:100%;max-height:260px;animation:float 5s ease-in-out infinite}  /* line-art diagram, bobbing */
+.cutsvg{width:100%;max-height:260px;}  /* line-art diagram, bobbing */
 .cutsvg .ln{fill:none;stroke:var(--gold);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}  /* line-art stroke style */
 .cutsvg .ln2{fill:none;stroke:#f1e4c8;stroke-width:1.6;stroke-linecap:round}  /* thinner marbling/bone lines */
 
@@ -170,16 +152,11 @@ a{text-decoration:none}                                        /* no underline o
 .banner h3{font-size:34px;font-weight:800;color:var(--lgold)}  /* banner title */
 .offer{display:inline-block;background:var(--gold);color:#111;font-weight:700;padding:3px 14px;border-radius:50px;animation:pulse 1.8s infinite}  /* "20% OFF" pill */
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(243,156,18,.7)}100%{box-shadow:0 0 0 18px transparent}}  /* outward pulse */
-.marq{background:var(--coal);overflow:hidden;white-space:nowrap;padding:16px 0;border-block:1px solid rgba(243,156,18,.3)}  /* scrolling strip */
-.marq div{display:inline-block;animation:mq 28s linear infinite;color:var(--lgold);font:600 20px 'Poppins';letter-spacing:2px}  /* moving text */
-.marq span{margin:0 28px}                                      /* gap between words */
-.marq i{color:var(--crimson);margin-right:28px}                /* star separators */
-@keyframes mq{to{transform:translateX(-50%)}}                  /* slide left forever */
 .more{background:linear-gradient(180deg,var(--sand),var(--cream))}  /* story section background */
 .mini{background:#fff;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 6px 18px rgba(0,0,0,.07);font-weight:500;font-size:14px;transition:.3s}  /* small feature row */
 .mini:hover{transform:translateX(8px);border-left:4px solid var(--gold)}  /* slides right on hover */
 .mini i{color:var(--crimson);font-size:20px}                   /* icon colour */
-.quote{background:#fff;border-radius:var(--r);padding:22px;box-shadow:0 18px 40px rgba(0,0,0,.12);animation:float 6s ease-in-out infinite}  /* floating testimonial */
+.quote{background:#fff;border-radius:var(--r);padding:22px;box-shadow:0 18px 40px rgba(0,0,0,.12);}  /* floating testimonial */
 .appstrip{background:linear-gradient(110deg,var(--ink),var(--crimson2));border:1px solid var(--gold);border-radius:var(--r);color:#fff;padding:26px 34px}  /* order call-to-action strip */
 
 /* ===== 15. FOOTER ===== */
@@ -207,10 +184,10 @@ footer a:hover{color:var(--gold);padding-left:6px}             /* nudge on hover
 .deal-fab{left:18px;bottom:90px;display:none;background:linear-gradient(135deg,var(--lgold),var(--gold));color:#111;border:0;border-radius:30px;padding:11px 20px;font-weight:700;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.4)}  /* "Today's Deals" button */
 
 /* ===== 17. SCROLL REVEAL ANIMATION (class .reveal, direction helpers .l .r .z) ===== */
-.reveal{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}  /* hidden start state */
-.reveal.l{transform:translateX(-60px)}                         /* comes from left */
-.reveal.r{transform:translateX(60px)}                          /* comes from right */
-.reveal.z{transform:scale(.88)}                                /* zooms in */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}  /* hidden start state */
+.reveal.l{transform:translateX(-32px)}                         /* comes from left */
+.reveal.r{transform:translateX(32px)}                          /* comes from right */
+.reveal.z{transform:scale(.96)}                                /* zooms in */
 .reveal.in{opacity:1;transform:none}                           /* visible end state (added by JS) */
 
 /* ===== 18. DEAL OF THE DAY MODAL ===== */
@@ -246,18 +223,13 @@ footer a:hover{color:var(--gold);padding-left:6px}             /* nudge on hover
 .imgwrap img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r);box-shadow:0 25px 55px rgba(0,0,0,.25)}  /* never distorts */
 .imgwrap::before{content:'';position:absolute;inset:18px -18px -18px 18px;border:2px solid var(--gold);border-radius:var(--r);z-index:-1;transition:.5s}  /* offset gold frame */
 .imgwrap:hover::before{inset:10px -10px -10px 10px}            /* frame tightens on hover */
-.exp{position:absolute;left:-14px;bottom:26px;background:var(--crimson);color:#fff;border-radius:14px;padding:14px 20px;box-shadow:0 14px 30px rgba(192,57,43,.5);animation:float 4s ease-in-out infinite}  /* "15+ years" badge */
+.exp{position:absolute;left:-14px;bottom:26px;background:var(--crimson);color:#fff;border-radius:14px;padding:14px 20px;box-shadow:0 14px 30px rgba(192,57,43,.5);}  /* "15+ years" badge */
 .exp b{font:800 30px 'Poppins';display:block;line-height:1}    /* badge number */
 
 /* ===== 22. ABOUT PAGE ===== */
 .stat{text-align:center;padding:30px 10px;border-right:1px solid rgba(243,156,18,.25)}  /* counter cell */
 .stat b{font:800 clamp(34px,5vw,52px) 'Poppins';color:var(--gold);display:block}  /* big number */
 .stat:last-child{border:0}                                     /* no border on last */
-.tl{position:relative;padding-left:34px}                       /* timeline wrapper */
-.tl::before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--gold),var(--crimson))}  /* vertical line */
-.tl .t{position:relative;margin-bottom:26px}                   /* one milestone */
-.tl .t::before{content:'';position:absolute;left:-34px;top:5px;width:18px;height:18px;border-radius:50%;background:var(--cream);border:4px solid var(--crimson)}  /* dot */
-.tl b{color:var(--crimson)}                                    /* milestone title */
 .mv{border-radius:var(--r);padding:36px;height:100%;color:#fff}  /* mission/vision card */
 .mv i{font-size:42px;color:var(--lgold)}                       /* big icon */
 .mv1{background:linear-gradient(135deg,var(--crimson),var(--crimson2))}  /* mission = crimson */
@@ -273,12 +245,6 @@ footer a:hover{color:var(--gold);padding-left:6px}             /* nudge on hover
 .check i{color:var(--gold)}                                    /* tick icon */
 .cert{background:#fff;border-radius:var(--r);text-align:center;padding:28px 12px;height:100%;border:1px solid var(--sand)}  /* certificate card */
 .cert b{font:800 32px 'Poppins';color:var(--crimson);display:block}  /* certificate name */
-.member{border-radius:var(--r);overflow:hidden;position:relative;box-shadow:0 14px 34px rgba(0,0,0,.25);height:100%}  /* team card */
-.member img{width:100%;aspect-ratio:1/1;object-fit:cover;transition:.8s}  /* 1:1 square photo */
-.member:hover img{transform:scale(1.1)}                        /* zoom on hover */
-.member .cap{position:absolute;inset:auto 0 0 0;background:linear-gradient(transparent,rgba(26,29,32,.95));padding:50px 18px 16px;color:#fff;transform:translateY(30px);transition:.5s}  /* name overlay */
-.member:hover .cap{transform:none}                             /* overlay slides up */
-.member .cap small{color:var(--lgold)}                         /* role text */
 .tcard{background:#fff;color:var(--text);border-radius:var(--r);padding:36px 30px 54px;text-align:center}  /* testimonial slide */
 .tind{bottom:14px}                                             /* slider dots position */
 .tind button{background:var(--gold)!important;width:26px!important;height:4px!important;border:0!important}  /* slider dots */
@@ -308,28 +274,10 @@ footer a:hover{color:var(--gold);padding-left:6px}             /* nudge on hover
 .qa small{display:block;color:var(--lgold);margin-bottom:8px}  /* quick-add price */
 
 /* ===== 24. SERVICES PAGE + B2B CALCULATOR ===== */
-.svc{background:#fff;border-radius:var(--r);padding:30px 24px;text-align:center;height:100%;box-shadow:0 12px 34px rgba(0,0,0,.1)}  /* service card */
-.svc-ic{width:84px;height:84px;margin:0 auto 16px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;position:relative}  /* dark circle behind icon */
-.svc-ic::before{content:'';position:absolute;inset:-7px;border-radius:50%;border:2px solid var(--gold);border-top-color:transparent;animation:spin 6s linear infinite}  /* rotating gold ring */
-.svc h4{font-size:19px}                                        /* service title */
-.svc p{color:var(--muted);font-size:14px}                      /* service text */
-.calc{background:rgba(255,255,255,.05);border:1px solid rgba(243,156,18,.35);border-radius:var(--r);padding:28px}  /* calculator panel */
-.calc .form-label{color:#ddd}                                  /* light labels on dark */
-.calc-out{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}  /* 3 result boxes */
-.calc-out div{background:rgba(0,0,0,.35);border-radius:12px;padding:14px 6px}  /* result box */
-.calc-out b{display:block;font:700 20px 'Poppins';color:var(--lgold)}  /* result number */
-.calc-out small{color:#aaa}                                    /* result label */
 .tiers td{border-color:rgba(255,255,255,.12)}                  /* tier table lines */
 
 /* ===== 25. GALLERY (hover overlay + magnifier, zoom scale 1.05) ===== */
-.gi{position:relative;overflow:hidden;border-radius:var(--r);cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.18);aspect-ratio:4/3;background:#222}  /* thumbnail, fixed 4:3 */
-.gi img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}  /* cover fit */
-.gi:hover img{transform:scale(1.05)}                           /* client spec: scale(1.05) */
-.gi::after{content:'\F52A';font-family:'bootstrap-icons';position:absolute;inset:0;background:rgba(26,29,32,.62);color:#fff;font-size:38px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}  /* dark overlay + magnifier icon (bi-zoom-in) */
-.gi:hover::after{opacity:1}                                    /* overlay appears on hover */
-.gi span{position:absolute;inset:auto 0 0 0;z-index:2;padding:34px 14px 12px;color:#fff;font-weight:500;font-size:14px;background:linear-gradient(transparent,rgba(0,0,0,.85))}  /* caption at bottom */
 .gal-item.hide{display:none}                                   /* hidden by filter */
-.lb-img{max-width:92vw;max-height:70vh;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.6);animation:fadeInUp .4s}  /* lightbox photo */
 .lb-nav{position:fixed;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;border:1px solid var(--gold);background:rgba(26,29,32,.8);color:var(--lgold);font-size:22px;z-index:5;transition:.3s}  /* prev / next arrows */
 .lb-nav:hover{background:var(--gold);color:#111}               /* arrow hover */
 .lb-prev{left:18px}                                            /* left arrow position */
@@ -356,9 +304,174 @@ footer a:hover{color:var(--gold);padding-left:6px}             /* nudge on hover
 .was-validated .form-control:invalid{border-color:var(--crimson)}  /* red invalid field */
 
 /* ===== 28. RESPONSIVE RULES ===== */
-@media(max-width:991px){.hero-card,.fresh-tag{display:none}.nsearch{display:none}.stat{border:0}}  /* tablet: hide floating hero items + nav search */
+@media(max-width:991px){.stat{border:0}}  /* tablet: hide floating hero items + nav search */
 @media(max-width:700px){.deal-body{padding:26px 22px 44px}.deal::before{background:rgba(0,0,0,.72)}.phero,.cta{background-attachment:scroll}}  /* phone: simpler backgrounds */
 @media(max-width:576px){.wa span{display:none}.wa{padding:0 14px}}  /* phone: WhatsApp pill becomes icon only */
 
 /* ===== 29. ACCESSIBILITY - switch animations off for users who prefer reduced motion ===== */
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+
+/* ##########################################################################
+   v2 UPGRADE LAYER - consistent DESIGN SYSTEM + premium polish
+   (colours, fonts, radius, shadows, buttons, spacing, cards, headings, animation)
+   ########################################################################## */
+
+/* ===== 30. DESIGN SYSTEM TOKENS (one source of truth for the whole site) ===== */
+:root{
+  --radius-sm:10px; --radius-md:14px; --radius-lg:20px; --r:20px;      /* border radius scale: small / medium / large */
+  --shadow-1:0 4px 14px rgba(0,0,0,.06);                                /* shadow level 1: resting small elements */
+  --shadow-2:0 10px 30px rgba(0,0,0,.10);                               /* shadow level 2: cards at rest */
+  --shadow-3:0 15px 30px rgba(0,0,0,.12);                               /* shadow level 3: cards on hover (client spec) */
+  --shadow-4:0 25px 60px rgba(0,0,0,.20);                               /* shadow level 4: modals, floating panels */
+  --ease:cubic-bezier(.2,.7,.2,1);                                      /* one easing curve for smooth motion everywhere */
+  --section-y:clamp(60px,8vw,100px);                                    /* vertical spacing between sections (responsive) */
+}
+
+/* ===== 31. SECTION HEADING SYSTEM: every centred title gets the same gold underline ===== */
+.text-center>.sec-title::after{content:'';display:block;width:56px;height:3px;background:var(--gold);margin:14px auto 0;border-radius:3px}  /* small gold rule under titles */
+.sec-sub{color:var(--muted);max-width:620px;margin:14px auto 0}          /* optional subtitle under a heading */
+.dark .sec-sub{color:#aab0b5}                                            /* subtitle on dark sections */
+
+/* ===== 32. LUXURY HERO: huge image, dark overlay, large type, ONE dominant CTA ===== */
+.hero{position:relative;isolation:isolate;min-height:88vh;display:flex;align-items:center;color:#fff;padding:120px 0 150px;overflow:hidden;background:#14171a}  /* tall hero; isolate keeps layers behind text */
+.hero::before{content:'';position:absolute;inset:0;z-index:-2;background:url("../images/hero-marble.jpg") center/cover,url("../images/home/hero-image1.jpg") center/cover;animation:kenburns 26s ease-in-out infinite alternate}  /* image layers (first found wins) with a very slow zoom */
+.hero::after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),linear-gradient(90deg,rgba(14,16,18,.8),rgba(14,16,18,.1) 75%)}  /* dark elegant overlay (rgba(0,0,0,.6) as requested) */
+@keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.07)}}  /* slow, subtle zoom */
+.hero-eyebrow{display:inline-flex;align-items:center;gap:14px;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--lgold);font-weight:600}  /* small premium eyebrow text */
+.hero-eyebrow::before{content:'';width:46px;height:1px;background:var(--gold)}  /* thin gold line before eyebrow */
+.hero h1{font-size:clamp(44px,7.2vw,92px);font-weight:800;line-height:1.02;letter-spacing:-1.5px;margin:22px 0 22px;max-width:880px}  /* very large typography */
+.hero h1 em{font-style:normal;color:var(--gold)}                         /* gold emphasis word */
+.hero p.lead2{color:#d6d3cd;max-width:520px;font-size:1.08rem}           /* supporting sentence */
+.hero-cta{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:34px}  /* CTA row */
+.btn-lg-x{padding:16px 40px;font-size:16px}                              /* dominant CTA is larger */
+.link-sec{color:#fff;border:1.5px solid rgba(255,255,255,.4);border-radius:50px;padding:13px 28px;font-weight:600;font-size:14px;transition:.3s}  /* secondary CTA = quiet outline */
+.link-sec:hover{border-color:var(--gold);color:var(--lgold)}             /* hover feedback */
+
+/* ===== 33. PRODUCT CARD v2: image 1:1 (~60% of card), quick-view button, button animation ===== */
+.pimg{cursor:pointer}                                                    /* image is clickable = quick view */
+.pimg .qv-btn{position:absolute;left:50%;bottom:14px;transform:translate(-50%,20px);opacity:0;z-index:3;background:rgba(26,29,32,.92);color:#fff;border:1px solid var(--gold);border-radius:50px;padding:8px 18px;font-size:12.5px;font-weight:600;white-space:nowrap;transition:opacity .3s var(--ease),transform .3s var(--ease),background .3s}  /* "Quick View" pill, hidden until hover */
+.pcard:hover .qv-btn{opacity:1;transform:translate(-50%,0)}               /* slides up on hover */
+.qv-btn:hover{background:var(--gold);color:#111}                          /* hover colour */
+@media(hover:none){.pimg .qv-btn{opacity:1;transform:translate(-50%,0)}}  /* touch screens: always visible */
+.pcard .pdesc{color:var(--muted);font-size:12.5px;margin:4px 0 6px;line-height:1.45}  /* short description = quiet */
+.pcard .phalal{font-size:11.5px;color:#1e8449;font-weight:600}            /* tiny halal line (replaces heavy ribbon) */
+.pcard .price{font-size:20px;font-weight:800}                             /* price is the strongest text after the name */
+.add{position:relative;overflow:hidden}                                   /* needed for shine effect */
+.add::after{content:'';position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);transition:.6s}  /* shine streak */
+.add:hover::after{left:140%}                                              /* streak sweeps on hover */
+.add:active{transform:scale(.95)}                                         /* press feedback */
+.add.added{background:#27ae60;color:#fff}                                 /* "Added" confirmation state */
+
+/* ===== 34. QUICK VIEW MODAL (smooth zoom-in animation) ===== */
+.qvm .modal-content{border:0;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-4)}  /* modal frame */
+.qvm.modal.fade .modal-dialog{transform:translateY(30px) scale(.95);transition:transform .45s var(--ease)}  /* starts small + low */
+.qvm.modal.show .modal-dialog{transform:none}                             /* settles into place */
+.qvm .dm-close{position:absolute;top:12px;right:12px;z-index:5;background:rgba(0,0,0,.5)}  /* close button */
+.qv-img{background:#111}                                                  /* image column (7/12 = ~58%) */
+.qv-img img{width:100%;height:100%;min-height:300px;object-fit:cover;display:block}  /* photo fills column */
+.qv-body{padding:34px 30px;display:flex;flex-direction:column;justify-content:center}  /* details column */
+.qv-price{font:800 32px 'Poppins';color:var(--crimson2)}                  /* big price */
+.qv-total{font-weight:700;color:var(--ink)}                               /* live total for chosen weight */
+
+/* ===== 35. PREMIUM NAVBAR: animated hamburger + staggered mobile menu ===== */
+.navbar-toggler{border:0;box-shadow:none!important;width:44px;height:44px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:0}  /* custom 3-line button */
+.navbar-toggler .tg{display:block;width:26px;height:2px;background:#fff;border-radius:2px;transition:transform .35s var(--ease),opacity .25s}  /* each bar */
+.navbar-toggler[aria-expanded=true] .tg:nth-child(1){transform:translateY(8px) rotate(45deg)}  /* top bar -> X */
+.navbar-toggler[aria-expanded=true] .tg:nth-child(2){opacity:0}           /* middle bar fades */
+.navbar-toggler[aria-expanded=true] .tg:nth-child(3){transform:translateY(-8px) rotate(-45deg)}  /* bottom bar -> X */
+@media(max-width:991px){
+  .navbar-collapse{background:rgba(26,29,32,.98);margin:12px -12px 0;padding:10px 18px 18px;border-top:1px solid rgba(243,156,18,.25)}  /* mobile menu panel */
+  .navbar-collapse.show .nav-link{animation:navIn .45s var(--ease) both;padding:12px 4px!important;font-size:15px;border-bottom:1px solid rgba(255,255,255,.07)}  /* links slide in */
+  .navbar-collapse.show li:nth-child(1) .nav-link{animation-delay:.04s}.navbar-collapse.show li:nth-child(2) .nav-link{animation-delay:.08s}.navbar-collapse.show li:nth-child(3) .nav-link{animation-delay:.12s}.navbar-collapse.show li:nth-child(4) .nav-link{animation-delay:.16s}.navbar-collapse.show li:nth-child(5) .nav-link{animation-delay:.2s}.navbar-collapse.show li:nth-child(6) .nav-link{animation-delay:.24s}.navbar-collapse.show li:nth-child(7) .nav-link{animation-delay:.28s}  /* stagger */
+  .nav-tools{margin-top:14px}.nav-tools .nsearch{flex:1 1 100%;order:-1}   /* search bar shown full-width inside mobile menu */
+  .nav-link.active{border-bottom:1px solid var(--gold)}                    /* keep gold underline on mobile */
+}
+@keyframes navIn{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}  /* slide-in keyframes */
+
+/* ===== 36. SERVICES v2: large image-based cards (image > icon > title > text > CTA) ===== */
+.svc{position:relative;background:#fff;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-2);height:100%;display:flex;flex-direction:column}  /* card shell */
+.svc-img{aspect-ratio:4/3;overflow:hidden}                                /* fixed 4:3 photo frame */
+.svc-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}  /* cover fit */
+.svc:hover .svc-img img{transform:scale(1.05)}                            /* slow zoom */
+.svc-ic{width:64px;height:64px;border-radius:50%;background:var(--ink);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:-34px 0 0 24px;position:relative;z-index:2;box-shadow:0 0 0 5px #fff}  /* icon medallion overlapping the photo */
+.svc-body{padding:12px 24px 26px;display:flex;flex-direction:column;flex:1}  /* text area */
+.svc h4{font-size:19px;margin:10px 0 8px}                                 /* service title */
+.svc p{color:var(--muted);font-size:14px;flex:1}                          /* service text pushes CTA down */
+
+/* ===== 37. B2B CALCULATOR v2: dynamic discount, qualification message, tier progress ===== */
+.calc{background:rgba(255,255,255,.05);border:1px solid rgba(243,156,18,.35);border-radius:var(--radius-lg);padding:28px}  /* panel */
+.calc .form-label{color:#ddd}                                             /* labels on dark */
+.calc input[type=range]{width:100%;accent-color:var(--gold)}              /* gold slider */
+.kgchip{border:1px solid rgba(243,156,18,.45);background:transparent;color:var(--lgold);border-radius:50px;padding:4px 14px;font-size:12.5px;margin:4px 4px 0 0;transition:.3s}  /* quick weight chips */
+.kgchip:hover{background:var(--gold);color:#111}                          /* chip hover */
+.calc-out{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:center}  /* 2 x 2 result boxes */
+.calc-out div{background:rgba(0,0,0,.35);border-radius:var(--radius-md);padding:14px 6px}  /* result box */
+.calc-out b{display:block;font:700 20px 'Poppins';color:var(--lgold)}     /* result number */
+.calc-out small{color:#aaa}                                               /* result label */
+.calc-msg{margin-top:14px;padding:12px 16px;border-radius:var(--radius-md);background:rgba(243,156,18,.12);border:1px solid rgba(243,156,18,.4);color:var(--lgold);font-weight:500;font-size:14px}  /* "You qualify for X%" */
+.calc-msg.win{background:rgba(39,174,96,.15);border-color:rgba(39,174,96,.5);color:#7ee2a8}  /* green when discount unlocked */
+.tier-bar{height:6px;background:rgba(255,255,255,.12);border-radius:6px;overflow:hidden;margin-top:12px}  /* progress track */
+.tier-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--crimson));width:0;transition:width .5s var(--ease)}  /* progress fill to next tier */
+
+/* ===== 38. ABOUT: animated vertical timeline + team cards ===== */
+.tl2{position:relative;max-width:900px;margin:0 auto;padding:10px 0}      /* timeline wrapper */
+.tl2::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:var(--sand);transform:translateX(-50%)}  /* grey track */
+.tl2::after{content:'';position:absolute;left:50%;top:0;width:2px;height:calc(var(--p,0) * 100%);background:linear-gradient(var(--gold),var(--crimson));transform:translateX(-50%)}  /* gold line that draws while scrolling (--p set by JS) */
+.tl2 .ti{position:relative;width:50%;padding:0 46px 46px 0;text-align:right}  /* odd items: left side */
+.tl2 .ti:nth-child(even){margin-left:50%;padding:0 0 46px 46px;text-align:left}  /* even items: right side */
+.tl2 .ti::before{content:'';position:absolute;top:10px;right:-9px;width:18px;height:18px;border-radius:50%;background:var(--cream);border:4px solid var(--crimson)}  /* dot on the line */
+.tl2 .ti:nth-child(even)::before{right:auto;left:-9px}                    /* dot position for right side */
+.tl2 .yr{font:800 34px 'Poppins';color:var(--crimson);line-height:1}      /* big year */
+.tl2 h5{margin:8px 0 6px}                                                 /* milestone title */
+.tl2 p{color:var(--muted);margin:0;font-size:14px}                        /* milestone text */
+@media(max-width:767px){.tl2::before,.tl2::after{left:12px}.tl2 .ti,.tl2 .ti:nth-child(even){width:100%;margin-left:0;padding:0 0 32px 44px;text-align:left}.tl2 .ti::before,.tl2 .ti:nth-child(even)::before{left:3px;right:auto}}  /* phone: single column */
+.tm{background:#fff;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-2);height:100%;transition:transform .3s ease,box-shadow .3s ease}  /* team card */
+.tm:hover{transform:translateY(-8px);box-shadow:var(--shadow-3)}          /* lift on hover */
+.tm .ph{aspect-ratio:1/1;overflow:hidden}                                 /* square photo */
+.tm .ph img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}  /* cover fit */
+.tm:hover .ph img{transform:scale(1.04)}                                  /* subtle zoom */
+.tm-body{padding:20px 22px 24px}                                          /* text area */
+.tm .role{color:var(--crimson);font-size:13px;font-weight:600}            /* position */
+.tm p{color:var(--muted);font-size:13.5px;margin:8px 0 0}                 /* short description */
+
+/* ===== 39. GALLERY v2: masonry grid + smooth lightbox ===== */
+.masonry{column-count:4;column-gap:16px}                                  /* 4 masonry columns */
+@media(max-width:1199px){.masonry{column-count:3}}                        /* laptop: 3 columns */
+@media(max-width:767px){.masonry{column-count:2;column-gap:10px}}         /* phone: 2 columns */
+.gal-item{break-inside:avoid;margin-bottom:16px;transition:opacity .3s ease,transform .3s ease}  /* keep each tile whole inside a column */
+.gal-item.out{opacity:0;transform:scale(.96)}                             /* fade-out state while filtering */
+.gal-item.hide{display:none}                                              /* removed after fade */
+.gi{position:relative;overflow:hidden;border-radius:var(--radius-md);cursor:pointer;box-shadow:var(--shadow-2);background:#222}  /* tile */
+.gi.a{aspect-ratio:4/3}.gi.b{aspect-ratio:1/1}.gi.c{aspect-ratio:3/4}     /* mixed ratios create the masonry rhythm */
+.gi img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}  /* cover = never distorted */
+.gi:hover img{transform:scale(1.05)}                                      /* subtle zoom */
+.gi::after{content:'\F52A';font-family:'bootstrap-icons';position:absolute;inset:0;background:rgba(26,29,32,.6);color:#fff;font-size:36px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}  /* dark overlay + magnifier */
+.gi:hover::after{opacity:1}                                               /* overlay on hover */
+.gi span{position:absolute;inset:auto 0 0 0;z-index:2;padding:30px 14px 12px;color:#fff;font-weight:500;font-size:14px;background:linear-gradient(transparent,rgba(0,0,0,.8))}  /* caption */
+.lb-img{max-width:92vw;max-height:70vh;border-radius:var(--radius-md);box-shadow:var(--shadow-4);transition:opacity .25s ease,transform .25s ease}  /* lightbox photo */
+.lb-img.swap{opacity:0;transform:scale(.97)}                              /* fade between images */
+
+/* ===== 40. ORDER PAGE v2: form left, sticky summary right, success message ===== */
+.sticky-sum{position:sticky;top:96px}                                     /* summary stays visible while scrolling the form */
+@media(max-width:991px){.sticky-sum{position:static}}                     /* mobile: stacks normally */
+.sum-head{border-top:4px solid var(--gold)}                               /* gold top accent on summary */
+.ok-icon{width:84px;height:84px;border-radius:50%;background:#27ae60;color:#fff;font-size:44px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;animation:pop .5s var(--ease)}  /* green tick circle */
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}  /* pop-in */
+
+/* ===== 41. MOBILE UX: bottom action bar, comfortable tap targets ===== */
+.mbar{display:none}                                                       /* hidden on desktop/tablet */
+@media(max-width:767px){
+  body{padding-bottom:64px}                                               /* room so the bar never covers content */
+  .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:1040;background:rgba(26,29,32,.97);backdrop-filter:blur(10px);border-top:1px solid rgba(243,156,18,.4)}  /* fixed bottom bar */
+  .mbar a{flex:1;color:#fff;text-align:center;padding:9px 0 8px;font-size:11.5px;font-weight:500;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:56px}  /* big tap target */
+  .mbar a i{font-size:20px;color:var(--gold)}                             /* icons */
+  .mbar a:nth-child(2) i{color:#25D366}                                   /* WhatsApp green */
+  .mbar b{background:var(--crimson);border-radius:50px;padding:0 7px;font-size:10px;margin-left:3px}  /* cart count */
+  .wa{display:none}                                                       /* floating pill replaced by bar */
+  #toTop{bottom:76px}.deal-fab{bottom:76px}                               /* lift floaters above the bar */
+  .toast-container{margin-bottom:60px}                                    /* live toast above the bar */
+  .btn,.chip,.add,.qty button{min-height:44px}                            /* 44px minimum touch size */
+  .hero{min-height:80vh;padding:90px 0 120px}                             /* shorter hero on phones */
+  .panel{padding:20px}                                                    /* tighter panels */
+}
