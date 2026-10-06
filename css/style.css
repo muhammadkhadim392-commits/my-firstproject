@@ -22,8 +22,9 @@
 
 /* ===== 2. BASE STYLES ===== */
 html{scroll-behavior:smooth}                                   /* smooth anchor scrolling */
-body{font-family:'Poppins',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}  /* body font + page colours */
-h1,h2,h3,h4,h5,.serif{font-family:'Poppins',sans-serif;font-weight:700;letter-spacing:-.3px}      /* bold titles = strong contrast with body text */
+body{font-family:'Poppins',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;font-size:var(--fs-body);line-height:1.65}  /* body font + page colours */
+h1,h2,h3,h4,h5,.serif{font-family:'Poppins',sans-serif;font-weight:700;letter-spacing:-.3px}
+h3,.h3{font-size:var(--fs-h3)}      /* bold titles = strong contrast with body text */
 .script{font-family:'Dancing Script',cursive;color:var(--gold);font-size:1.6rem}                   /* handwritten accent text */
 a{text-decoration:none}                                        /* no underline on links */
 ::selection{background:var(--gold);color:#000}                 /* text-selection colour */
@@ -58,8 +59,8 @@ a{text-decoration:none}                                        /* no underline o
 #ticker{transition:opacity .4s}                                /* fade when ticker text changes */
 
 /* ===== 6. NAVBAR (glassmorphic sticky header) ===== */
-.navbar{background:rgba(26,29,32,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(243,156,18,.35);transition:.35s;padding:12px 0}  /* client spec: blur(10px) + rgba(26,29,32,.95) */
-.navbar.scrolled{padding:5px 0;box-shadow:0 10px 35px rgba(0,0,0,.5)}  /* shrinks + shadow after scrolling */
+.navbar{background:rgba(26,29,32,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(243,156,18,.2);transition:background .45s ease,padding .35s ease,box-shadow .45s ease,border-color .45s;padding:14px 0}  /* client spec: blur(10px) + rgba(26,29,32,.95) */
+.navbar.scrolled{padding:6px 0;background:rgba(26,29,32,.97);border-bottom-color:rgba(243,156,18,.4);box-shadow:0 10px 35px rgba(0,0,0,.5)}  /* shrinks + shadow after scrolling */
 .navbar .logo{width:50px;height:50px;object-fit:contain;border-radius:8px}  /* logo size */
 .brand-t{font:700 19px 'Poppins';color:var(--lgold);letter-spacing:2px;line-height:1}  /* brand name */
 .brand-s{font-size:9.5px;color:#fff;letter-spacing:3px;text-transform:uppercase}  /* brand sub-title */
@@ -80,17 +81,11 @@ a{text-decoration:none}                                        /* no underline o
 
 /* ===== 8. TRUST & QUALITY BADGES GRID (4 columns under hero) ===== */
 .strip{margin-top:-70px;position:relative;z-index:5}           /* overlaps bottom of hero */
-.strip .box{background:#fff;border-radius:var(--r);box-shadow:0 25px 60px rgba(0,0,0,.18);padding:26px 18px}  /* white floating card */
-.strip .it{display:flex;align-items:center;gap:14px;padding:6px 14px}  /* one trust item */
-.strip .ic{width:54px;height:54px;border-radius:50%;background:var(--sand);color:var(--crimson);display:flex;align-items:center;justify-content:center;font-size:24px;transition:.4s;flex:none}  /* round icon */
-.strip .it:hover .ic{background:var(--crimson);color:#fff;transform:rotateY(360deg)}  /* icon flips on hover */
-.strip b{font-size:14px;display:block}                         /* trust title */
-.strip small{color:var(--muted)}                               /* trust sub-text */
 
 /* ===== 9. SECTION TITLES + DARK SECTIONS ===== */
 .eyebrow{color:var(--crimson);font-weight:700;letter-spacing:3px;font-size:12px;text-transform:uppercase}  /* small red label above titles */
 .sec{padding:var(--section-y) 0}                                           /* standard section spacing */
-.sec-title{font-size:clamp(28px,4vw,42px);font-weight:800;margin:6px 0 0}     /* big section title */
+.sec-title{font-size:var(--fs-h2);font-weight:800;margin:6px 0 0}     /* big section title */
 .dark{background:var(--ink);color:#e9e6e1}                     /* dark section background */
 .dark .sec-title{color:#fff}                                   /* white titles on dark */
 .dark .eyebrow{color:var(--gold)}                              /* gold label on dark */
@@ -309,7 +304,7 @@ footer a:hover{color:var(--gold);padding-left:6px}             /* nudge on hover
 @media(max-width:576px){.wa span{display:none}.wa{padding:0 14px}}  /* phone: WhatsApp pill becomes icon only */
 
 /* ===== 29. ACCESSIBILITY - switch animations off for users who prefer reduced motion ===== */
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal,.hero-eyebrow,.hero h1,.hero p.lead2,.hero-cta{opacity:1!important;transform:none!important}}
 
 
 /* ##########################################################################
@@ -340,9 +335,9 @@ footer a:hover{color:var(--gold);padding-left:6px}             /* nudge on hover
 @keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.07)}}  /* slow, subtle zoom */
 .hero-eyebrow{display:inline-flex;align-items:center;gap:14px;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--lgold);font-weight:600}  /* small premium eyebrow text */
 .hero-eyebrow::before{content:'';width:46px;height:1px;background:var(--gold)}  /* thin gold line before eyebrow */
-.hero h1{font-size:clamp(44px,7.2vw,92px);font-weight:800;line-height:1.02;letter-spacing:-1.5px;margin:22px 0 22px;max-width:880px}  /* very large typography */
+.hero h1{font-size:var(--fs-h1);font-weight:800;line-height:1.05;letter-spacing:-1px;margin:22px 0 22px;max-width:820px}  /* very large typography */
 .hero h1 em{font-style:normal;color:var(--gold)}                         /* gold emphasis word */
-.hero p.lead2{color:#d6d3cd;max-width:520px;font-size:1.08rem}           /* supporting sentence */
+.hero p.lead2{color:#d6d3cd;max-width:520px;font-size:1.12rem}           /* supporting sentence */
 .hero-cta{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:34px}  /* CTA row */
 .btn-lg-x{padding:16px 40px;font-size:16px}                              /* dominant CTA is larger */
 .link-sec{color:#fff;border:1.5px solid rgba(255,255,255,.4);border-radius:50px;padding:13px 28px;font-weight:600;font-size:14px;transition:.3s}  /* secondary CTA = quiet outline */
@@ -405,27 +400,12 @@ footer a:hover{color:var(--gold);padding-left:6px}             /* nudge on hover
 .calc input[type=range]{width:100%;accent-color:var(--gold)}              /* gold slider */
 .kgchip{border:1px solid rgba(243,156,18,.45);background:transparent;color:var(--lgold);border-radius:50px;padding:4px 14px;font-size:12.5px;margin:4px 4px 0 0;transition:.3s}  /* quick weight chips */
 .kgchip:hover{background:var(--gold);color:#111}                          /* chip hover */
-.calc-out{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:center}  /* 2 x 2 result boxes */
-.calc-out div{background:rgba(0,0,0,.35);border-radius:var(--radius-md);padding:14px 6px}  /* result box */
-.calc-out b{display:block;font:700 20px 'Poppins';color:var(--lgold)}     /* result number */
-.calc-out small{color:#aaa}                                               /* result label */
 .calc-msg{margin-top:14px;padding:12px 16px;border-radius:var(--radius-md);background:rgba(243,156,18,.12);border:1px solid rgba(243,156,18,.4);color:var(--lgold);font-weight:500;font-size:14px}  /* "You qualify for X%" */
 .calc-msg.win{background:rgba(39,174,96,.15);border-color:rgba(39,174,96,.5);color:#7ee2a8}  /* green when discount unlocked */
 .tier-bar{height:6px;background:rgba(255,255,255,.12);border-radius:6px;overflow:hidden;margin-top:12px}  /* progress track */
 .tier-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--crimson));width:0;transition:width .5s var(--ease)}  /* progress fill to next tier */
 
 /* ===== 38. ABOUT: animated vertical timeline + team cards ===== */
-.tl2{position:relative;max-width:900px;margin:0 auto;padding:10px 0}      /* timeline wrapper */
-.tl2::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:var(--sand);transform:translateX(-50%)}  /* grey track */
-.tl2::after{content:'';position:absolute;left:50%;top:0;width:2px;height:calc(var(--p,0) * 100%);background:linear-gradient(var(--gold),var(--crimson));transform:translateX(-50%)}  /* gold line that draws while scrolling (--p set by JS) */
-.tl2 .ti{position:relative;width:50%;padding:0 46px 46px 0;text-align:right}  /* odd items: left side */
-.tl2 .ti:nth-child(even){margin-left:50%;padding:0 0 46px 46px;text-align:left}  /* even items: right side */
-.tl2 .ti::before{content:'';position:absolute;top:10px;right:-9px;width:18px;height:18px;border-radius:50%;background:var(--cream);border:4px solid var(--crimson)}  /* dot on the line */
-.tl2 .ti:nth-child(even)::before{right:auto;left:-9px}                    /* dot position for right side */
-.tl2 .yr{font:800 34px 'Poppins';color:var(--crimson);line-height:1}      /* big year */
-.tl2 h5{margin:8px 0 6px}                                                 /* milestone title */
-.tl2 p{color:var(--muted);margin:0;font-size:14px}                        /* milestone text */
-@media(max-width:767px){.tl2::before,.tl2::after{left:12px}.tl2 .ti,.tl2 .ti:nth-child(even){width:100%;margin-left:0;padding:0 0 32px 44px;text-align:left}.tl2 .ti::before,.tl2 .ti:nth-child(even)::before{left:3px;right:auto}}  /* phone: single column */
 .tm{background:#fff;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-2);height:100%;transition:transform .3s ease,box-shadow .3s ease}  /* team card */
 .tm:hover{transform:translateY(-8px);box-shadow:var(--shadow-3)}          /* lift on hover */
 .tm .ph{aspect-ratio:1/1;overflow:hidden}                                 /* square photo */
@@ -475,3 +455,151 @@ footer a:hover{color:var(--gold);padding-left:6px}             /* nudge on hover
   .hero{min-height:80vh;padding:90px 0 120px}                             /* shorter hero on phones */
   .panel{padding:20px}                                                    /* tighter panels */
 }
+
+
+/* ##########################################################################
+   v3 FINAL POLISH LAYER (10/10 roadmap)
+   ########################################################################## */
+
+/* ===== 42. TYPE SCALE (one scale for the whole site) ===== */
+:root{
+  --fs-h1:clamp(40px,5.2vw,64px);   /* H1: 52-64px on desktop */
+  --fs-h2:clamp(30px,3.6vw,44px);   /* H2: 36-44px */
+  --fs-h3:clamp(21px,2.3vw,26px);   /* H3: 22-28px */
+  --fs-body:1rem;                   /* body: 16px (readable) */
+  --fs-small:.875rem;               /* small: 14px */
+}
+small,.small{font-size:var(--fs-small)}   /* small text uses the scale */
+
+/* ===== 43. ACCESSIBILITY: skip link + visible keyboard focus ===== */
+.skip{position:absolute;left:-999px;top:8px;z-index:10000;background:var(--gold);color:#111;padding:10px 18px;border-radius:50px;font-weight:600}  /* hidden until focused */
+.skip:focus{left:12px}                                                    /* appears on first Tab press */
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}  /* clear focus ring for keyboard users */
+.pcard:focus-within .qv-btn{opacity:1;transform:translate(-50%,0)}        /* quick-view button shows when tabbed to */
+button.gi{border:0;padding:0;display:block;width:100%;text-align:left}   /* gallery tiles are real <button>s */
+
+/* ===== 44. HERO ENTRANCE (staggered, subtle) ===== */
+.hero-eyebrow,.hero h1,.hero p.lead2,.hero-cta{opacity:0;animation:heroIn .9s var(--ease) forwards}  /* start hidden, then rise in */
+.hero-eyebrow{animation-delay:.25s}.hero h1{animation-delay:.45s}.hero p.lead2{animation-delay:.7s}.hero-cta{animation-delay:.9s}  /* order: eyebrow > H1 > text > CTA */
+@keyframes heroIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}  /* gentle rise */
+.hero::before{opacity:0;animation:bgIn 1.4s ease forwards,kenburns 26s ease-in-out 1.4s infinite alternate}  /* background fades in first, then slow zoom */
+@keyframes bgIn{to{opacity:1}}                                            /* fade-in keyframes */
+.hero-sub{display:flex;flex-wrap:wrap;gap:6px 18px;margin:0 0 6px;color:var(--lgold);font-weight:600;letter-spacing:.5px}  /* "Fresh • Hygienic • 100% Halal" */
+
+/* ===== 45. TRUST STRIP (compact: understood in 2 seconds) ===== */
+.strip{margin-top:-46px;position:relative;z-index:5}                      /* overlaps hero edge */
+.strip .box{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-4);padding:14px 10px}  /* slim white bar */
+.strip .it{display:flex;align-items:center;gap:10px;padding:6px 12px;justify-content:center}  /* one trust item */
+.strip .ic{width:38px;height:38px;border-radius:50%;background:var(--sand);color:var(--crimson);display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}  /* small round icon */
+.strip b{font-size:13px;font-weight:600;line-height:1.25}                 /* short label only */
+@media(min-width:768px){.strip .col-md{border-right:1px solid var(--sand)}.strip .col-md:last-child{border:0}}  /* thin dividers on desktop */
+
+/* ===== 46. CATEGORY CARDS (image, zoom, dark overlay, text rises, CTA appears) ===== */
+.catc{position:relative;display:block;border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:4/5;box-shadow:var(--shadow-2);color:#fff;background:#222}  /* card shell */
+.catc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}  /* photo */
+.catc::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 35%,rgba(0,0,0,.78));transition:background .4s}  /* bottom shade for text */
+.catc:hover img,.catc:focus-visible img{transform:scale(1.06)}            /* slight zoom */
+.catc:hover::after,.catc:focus-visible::after{background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.88))}  /* overlay darkens */
+.catc .cc{position:absolute;left:0;right:0;bottom:0;padding:22px;z-index:2;transform:translateY(34px);transition:transform .4s var(--ease)}  /* text starts lower */
+.catc:hover .cc,.catc:focus-visible .cc{transform:none}                   /* text moves up */
+.catc h3{margin:0;color:#fff;font-size:24px}                              /* category name */
+.catc small{display:block;color:#d6d3cd}                                  /* item count */
+.catc .go{display:inline-block;margin-top:8px;color:var(--lgold);font-weight:600;font-size:14px;opacity:0;transition:opacity .35s}  /* "Explore" */
+.catc:hover .go,.catc:focus-visible .go{opacity:1}                        /* CTA appears */
+@media(hover:none){.catc .cc{transform:none}.catc .go{opacity:1}}         /* touch: always show */
+
+/* ===== 47. PRODUCT CARD v3: equal heights, 2-line description, stock status, quick-view icon ===== */
+.pcard{display:flex;flex-direction:column}                                /* lets the footer of every card align */
+.pinfo{flex:1;display:flex;flex-direction:column}                         /* info fills remaining height */
+.pinfo .push{margin-top:auto}                                             /* price + buttons sit at the bottom */
+.pcard .pdesc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.9em}  /* always 2 lines = equal card heights */
+.pcard .phalal{font-size:12px;color:var(--muted);font-weight:500}         /* stock + halal line */
+.pcard .phalal .stock{color:#1e8449;font-weight:600}                      /* green "In Stock" */
+.pcard .phalal .stock i{font-size:8px;vertical-align:middle}              /* tiny dot */
+.qv-ico{position:absolute;top:10px;right:10px;z-index:3;width:36px;height:36px;border:0;border-radius:50%;background:rgba(255,255,255,.94);color:var(--ink);box-shadow:var(--shadow-1);transition:.3s}  /* round eye icon */
+.qv-ico:hover{background:var(--gold)}                                     /* hover colour */
+.pcard .stars{display:flex;align-items:center;gap:2px}                    /* rating row */
+
+/* ===== 48. QUICK VIEW: weight chips ===== */
+.wchips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}           /* chip row */
+.wchip{border:1.5px solid var(--sand);background:#fff;border-radius:50px;padding:7px 18px;font-weight:600;font-size:14px;transition:.25s}  /* weight chip */
+.wchip:hover{border-color:var(--gold)}                                    /* hover */
+.wchip.on{background:var(--ink);color:var(--lgold);border-color:var(--ink)}  /* selected weight */
+
+/* ===== 49. BUTCHER'S GUIDE: detail facts grid ===== */
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 18px}  /* 2 x 2 facts */
+.facts div{background:rgba(255,255,255,.06);border:1px solid rgba(243,156,18,.25);border-radius:var(--radius-md);padding:10px 14px;color:#fff}  /* one fact */
+.facts small{display:block;color:var(--lgold);font-size:11.5px;letter-spacing:.5px;text-transform:uppercase}  /* fact label */
+
+/* ===== 50. DEAL CARDS (visually different from products) ===== */
+.dealc{position:relative;background:linear-gradient(150deg,#1a1d20,#2b3035);border:1px solid rgba(243,156,18,.5);border-radius:var(--radius-lg);color:#fff;overflow:hidden;height:100%;display:flex;flex-direction:column;box-shadow:var(--shadow-2)}  /* dark premium card */
+.dealc .di{aspect-ratio:16/9;overflow:hidden;position:relative}           /* photo strip */
+.dealc .di img{width:100%;height:100%;object-fit:cover;opacity:.85}       /* slightly dimmed photo */
+.dealc .lim{position:absolute;top:12px;left:12px;background:var(--crimson);color:#fff;font-size:11px;font-weight:700;letter-spacing:1.5px;padding:5px 12px;border-radius:50px}  /* LIMITED OFFER */
+.dealc .db{padding:20px 22px 24px;display:flex;flex-direction:column;flex:1}  /* text area */
+.dealc h3{color:#fff;margin:0 0 6px}                                      /* deal title */
+.dealc .nw{font:800 30px 'Poppins';color:var(--lgold)}                    /* new price */
+.dealc .od{color:#9aa1a7;text-decoration:line-through;margin-left:8px}    /* old price */
+.dealc .sv{display:inline-block;background:rgba(39,174,96,.18);color:#7ee2a8;font-weight:700;font-size:13px;padding:3px 12px;border-radius:50px;margin:8px 0 14px}  /* Save Rs X */
+.dealc .bar{height:6px;background:rgba(255,255,255,.14);border-radius:6px;overflow:hidden}  /* stock bar track */
+.dealc .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--crimson))}  /* stock bar fill */
+.dealc .left{font-size:12px;color:#c3c8cc;margin:6px 0 12px}              /* "Only 8 packs left" */
+.dealc .cd{font-size:13px;color:#c3c8cc;margin-bottom:14px}               /* countdown label */
+.countdown{font:700 20px 'Poppins';color:#fff;letter-spacing:1px;font-variant-numeric:tabular-nums}  /* HH:MM:SS (no jitter) */
+
+/* ===== 51. CALCULATOR: itemised receipt ===== */
+.calc-out{margin-top:16px;background:rgba(0,0,0,.3);border-radius:var(--radius-md);padding:6px 18px}  /* receipt panel */
+.calc-out div{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed rgba(255,255,255,.14);color:#d6d3cd;font-size:14.5px}  /* receipt row */
+.calc-out b{color:#fff;font-weight:600}                                   /* value */
+.calc-out .disc b{color:#7ee2a8}                                          /* discount in green */
+.calc-out .tot{border-top:2px solid var(--gold);border-bottom:0;margin-top:4px;font-size:18px;color:#fff}  /* total row */
+.calc-out .tot b{color:var(--lgold);font-size:22px}                       /* total value */
+
+/* ===== 52. ABOUT: story steps, horizontal timeline, team hover ===== */
+.steps{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:20px 0}  /* Origin > Growth > Processing > Today */
+.steps span{background:#fff;border:1px solid var(--sand);box-shadow:var(--shadow-1);border-radius:50px;padding:8px 18px;font-weight:600;font-size:14px}  /* step pill */
+.steps i{color:var(--gold)}                                               /* arrow */
+.tlh{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding-top:34px}  /* horizontal timeline */
+.tlh::before{content:'';position:absolute;left:12%;right:12%;top:9px;height:2px;background:var(--sand)}  /* grey track */
+.tlh::after{content:'';position:absolute;left:12%;top:9px;height:2px;width:calc(var(--p,0) * 76%);background:linear-gradient(90deg,var(--gold),var(--crimson))}  /* gold line draws while scrolling */
+.tlh .ti{position:relative;text-align:center;background:#fff;border-radius:var(--radius-md);padding:22px 16px;box-shadow:var(--shadow-2)}  /* milestone card */
+.tlh .ti::before{content:'';position:absolute;top:-34px;left:50%;transform:translateX(-50%);width:20px;height:20px;border-radius:50%;background:var(--cream);border:4px solid var(--crimson)}  /* dot on the line */
+.tlh .yr{font:800 30px 'Poppins';color:var(--crimson);line-height:1}      /* year */
+.tlh h5{margin:8px 0 6px}                                                 /* title */
+.tlh p{color:var(--muted);margin:0;font-size:14px}                        /* text */
+@media(max-width:767px){.tlh{grid-template-columns:1fr;padding:0 0 0 34px}.tlh::before{left:9px;right:auto;top:0;bottom:0;width:2px;height:auto}.tlh::after{left:9px;top:0;width:2px;height:calc(var(--p,0) * 100%)}.tlh .ti{text-align:left}.tlh .ti::before{left:-34px;top:22px;transform:none}}  /* phone: vertical */
+.tm .ph{position:relative}                                                /* for overlay */
+.tm .ph::after{content:'';position:absolute;inset:0;background:rgba(26,29,32,.55);opacity:0;transition:opacity .35s}  /* photo darkens on hover */
+.tm .soc{position:absolute;left:50%;top:50%;z-index:2;transform:translate(-50%,-30%);width:46px;height:46px;border-radius:50%;background:var(--gold);color:#111;display:flex;align-items:center;justify-content:center;font-size:20px;opacity:0;transition:.35s var(--ease)}  /* profile icon */
+.tm:hover .ph::after,.tm:focus-within .ph::after{opacity:1}               /* darken */
+.tm:hover .soc,.tm:focus-within .soc{opacity:1;transform:translate(-50%,-50%)}  /* icon appears */
+
+/* ===== 53. GALLERY: empty state ===== */
+.empty-state{text-align:center;padding:60px 0;color:var(--muted)}         /* "No images" box */
+.empty-state i{font-size:46px;color:var(--gold)}                          /* icon */
+
+/* ===== 54. SEARCH EMPTY STATE + result count ===== */
+.nores{text-align:center;padding:50px 0}                                  /* no-results box */
+.nores i{font-size:46px;color:var(--gold)}                                /* icon */
+.res-count{color:var(--muted);font-size:var(--fs-small);text-align:center;margin-top:10px}  /* "12 products" */
+
+/* ===== 55. ORDER PAGE: stepper, free-delivery bar, error text ===== */
+.stepper{display:flex;align-items:center;justify-content:center;gap:0;margin:0 auto 34px;max-width:620px}  /* (1) Cart - (2) Delivery - (3) Confirm */
+.stepper .st{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px;color:var(--muted)}  /* one step */
+.stepper .st b{width:34px;height:34px;border-radius:50%;background:#fff;border:2px solid var(--sand);display:flex;align-items:center;justify-content:center;transition:.35s}  /* number circle */
+.stepper .st.now{color:var(--ink)}.stepper .st.now b{border-color:var(--gold);background:var(--gold);color:#111}  /* current step */
+.stepper .st.done{color:#1e8449}.stepper .st.done b{background:#27ae60;border-color:#27ae60;color:#fff}  /* finished step */
+.stepper .ln{flex:1;height:2px;background:var(--sand);margin:0 12px;min-width:18px}  /* connector */
+.free{background:var(--sand);border-radius:var(--radius-md);padding:12px 16px;margin:14px 0 4px;font-size:14px}  /* free delivery box */
+.free .track{height:8px;background:#fff;border-radius:8px;overflow:hidden;margin-top:8px}  /* progress track */
+.free .track i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#27ae60);width:0;transition:width .5s var(--ease)}  /* progress fill */
+.citem .qv{min-width:58px}                                                /* room for "250 g" */
+.citem .lt{min-width:88px;text-align:right}                               /* line total */
+.invalid-feedback{font-size:13px}                                         /* error text */
+.empty h4{font-size:20px}                                                 /* empty cart title */
+@media(max-width:575px){.citem{flex-wrap:wrap}.citem .flex-fill{flex:1 1 60%}.stepper .st span{display:none}}  /* phone: wrap cart rows, numbers-only stepper */
+
+/* ===== 56. FOOTER v3 ===== */
+.fcols h5{font-size:16px}                                                 /* footer column titles */
+.fcols a{font-size:14px}                                                  /* footer links */
+.fnews{background:var(--coal2);border-bottom:1px solid #353b40}           /* newsletter band */
