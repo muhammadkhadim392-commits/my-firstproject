@@ -33,11 +33,11 @@ if (dm) {
 var cds = $$('.countdown');
 if (cds.length) {
   var pad = function (n) { return (n < 10 ? '0' : '') + n; };
-  var tick = function () {
+  window.countdown = function () {
     var now = new Date(), end = new Date(now); end.setHours(24, 0, 0, 0);                  // next midnight
     var s = Math.floor((end - now) / 1000), h = Math.floor(s / 3600), mi = Math.floor(s % 3600 / 60), se = s % 60;
     cds.forEach(function (c) { c.textContent = pad(h) + ':' + pad(mi) + ':' + pad(se); });
   };
-  tick(); setInterval(tick, 1000);
+  countdown(); setInterval(countdown, 1000);                                            // starts immediately - never shows --:--:--
 }
 })(window.PSH);

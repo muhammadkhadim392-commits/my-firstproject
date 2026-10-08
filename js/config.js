@@ -1,7 +1,8 @@
 /* ##########################################################################
    js/config.js  -  SETTINGS + SHARED HELPERS  (must load FIRST)
    JS ARCHITECTURE (each file has ONE responsibility; they share the PSH object):
-     config.js     settings + helpers          | ui.js        navbar, scroll, reveal, counters, toast
+     config.js     settings + helpers          | data.js      MASTER PRODUCT + PRICE LIST
+     render.js     builds cards from data      | ui.js        navbar, scroll, reveal, counters, toast
      cart.js       cart engine + cart page     | products.js  filters, search, quick view
      checkout.js   validation + WhatsApp order | calculator.js bulk quote calculator
      gallery.js    filters + lightbox          | main.js      contact form, deals, countdown, links
@@ -17,7 +18,7 @@ window.PSH = {
   money: function (n) { return 'Rs ' + Math.round(n).toLocaleString(); },                             // 1500 -> "Rs 1,500"
   slug: function (s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }, // "Fresh Beef" -> "fresh-beef"
   page: (location.pathname.split('/').pop() || 'index.html').toLowerCase(),                           // current file, e.g. "products.html"
-  fmtKg: function (q, unit) {                                                                         // 0.25 -> "250 g", 2 -> "2 kg", pack -> "1 pack"
+  fmtKg: function (q, unit) {                                                                         // 0.25 -> "250 g", 1 -> "1 kg", 1.5 -> "1.5 kg", pack -> "1 pack"
     if (unit === 'pack') return q + (q === 1 ? ' pack' : ' packs');
     return q < 1 ? Math.round(q * 1000) + ' g' : (+q.toFixed(2)) + ' kg';
   },
