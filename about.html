@@ -6,12 +6,15 @@
 <link rel="icon" href="images/favicon.jpg" type="image/jpeg">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>#loader{position:fixed;inset:0;background:#0E0B0A;z-index:9999;animation:ldx .5s 1.6s forwards}@keyframes ldx{to{opacity:0;visibility:hidden;pointer-events:none}}</style>
-<link href="css/style.css?v=20261005" rel="stylesheet">
+<link href="css/style.css?v=20261009" rel="stylesheet">
 </head><body>
+<!-- Accessibility: keyboard users can jump straight to the content -->
+<a class="skip" href="#main">Skip to content</a>
 <!-- Loading screen (hidden automatically by CSS after ~2s and by JS on page load) -->
-<div id="loader"><div class="ring"></div><b>PREMIUM</b></div><!-- Gold scroll-progress line at very top; width is set by script.js -->
+<div id="loader"><div class="ring"></div><b>PREMIUM</b></div><!-- Gold scroll-progress line at very top; width is set by js/ui.js -->
 <div id="progress"></div>
 <!-- ===== SECTION: Top Announcement Bar ===== -->
 <div class="ann"><div class="container d-flex flex-wrap justify-content-center justify-content-lg-between align-items-center gap-2">
@@ -26,9 +29,10 @@
 <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nv" aria-controls="nv" aria-expanded="false" aria-label="Menu"><span class="tg"></span><span class="tg"></span><span class="tg"></span></button><!-- animated hamburger: turns into X -->
 <!-- Menu links; the current page gets a gold underline (class "active") -->
 <div class="collapse navbar-collapse" id="nv"><ul class="navbar-nav mx-auto"><li><a class="nav-link" href="index.html">Home</a></li><li><a class="nav-link active" href="about.html">About</a></li><li><a class="nav-link" href="products.html">Products</a></li><li><a class="nav-link" href="services.html">Services</a></li><li><a class="nav-link" href="facilities.html">Facilities</a></li><li><a class="nav-link" href="gallery.html">Gallery</a></li><li><a class="nav-link" href="contact.html">Contact</a></li></ul>
-<div class="d-flex align-items-center gap-3 flex-wrap nav-tools"><!-- Navbar search: press Enter -> filters on Products page, or redirects to products.html?search=... --><label class="nsearch"><i class="bi bi-search"></i><input id="navSearch" type="search" placeholder="Search meat..." aria-label="Search meat"></label><!-- WhatsApp icon (number is set in js/script.js) --><a data-wa class="navwa" target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a><!-- Cart icon: number = total kg in cart (kept in sync on every page by script.js) --><a href="order.html" class="cart"><i class="bi bi-cart3"></i><span id="cartBadgeCount">0</span></a><a href="order.html" class="btn btn-gold py-2 magnetic">Order Now</a></div>
+<div class="d-flex align-items-center gap-3 flex-wrap nav-tools"><!-- Navbar search: press Enter -> filters on Products page, or redirects to products.html?search=... --><label class="nsearch"><i class="bi bi-search"></i><input id="navSearch" type="search" placeholder="Search meat..." aria-label="Search meat"></label><!-- WhatsApp icon (number is set in js/config.js) --><a data-wa class="navwa" target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a><!-- Cart icon: number = total kg in cart (kept in sync on every page by js files) --><a href="order.html" class="cart"><i class="bi bi-cart3" aria-hidden="true"></i><span id="cartBadgeCount" aria-live="polite">0</span><span class="visually-hidden">items in cart</span></a><a href="order.html" class="btn btn-gold py-2 magnetic">Order Now</a></div>
 </div></div></nav>
 <!-- ===== END SECTION: Navigation Bar ===== -->
+<main id="main"><!-- page content starts here (skip-link target) -->
 
 <!-- ===== SECTION: Page Banner ===== -->
 <section class="phero" style="background-image:linear-gradient(90deg,rgba(14,11,10,.92),rgba(14,11,10,.55)),url('images/quality-team.jpg')"><div class="container position-relative" style="z-index:2"><p class="crumb reveal"><a href="index.html">Home</a> &nbsp;/&nbsp; About Us</p><span class="script reveal">Welcome to</span><h1 class="reveal" data-d="100">About <span style="color:var(--gold)">Premium Slaughter House</span></h1><div class="reveal" data-d="200" style="background:var(--gold);width:70px;height:3px;margin-top:20px"></div></div></section>
@@ -37,21 +41,21 @@
 <!-- ===== SECTION: Story Banner ===== -->
 <section class="sec"><div class="container"><div class="row g-5 align-items-center">
 <div class="col-lg-6 reveal l"><div class="imgwrap"><img src="images/company-building.jpg" alt="Facility exterior"><div class="exp"><b>15+</b><small>Years of Excellence</small></div></div></div>
-<div class="col-lg-6 reveal r"><span class="eyebrow">Our Story</span><h2 class="sec-title">Clean Food. Certified Halal. Trusted Quality.</h2><p class="text-secondary">We started with one belief: every family deserves meat that is clean, honest and truly halal. Today our modern facility handles every step &mdash; slaughter, chilling, cutting and cold-chain dispatch &mdash; under strict hygiene controls and Shariah-compliant supervision.</p><p class="text-secondary">From ante-mortem inspection to vacuum sealing, nothing is left to chance. That is the Premium promise.</p><a href="products.html" class="btn btn-gold magnetic">Explore Products</a></div></div></div></section>
+<div class="col-lg-6 reveal r"><span class="eyebrow">Our Story</span><h2 class="sec-title">Clean Food. Certified Halal. Trusted Quality.</h2><p class="text-secondary">We started with one belief: every family deserves meat that is clean, honest and truly halal. Today our modern facility handles every step &mdash; slaughter, chilling, cutting and cold-chain dispatch &mdash; under strict hygiene controls and Shariah-compliant supervision.</p><div class="steps" aria-label="Our story in four steps"><span>Origin</span><i class="bi bi-arrow-right" aria-hidden="true"></i><span>Growth</span><i class="bi bi-arrow-right" aria-hidden="true"></i><span>Modern Processing</span><i class="bi bi-arrow-right" aria-hidden="true"></i><span>Today</span></div><a href="products.html" class="btn btn-gold magnetic">Explore Products</a></div></div></div></section>
 <!-- ===== END SECTION: Story Banner ===== -->
 
 <!-- ===== SECTION: Animated Counter Grid ===== -->
 <section class="dark" id="statsSection"><div class="container"><div class="row"><div class="col-6 col-md-3 stat"><b><span class="counter-val" data-target="5000" data-suf="+">0</span></b><small>Happy Families Served</small></div><div class="col-6 col-md-3 stat"><b><span class="counter-val" data-target="100" data-suf="%">0</span></b><small>Certified Halal</small></div><div class="col-6 col-md-3 stat"><b><span class="counter-val" data-target="15" data-suf="+">0</span></b><small>Years Experience</small></div><div class="col-6 col-md-3 stat"><b><span class="counter-val" data-target="0" data-suf="">0</span></b><small>Temperature Breakages</small></div></div></div></section>
 <!-- ===== END SECTION: Animated Counter Grid ===== -->
 
-<!-- ===== SECTION: Our Journey - animated timeline (line draws while scrolling; script.js section 9) ===== -->
+<!-- ===== SECTION: Our Journey - animated timeline (line draws while scrolling; js files) ===== -->
 <section class="sec"><div class="container"><div class="text-center mb-5 reveal"><span class="eyebrow">Our Journey</span><h2 class="sec-title">How We Grew</h2></div>
-<div class="tl2"><!-- years are SAMPLE values consistent with "15+ years" - confirm real dates with the client -->
-<div class="ti reveal l"><span class="yr">2011</span><h5>Founded</h5><p>Started with one promise: clean, honest, halal meat for local families.</p></div>
-<div class="ti reveal r"><span class="yr">2015</span><h5>Modern Facility</h5><p>Invested in a modern slaughter, chilling and packaging plant.</p></div>
-<div class="ti reveal l"><span class="yr">2020</span><h5>ISO &amp; HACCP</h5><p>Adopted international food-safety systems and routine lab testing.</p></div>
-<div class="ti reveal r"><span class="yr">2026</span><h5>Regional Expansion</h5><p>Cold-chain delivery and bulk supply growing across the region.</p></div></div></div></section>
-<!-- ===== END SECTION: Our Journey - animated timeline (line draws while scrolling; script.js section 9) ===== -->
+<div class="tlh"><!-- years are SAMPLE values consistent with "15+ years" - confirm real dates with the client -->
+<div class="ti reveal" data-d="0"><span class="yr">2011</span><h5>Founded</h5><p>Started with one promise: clean, honest, halal meat for local families.</p></div>
+<div class="ti reveal" data-d="250"><span class="yr">2015</span><h5>Modern Facility</h5><p>Invested in a modern slaughter, chilling and packaging plant.</p></div>
+<div class="ti reveal" data-d="0"><span class="yr">2020</span><h5>ISO &amp; HACCP</h5><p>Adopted international food-safety systems and routine lab testing.</p></div>
+<div class="ti reveal" data-d="750"><span class="yr">2026</span><h5>Regional Expansion</h5><p>Cold-chain delivery and bulk supply growing across the region.</p></div></div></div></section>
+<!-- ===== END SECTION: Our Journey - animated timeline (line draws while scrolling; js files) ===== -->
 
 <!-- ===== SECTION: Mission & Vision ===== -->
 <section class="pb-5"><div class="container"><div class="row g-4">
@@ -68,7 +72,7 @@
 <!-- ===== END SECTION: Customer Testimonial Slider ===== -->
 
 <!-- ===== SECTION: Our Team ===== -->
-<section class="sec"><div class="container"><div class="text-center mb-5 reveal"><span class="eyebrow">Our Team</span><h2 class="sec-title">The People Behind Premium</h2><!-- sample names: replace with real staff --></div><div class="row g-4"><div class="col-md-4 reveal" data-d="0"><!-- team member: Dr. Ahmed Raza --><article class="tm"><div class="ph"><img src="images/quality-team.jpg" alt="Dr. Ahmed Raza" loading="lazy" onerror="this.onerror=null;this.src='images/premium-beef.jpg'"><!-- 1:1 photo --></div><div class="tm-body"><h5>Dr. Ahmed Raza</h5><!-- name --><div class="role">Head of Quality Control</div><!-- position --><p>Leads daily inspection and food-safety audits across every batch.</p><!-- short description --></div></article></div><div class="col-md-4 reveal" data-d="120"><!-- team member: Usman Tariq --><article class="tm"><div class="ph"><img src="images/staff-working2.jpg" alt="Usman Tariq" loading="lazy" onerror="this.onerror=null;this.src='images/premium-beef.jpg'"><!-- 1:1 photo --></div><div class="tm-body"><h5>Usman Tariq</h5><!-- name --><div class="role">Production Manager</div><!-- position --><p>Oversees halal slaughter, deboning and hygienic processing.</p><!-- short description --></div></article></div><div class="col-md-4 reveal" data-d="240"><!-- team member: Bilal Hussain --><article class="tm"><div class="ph"><img src="images/staff-working3.jpeg" alt="Bilal Hussain" loading="lazy" onerror="this.onerror=null;this.src='images/premium-beef.jpg'"><!-- 1:1 photo --></div><div class="tm-body"><h5>Bilal Hussain</h5><!-- name --><div class="role">Cold-Chain &amp; Logistics Lead</div><!-- position --><p>Keeps every delivery between 0 and 4 degrees from dispatch to doorstep.</p><!-- short description --></div></article></div></div></div></section>
+<section class="sec"><div class="container"><div class="text-center mb-5 reveal"><span class="eyebrow">Our Team</span><h2 class="sec-title">The People Behind Premium</h2><!-- sample names: replace with real staff --></div><div class="row g-4"><div class="col-md-4 reveal" data-d="0"><!-- team member: Dr. Ahmed Raza --><article class="tm"><div class="ph"><img src="images/quality-team.jpg" alt="Dr. Ahmed Raza" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='images/premium-beef.jpg'"><!-- 1:1 photo --><a class="soc" href="#" aria-label="Dr. Ahmed Raza profile"><i class="bi bi-linkedin" aria-hidden="true"></i></a><!-- appears on hover --></div><div class="tm-body"><h5>Dr. Ahmed Raza</h5><!-- name --><div class="role">Head of Quality Control</div><!-- position --><p>Leads daily inspection and food-safety audits across every batch.</p><!-- short description --></div></article></div><div class="col-md-4 reveal" data-d="120"><!-- team member: Usman Tariq --><article class="tm"><div class="ph"><img src="images/staff-working2.jpg" alt="Usman Tariq" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='images/premium-beef.jpg'"><!-- 1:1 photo --><a class="soc" href="#" aria-label="Usman Tariq profile"><i class="bi bi-linkedin" aria-hidden="true"></i></a><!-- appears on hover --></div><div class="tm-body"><h5>Usman Tariq</h5><!-- name --><div class="role">Production Manager</div><!-- position --><p>Oversees halal slaughter, deboning and hygienic processing.</p><!-- short description --></div></article></div><div class="col-md-4 reveal" data-d="240"><!-- team member: Bilal Hussain --><article class="tm"><div class="ph"><img src="images/staff-working3.jpeg" alt="Bilal Hussain" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='images/premium-beef.jpg'"><!-- 1:1 photo --><a class="soc" href="#" aria-label="Bilal Hussain profile"><i class="bi bi-linkedin" aria-hidden="true"></i></a><!-- appears on hover --></div><div class="tm-body"><h5>Bilal Hussain</h5><!-- name --><div class="role">Cold-Chain &amp; Logistics Lead</div><!-- position --><p>Keeps every delivery between 0 and 4 degrees from dispatch to doorstep.</p><!-- short description --></div></article></div></div></div></section>
 <!-- ===== END SECTION: Our Team ===== -->
 
 <!-- ===== SECTION: FAQ ===== -->
@@ -79,28 +83,33 @@
 <section class="cta"><div class="container reveal z"><span class="script">Premium Quality Meat</span><h2 class="serif display-5 fw-bold">Together for a Healthier Tomorrow</h2><p class="mb-4">Fresh, hygienic and 100% halal meat for your family.</p><a href="order.html" class="btn btn-gold btn-lg magnetic">Order Now <i class="bi bi-arrow-right"></i></a></div></section>
 <!-- ===== END SECTION: Call To Action ===== -->
 
+</main><!-- end of page content -->
 <!-- ===== SECTION: Footer ===== -->
-<footer><div class="container pt-5 pb-4"><div class="row g-4">
-<!-- Footer column 1: logo, short text, social icons -->
-<div class="col-lg-3"><div class="d-flex align-items-center gap-2 mb-3"><img src="images/logo.jpg" alt="Logo" width="52" height="52" style="object-fit:contain;border-radius:8px"><div><div class="brand-t">PREMIUM</div><div class="brand-s">Slaughter House</div></div></div><p>Fresh, hygienic, 100% halal premium meat — from our facility to your table.</p><div class="social"><a href="#"><i class="bi bi-facebook"></i></a><a href="#"><i class="bi bi-instagram"></i></a><a href="#"><i class="bi bi-youtube"></i></a><a href="#"><i class="bi bi-whatsapp"></i></a></div></div>
-<!-- Footer column 2: quick links -->
-<div class="col-6 col-lg-2"><h5>Quick Links</h5><a href="index.html">Home</a><a href="about.html">About</a><a href="products.html">Products</a><a href="services.html">Services</a><a href="gallery.html">Gallery</a></div>
-<!-- Footer column 3: address, phone, email, hours -->
-<div class="col-6 col-lg-3"><h5>Contact Us</h5><div class="mb-2"><i class="bi bi-geo-alt text-warning"></i> Raiwind&ndash;Manga Road, Lahore, Pakistan</div><a href="tel:+923081357658"><i class="bi bi-telephone text-warning"></i> +92 308 1357658</a><a href="mailto:info@premiumslaughterhouse.com"><i class="bi bi-envelope text-warning"></i> info@premiumslaughterhouse.com</a><div><i class="bi bi-clock text-warning"></i> Mon &ndash; Sat: 8:00 AM &ndash; 6:00 PM</div></div>
-<!-- Footer column 4: newsletter signup -->
-<div class="col-lg-4"><div class="news"><h5 class="mb-1">Exclusive Offers</h5><small>Subscribe for weekly deals &amp; fresh arrivals.</small><form id="newsForm" class="d-flex gap-2 mt-3"><input type="email" required class="form-control" placeholder="Enter your email"><button class="btn btn-gold">Subscribe</button></form></div></div>
-</div></div><!-- Copyright row -->
-<div class="fbottom py-3"><div class="container d-flex flex-wrap justify-content-between gap-2"><span>&copy; 2026 Premium Slaughter House. All Rights Reserved.</span><span>Privacy Policy &nbsp;|&nbsp; Terms &amp; Conditions &nbsp;|&nbsp; Fresh. Halal. Trusted. <i class="bi bi-heart-fill text-danger"></i></span></div></div></footer>
-<!-- Mobile bottom action bar (phones only): Call / WhatsApp / Cart -->
-<nav class="mbar" aria-label="Quick actions"><a href="tel:+923081357658"><i class="bi bi-telephone"></i>Call</a><a data-wa data-msg="Hello Premium Slaughter House" target="_blank"><i class="bi bi-whatsapp"></i>WhatsApp</a><a href="order.html"><i class="bi bi-cart3"></i><span>Cart <b id="cartBadgeMobile">0</b></span></a></nav>
-<!-- Floating WhatsApp button (bottom-right, desktop/tablet) -->
-<a class="wa" data-wa data-msg="Hello Premium Slaughter House, I want to place an order." target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i><span>Chat on WhatsApp</span></a>
+<footer>
+<div class="fnews py-4"><div class="container d-flex flex-wrap align-items-center justify-content-between gap-3"><div><h5 class="mb-0">Exclusive Offers</h5><small>Weekly deals &amp; fresh arrivals, straight to your inbox.</small></div><!-- newsletter band --><form id="newsForm" class="d-flex gap-2" style="min-width:min(100%,380px)"><input type="email" required class="form-control" placeholder="Enter your email" aria-label="Email address"><button class="btn btn-gold">Subscribe</button></form></div></div>
+<div class="container pt-5 pb-4 fcols"><div class="row g-4">
+<!-- Brand: short company statement + social -->
+<div class="col-lg-3"><div class="d-flex align-items-center gap-2 mb-3"><img src="images/logo.jpg" alt="Premium Slaughter House logo" width="52" height="52" style="object-fit:contain;border-radius:8px"><div><div class="brand-t">PREMIUM</div><div class="brand-s">Slaughter House</div></div></div><p>Fresh, hygienic, 100% halal premium meat &mdash; from our facility to your table.</p><div class="social"><a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a><a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a><a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a><a data-wa target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a></div></div>
+<!-- Shop -->
+<div class="col-6 col-lg-2"><h5>Shop</h5><a href="products.html?category=beef">Beef</a><a href="products.html?category=mutton">Mutton</a><a href="products.html?category=camel">Camel</a><a href="products.html?category=minced">Mince &amp; Boneless</a></div>
+<!-- Company -->
+<div class="col-6 col-lg-2"><h5>Company</h5><a href="about.html">About</a><a href="services.html">Services</a><a href="facilities.html">Facilities</a><a href="gallery.html">Gallery</a><a href="contact.html">Contact</a></div>
+<!-- Customer -->
+<div class="col-6 col-lg-2"><h5>Customer</h5><a href="services.html">Delivery</a><a href="services.html#faq">FAQ</a><a href="order.html">Order</a><a href="order.html">Cart</a></div>
+<!-- Contact -->
+<div class="col-6 col-lg-3"><h5>Contact</h5><div class="mb-2"><i class="bi bi-geo-alt text-warning" aria-hidden="true"></i> Raiwind&ndash;Manga Road, Lahore, Pakistan</div><a href="tel:+923081357658"><i class="bi bi-telephone text-warning" aria-hidden="true"></i> +92 308 1357658</a><a data-wa target="_blank"><i class="bi bi-whatsapp text-warning" aria-hidden="true"></i> WhatsApp</a><a href="mailto:info@premiumslaughterhouse.com"><i class="bi bi-envelope text-warning" aria-hidden="true"></i> info@premiumslaughterhouse.com</a><div><i class="bi bi-clock text-warning" aria-hidden="true"></i> Mon &ndash; Sat: 8:00 AM &ndash; 6:00 PM</div></div>
+</div></div>
+<!-- Copyright row -->
+<div class="fbottom py-3"><div class="container d-flex flex-wrap justify-content-between gap-2"><span>&copy; 2026 Premium Slaughter House. All rights reserved.</span><span>Privacy Policy &nbsp;|&nbsp; Terms &amp; Conditions</span></div></div></footer>
 <!-- ===== END SECTION: Footer ===== -->
+<!-- Mobile bottom action bar (phones only): Call / WhatsApp / Cart -->
+<nav class="mbar" aria-label="Quick actions"><a href="tel:+923081357658"><i class="bi bi-telephone" aria-hidden="true"></i>Call</a><a data-wa data-msg="Hello Premium Slaughter House" target="_blank"><i class="bi bi-whatsapp" aria-hidden="true"></i>WhatsApp</a><a href="order.html"><i class="bi bi-cart3" aria-hidden="true"></i><span>Cart <b id="cartBadgeMobile">0</b></span></a></nav>
+<!-- Floating WhatsApp button (desktop/tablet) -->
+<a class="wa" data-wa data-msg="Hello Premium Slaughter House, I want to place an order." target="_blank" aria-label="Chat on WhatsApp"><i class="bi bi-whatsapp" aria-hidden="true"></i><span>Chat on WhatsApp</span></a>
 <!-- Back-to-top button -->
-<button id="toTop" aria-label="Top"><i class="bi bi-arrow-up"></i></button><!-- Small "added to cart" message box -->
-<div id="toast"></div>
+<button id="toTop" aria-label="Back to top"><i class="bi bi-arrow-up" aria-hidden="true"></i></button><!-- "added to cart" message box (screen readers are told via role=status) --><div id="toast" role="status" aria-live="polite"></div>
 <!-- Bootstrap JS (modals, carousel, accordion, tabs) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Our main script: cart, search, filters, animations, WhatsApp -->
-<script src="js/script.js"></script>
+<!-- Our scripts: one file per responsibility (order matters: config first, main last) -->
+<script src="js/config.js"></script><script src="js/ui.js"></script><script src="js/cart.js"></script><script src="js/products.js"></script><script src="js/checkout.js"></script><script src="js/calculator.js"></script><script src="js/gallery.js"></script><script src="js/main.js"></script>
 </body></html>
