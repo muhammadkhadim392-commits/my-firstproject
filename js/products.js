@@ -26,24 +26,36 @@ var LABEL = { beef: 'Beef', mutton: 'Mutton', camel: 'Camel', minced: 'Minced & 
 function plural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }                           // 1 product / 3 products
 function apply() {
   if (!box) return;
-  var q = box.value.toLowerCase().trim(), words = q ? q.split(/\s+/) : [], cards = $$('.product-card-wrapper'), n = 0;
+  var q = box.value.toLowerCase().trim(), cards = $$('.product-card-wrapper'), n = 0;
   cards.forEach(function (card) {
-    var cats = ' ' + card.getAttribute('data-category') + ' ';                                  // e.g. " beef minced "
-    var hay = (card.querySelector('.card-title').textContent + ' ' + (card.dataset.keywords || '')).toLowerCase(); // name + category + description words
-    var okCat = curCat === 'all' || cats.indexOf(' ' + curCat + ' ') > -1;                      // matches the selected category?
-    var okTxt = words.every(function (w) { return hay.indexOf(w) > -1; });                      // matches EVERY typed word?
-    var ok = okCat && okTxt;                                                                    // both must be true (Beef + "boneless" = Beef boneless only)
+    var p = P.byId(card.querySelector('.pcard').dataset.id);                                    // the product behind this card (master list)
+    var score = P.matchScore(p, q);                                                             // 0 = no match; higher = better (prefix + category first)
+    var okCat = curCat === 'all' || p.cats.indexOf(curCat) > -1;                                // selected category pill?
+    var ok = okCat && score > 0;                                                                // category AND search together
     card.style.display = ok ? 'block' : 'none';
+    card.style.order = ok && q ? -score : '';                                                   // best matches first (typing "b" puts beef on top)
     if (ok) { n++; card.style.animation = 'none'; void card.offsetWidth; card.style.animation = 'fadeInUp 0.4s ease forwards'; }
   });
   var txt, cat = curCat !== 'all' ? LABEL[curCat] : '';
   if (!n) txt = 'No products found';
-  else if (q && cat) txt = plural(n, cat + ' product') + ' found for \u201c' + q + '\u201d';       // 2 Beef products found for "boneless"
-  else if (q) txt = plural(n, 'product') + ' found for \u201c' + q + '\u201d';                     // 3 products found for "mince"
-  else if (cat) txt = 'Showing ' + plural(n, cat + ' product');                                  // Showing 5 Beef products
-  else txt = 'Showing ' + n + ' of ' + cards.length + ' products';                              // Showing 16 of 16 products
-  var rc = $('#resCount'); if (rc) rc.textContent = txt;                                        // live counter (aria-live)
-  var nr = $('#noRes'); if (nr) nr.style.display = n ? 'none' : 'block';                        // empty state: "Try another search or category."
+  else if (q && cat) txt = plural(n, cat + ' product') + ' found for \u201c' + q + '\u201d';
+  else if (q) txt = plural(n, 'product') + ' found for \u201c' + q + '\u201d';
+  else if (cat) txt = 'Showing ' + plural(n, cat + ' product');
+  else txt = 'Showing ' + n + ' of ' + cards.length + ' products';
+  var rc = $('#resCount'); if (rc) rc.textContent = txt;
+  showEmpty(!n);
+}
+/* empty state is created only when needed (so it never appears in the page source / to crawlers) */
+function showEmpty(show) {
+  var nr = $('#noRes');
+  if (!nr && show) {
+    nr = document.createElement('div'); nr.id = 'noRes'; nr.className = 'nores';
+    nr.innerHTML = '<i class="bi bi-search" aria-hidden="true"></i><h2 class="h4 mt-2">No products found</h2><p class="text-secondary">Try another search or category.</p><div class="d-flex gap-2 justify-content-center flex-wrap"><button class="chip" data-suggest="beef">Beef</button><button class="chip" data-suggest="mutton">Mutton</button><button class="chip" data-suggest="camel">Camel</button><button class="btn btn-crim btn-sm" data-clear>Clear search</button></div>';
+    $('#productGrid').parentNode.appendChild(nr);
+    $$('[data-suggest]', nr).forEach(function (b) { b.addEventListener('click', function () { box.value = b.dataset.suggest; setCat('all'); }); });
+    $$('[data-clear]', nr).forEach(function (b) { b.addEventListener('click', function () { box.value = ''; setCat('all'); box.focus(); }); });
+  }
+  if (nr) nr.style.display = show ? 'block' : 'none';
 }
 function setPill(cat) {                                                                         // highlight the active pill
   $$('.filter-btn').forEach(function (b) { var on = b.dataset.cat === cat; b.classList.toggle('active', on); b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
@@ -52,8 +64,7 @@ function setCat(cat) { curCat = cat; setPill(cat); apply(); }
 if (box) {
   $$('.filter-btn').forEach(function (b) { b.addEventListener('click', function () { setCat(b.dataset.cat); }); }); // pills (no inline JS)
   box.addEventListener('input', apply);                                                         // live search on every keystroke
-  $$('[data-suggest]').forEach(function (b) { b.addEventListener('click', function () { box.value = b.dataset.suggest; setCat('all'); }); }); // suggestions in empty state
-  $$('[data-clear]').forEach(function (b) { b.addEventListener('click', function () { box.value = ''; setCat('all'); box.focus(); }); });   // "Clear search"
+  P.attachSuggest(box, function (p) { box.value = p.name; setCat('all'); });                    // suggestion dropdown (type "b" -> beef first)
   window.searchProducts = apply;                                                                // used by the navbar search (ui.js)
   var u = new URLSearchParams(location.search), sp = u.get('search'), ct = u.get('category');
   if (ct && $('.filter-btn[data-cat="' + ct + '"]')) { curCat = ct; setPill(ct); }              // ?category=beef  (home cards / footer)

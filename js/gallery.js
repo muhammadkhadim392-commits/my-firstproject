@@ -14,7 +14,9 @@ function filterGallery(b) {
     setTimeout(function () {
       var n = 0;
       items.forEach(function (i) { var show = b.dataset.gf === 'all' || i.dataset.cat === b.dataset.gf; i.classList.toggle('hide', !show); if (show) n++; }); // 2) swap
-      var em = $('#galEmpty'); if (em) em.hidden = n > 0;                                      // empty state: "No images in this category."
+      var em = $('#galEmpty');                                                                   // empty state is created only when needed
+      if (!em && !n) { em = document.createElement('div'); em.id = 'galEmpty'; em.className = 'empty-state'; em.innerHTML = '<i class="bi bi-images" aria-hidden="true"></i><p class="mt-2">No images in this category.</p>'; $('#galGrid').parentNode.appendChild(em); }
+      if (em) em.style.display = n ? 'none' : 'block';
       requestAnimationFrame(function () { items.forEach(function (i) { i.classList.remove('out'); }); }); // 3) fade in
     }, 280);
   }

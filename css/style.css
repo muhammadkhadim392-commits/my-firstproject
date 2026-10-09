@@ -545,7 +545,7 @@ button.gi{border:0;padding:0;display:block;width:100%;text-align:left}   /* gall
 .dealc .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--crimson))}  /* stock bar fill */
 .dealc .left{font-size:12px;color:#c3c8cc;margin:6px 0 12px}              /* "Only 8 packs left" */
 .dealc .cd{font-size:13px;color:#c3c8cc;margin-bottom:14px}               /* countdown label */
-.countdown{font:700 20px 'Poppins';color:#fff;letter-spacing:1px;font-variant-numeric:tabular-nums}  /* HH:MM:SS (no jitter) */
+
 
 /* ===== 51. CALCULATOR: itemised receipt ===== */
 .calc-out{margin-top:16px;background:rgba(0,0,0,.3);border-radius:var(--radius-md);padding:6px 18px}  /* receipt panel */
@@ -701,3 +701,34 @@ button.gi{border:0;padding:0;display:block;width:100%;text-align:left}   /* gall
 .fn{position:absolute;top:12px;left:12px;background:var(--ink);color:var(--lgold);font-weight:700;font-size:13px;border-radius:50px;padding:4px 12px}  /* 01..06 */
 .fb{padding:18px 20px 22px}                                                          /* text area */
 .fb h3{margin:0 0 6px}.fb p{color:var(--muted);font-size:14px}                       /* title + text */
+
+
+/* ##########################################################################
+   v6 SEARCH SUGGESTIONS + COUNTDOWN BOXES + FOOTER NOTE
+   ########################################################################## */
+
+/* ===== 66. SEARCH SUGGESTION DROPDOWN (products page + navbar) ===== */
+.nsearch{position:relative}                                              /* anchor for the navbar dropdown */
+.sug{position:absolute;left:0;right:0;top:calc(100% + 8px);z-index:1100;background:#fff;color:var(--text);border-radius:var(--radius-md);box-shadow:var(--shadow-4);overflow:hidden;text-align:left}  /* dropdown panel */
+.nsearch .sug{left:auto;right:0;width:340px;max-width:92vw}              /* navbar dropdown is wider than the small search pill */
+.sug-i{display:flex;align-items:center;gap:12px;width:100%;border:0;background:#fff;padding:9px 14px;text-align:left;transition:background .2s}  /* one suggestion row (real <button>) */
+.sug-i:hover,.sug-i.act{background:var(--sand)}                          /* hover / keyboard highlight */
+.sug-i img{width:42px;height:42px;object-fit:cover;border-radius:8px;flex:none}  /* thumbnail */
+.sug-i span{flex:1;min-width:0}                                          /* name + category */
+.sug-i b{display:block;font-size:14px;color:var(--ink)}                  /* product name */
+.sug-i small{color:var(--muted);text-transform:capitalize}               /* category */
+.sug-i em{font-style:normal;font-weight:700;color:var(--crimson2);font-size:13px;white-space:nowrap}  /* price */
+.sug-none{padding:14px;color:var(--muted);font-size:14px}                /* no matches */
+
+/* ===== 67. DEAL COUNTDOWN: Hours : Minutes : Seconds boxes ===== */
+.cd-t{font-size:11px;letter-spacing:2px;color:var(--lgold);font-weight:700;margin-bottom:6px}  /* "OFFER ENDS IN" */
+.countdown{display:flex;align-items:flex-start;gap:6px;font-variant-numeric:tabular-nums}  /* tabular numbers = no jitter */
+.countdown span{text-align:center}                                       /* one unit */
+.countdown b{display:block;min-width:52px;background:rgba(255,255,255,.1);border:1px solid rgba(243,156,18,.4);border-radius:10px;padding:6px 8px;font:700 22px 'Poppins';color:#fff}  /* number box */
+.countdown small{display:block;font-size:10.5px;color:#c3c8cc;margin-top:3px}  /* Hours / Minutes / Seconds */
+.countdown i{font-style:normal;font-weight:700;font-size:20px;color:var(--gold);padding-top:6px}  /* colon */
+.dealc .cd{margin-bottom:14px}                                           /* space before the button */
+
+/* ===== 68. FOOTER: copyright on two lines + concept disclaimer ===== */
+.fbottom .container>span:first-child{line-height:1.6}                    /* © line + "Designed & Developed by" line */
+.demo-note strong{color:#c3c8cc}                                         /* "Portfolio Demo Website" label */

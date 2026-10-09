@@ -16,13 +16,42 @@ P.toast = function (m) {
 /* ---- 2. PRELOADER: fade out the loading screen (CSS also auto-hides it as a safety net) ---- */
 addEventListener('load', function () { setTimeout(function () { var l = $('#loader'); if (l) l.classList.add('done'); }, 400); });
 
+/* ---- 2b. SEARCH SUGGESTIONS: a dropdown under a search box (Arrow keys, Enter, Esc, mouse) ----
+   Type "b" -> beef products appear first. onPick(product) decides what a click does. */
+P.attachSuggest = function (input, onPick) {
+  var box = document.createElement('div'); box.className = 'sug'; box.hidden = true; box.setAttribute('role', 'listbox');
+  input.parentNode.appendChild(box); input.setAttribute('autocomplete', 'off');
+  var items = [], act = -1;
+  function mark() { $$('.sug-i', box).forEach(function (b, i) { b.classList.toggle('act', i === act); }); }
+  function pick(p) { box.hidden = true; onPick(p); }
+  function draw() {
+    var q = input.value.trim(); if (!q) { box.hidden = true; return; }
+    items = P.products.map(function (p) { return { p: p, s: P.matchScore(p, q) }; }).filter(function (x) { return x.s > 0; }).sort(function (a, b) { return b.s - a.s; }).slice(0, 6);
+    box.innerHTML = items.length ? items.map(function (x, i) {
+      return '<button type="button" class="sug-i" role="option" data-i="' + i + '"><img src="' + x.p.img + '" alt="" loading="lazy"><span><b>' + x.p.name + '</b><small>' + x.p.cats[0] + ' \u00b7 ' + x.p.sub + '</small></span><em>' + P.money(x.p.price) + '/kg</em></button>';
+    }).join('') : '<div class="sug-none">No matching products</div>';
+    box.hidden = false; act = -1;
+  }
+  input.addEventListener('input', draw); input.addEventListener('focus', draw);
+  input.addEventListener('keydown', function (e) {
+    if (box.hidden) return;
+    if (e.key === 'ArrowDown') { e.preventDefault(); act = Math.min(items.length - 1, act + 1); mark(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); act = Math.max(0, act - 1); mark(); }
+    else if (e.key === 'Enter' && act > -1) { e.preventDefault(); pick(items[act].p); }       // choose the highlighted suggestion
+    else if (e.key === 'Escape') box.hidden = true;
+  });
+  box.addEventListener('mousedown', function (e) { var b = e.target.closest('.sug-i'); if (b) { e.preventDefault(); pick(items[+b.dataset.i].p); } });
+  document.addEventListener('click', function (e) { if (!input.parentNode.contains(e.target)) box.hidden = true; });
+};
+
 /* ---- 3. NAVBAR: gold underline on current page + universal search ---- */
 $$('.navbar .nav-link').forEach(function (a) {
   a.classList.toggle('active', (a.getAttribute('href') || '').toLowerCase() === P.page); // auto-mark the current page
 });
 var ns = $('#navSearch');
+if (ns) P.attachSuggest(ns, function (p) { location.href = 'products.html?search=' + encodeURIComponent(p.name); }); // suggestions in the navbar
 if (ns) ns.addEventListener('keydown', function (e) {
-  if (e.key !== 'Enter') return;                                  // react only to Enter
+  if (e.key !== 'Enter' || e.defaultPrevented) return;                                  // react only to Enter
   var term = ns.value.trim();
   if (P.page === 'products.html' && $('#searchInput')) { $('#searchInput').value = term; window.searchProducts(); } // already on Products: filter in place
   else location.href = 'products.html?search=' + encodeURIComponent(term);                                           // elsewhere: go to Products with ?search=
