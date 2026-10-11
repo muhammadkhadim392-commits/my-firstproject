@@ -6,8 +6,8 @@
 var $ = P.$, $$ = P.$$;
 
 /* ---- 1. Filters ---- */
-$$('[data-gf]').forEach(function (b) {
-  b.onclick = function () {
+function filterGallery(b) {
+  {
     $$('[data-gf]').forEach(function (x) { x.classList.remove('on'); x.setAttribute('aria-pressed', 'false'); });
     b.classList.add('on'); b.setAttribute('aria-pressed', 'true');
     var items = $$('.gal-item'); items.forEach(function (i) { i.classList.add('out'); });     // 1) fade out
@@ -17,8 +17,9 @@ $$('[data-gf]').forEach(function (b) {
       var em = $('#galEmpty'); if (em) em.hidden = n > 0;                                      // empty state: "No images in this category."
       requestAnimationFrame(function () { items.forEach(function (i) { i.classList.remove('out'); }); }); // 3) fade in
     }, 280);
-  };
-});
+  }
+}
+$$('[data-gf]').forEach(function (b) { b.addEventListener('click', function () { filterGallery(b); }); }); // filter buttons
 
 /* ---- 2. Lightbox ---- */
 var list = [], idx = 0, modal = null;
@@ -37,6 +38,9 @@ window.openLightbox = function (el) {
   modal.show();
 };
 window.lbStep = function (d) { idx = (idx + d + list.length) % list.length; show(); };          // wraps around
+window.nextImage = function () { lbStep(1); };                                                  // next image
+window.previousImage = function () { lbStep(-1); };                                             // previous image
+window.filterGallery = function (cat) { var b = $('[data-gf="' + cat + '"]'); if (b) filterGallery(b); }; // filterGallery('cold')
 document.addEventListener('keydown', function (e) {
   if (!$('#galleryModal.show')) return;
   if (e.key === 'ArrowRight') lbStep(1); if (e.key === 'ArrowLeft') lbStep(-1);

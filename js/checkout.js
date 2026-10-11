@@ -34,26 +34,36 @@ f.addEventListener('input', function () { store(); stepper(); });
 f.addEventListener('change', function () { store(); stepper(); });
 document.addEventListener('cart:changed', stepper); stepper();
 
-/* ---- 4. Place order: validate -> WhatsApp message -> success message ---- */
-window.checkoutViaWhatsApp = function (event) {
-  event.preventDefault();
-  var cart = P.cart.get();
-  if (!cart.length) { P.toast('Your cart is empty - add items first'); return; }         // error: empty cart
-  if (!f.checkValidity()) {                                                              // errors: show messages on every wrong field
-    f.classList.add('was-validated');
+/* ---- 4. validateForm(): true only when the cart is not empty AND every field is valid (shows messages otherwise) ---- */
+function validateForm() {
+  if (!P.cart.get().length) { P.toast('Your cart is empty - add items first'); return false; }   // error: empty cart
+  if (!f.checkValidity()) {
+    f.classList.add('was-validated');                                                      // green / red feedback on every field
     var bad = f.querySelector(':invalid'); if (bad) { bad.focus(); bad.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-    return;
+    return false;
   }
-  var c = store(), t = P.cart.totals(cart), ref = 'PSH-' + Date.now().toString().slice(-6), m = P.money;
-  var text = '*Premium Slaughter House*\n*New Order* (Ref: ' + ref + ')\n\n' +
-    '*Customer:*\n' + c.custName + '\n\n*Phone:*\n' + c.custPhone + '\n\n*Order:*\n';
+  return true;
+}
+/* ---- 5. generateOrder(): builds the professional WhatsApp text from the cart + customer details ---- */
+function generateOrder() {
+  var cart = P.cart.get(), c = store(), t = P.cart.totals(cart), ref = 'PSH-' + Date.now().toString().slice(-6), m = P.money;
+  var text = '*Premium Slaughter House*\n*New Order* (Ref: ' + ref + ')\n\n*Customer:*\n' + c.custName + '\n\n*Phone:*\n' + c.custPhone + '\n\n*Order:*\n';
   cart.forEach(function (i) { text += '\u2022 ' + i.name + ' \u2014 ' + P.fmtKg(i.qty, i.unit) + ' (' + m(i.price * i.qty) + ')\n'; });
   text += '\n*Subtotal:* ' + m(t.sub) + '\n*Delivery:* ' + (t.del ? m(t.del) : 'FREE') + '\n*Total:* ' + m(t.grand) +
-    '\n\n*Delivery:*\n' + c.custCity + '\n' + c.custArea + '\n' + c.custAddress +
-    '\n\n*Date:* ' + c.custDate + '\n*Preferred time:* ' + c.custSlot + '\n*Payment:* ' + c.custPay;
-  window.open(P.waLink(text), '_blank');                                                 // open WhatsApp with the receipt
-  $('#okRef').textContent = ref; $('#okTotal').textContent = m(t.grand); $('#okName').textContent = c.custName;
-  new bootstrap.Modal($('#successModal')).show();                                        // success state
+    '\n\n*Delivery:*\n' + c.custCity + '\n' + c.custArea + '\n' + c.custAddress + '\n\n*Date:* ' + c.custDate + '\n*Preferred time:* ' + c.custSlot + '\n*Payment:* ' + c.custPay;
+  return { text: text, ref: ref, total: t.grand, name: c.custName };
+}
+/* ---- 6. sendToWhatsApp(text): opens WhatsApp with the message ---- */
+function sendToWhatsApp(text) { window.open(P.waLink(text), '_blank'); }
+window.validateForm = validateForm; window.generateOrder = generateOrder; window.sendToWhatsApp = sendToWhatsApp;
+
+/* ---- 7. The form's submit handler: validate -> generate -> send -> success message -> clear cart ---- */
+window.checkoutViaWhatsApp = function (event) {
+  event.preventDefault();
+  if (!validateForm()) return;
+  var o = generateOrder(); sendToWhatsApp(o.text);
+  $('#okRef').textContent = o.ref; $('#okTotal').textContent = P.money(o.total); $('#okName').textContent = o.name;
+  new bootstrap.Modal($('#successModal')).show();                                          // success state
   done3 = true; P.cart.save([]); P.renderCart(); f.classList.remove('was-validated'); stepper(); done3 = false; // empty cart, keep customer details
 };
 })(window.PSH);
