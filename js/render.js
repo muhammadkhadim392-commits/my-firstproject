@@ -50,9 +50,9 @@ $$('[data-cat-count]').forEach(function (el) { var k = el.dataset.catCount, n = 
 var dg = $('#dealGrid');
 if (dg) dg.innerHTML = P.deals.map(function (d) {
   var x = P.dealPrice(d);
-  return '<div class="col-md-6 col-lg-4"><article class="dealc"><div class="di"><img src="' + d.img + '" alt="' + d.name + '" loading="lazy" onerror="' + FALLBACK + '"><span class="lim">LIMITED-TIME OFFER</span></div>' +
+  return '<div class="col-md-6 col-lg-4"><article class="dealc"><div class="di"><img src="' + d.img + '" alt="' + d.name + '" loading="lazy" onerror="' + FALLBACK + '"><span class="lim">LIMITED OFFER</span></div>' +
     '<div class="db"><h3>' + d.name + '</h3><p class="text-white-50 small mb-2">' + d.desc + '</p><div><span class="nw">' + money(x.price) + '</span><span class="od">' + money(x.old) + '</span></div><span class="sv align-self-start">Save ' + money(x.save) + '</span>' +
-    '<div class="cd">Offer ends in <span class="countdown">00:00:00</span></div>' +
+    '<div class="cd"><div class="cd-t">OFFER ENDS IN</div><div class="countdown"><span><b data-u="h">00</b><small>Hours</small></span><i>:</i><span><b data-u="m">00</b><small>Minutes</small></span><i>:</i><span><b data-u="s">00</b><small>Seconds</small></span></div></div>' +
     '<button class="btn btn-gold mt-auto add" data-name="' + d.name + '" data-price="' + x.price + '" data-img="' + d.img + '" data-unit="pack">Get Deal</button></div></article></div>';
 }).join('');
 

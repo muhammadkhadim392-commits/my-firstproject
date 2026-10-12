@@ -36,7 +36,7 @@ if (cds.length) {
   window.countdown = function () {
     var now = new Date(), end = new Date(now); end.setHours(24, 0, 0, 0);                  // next midnight
     var s = Math.floor((end - now) / 1000), h = Math.floor(s / 3600), mi = Math.floor(s % 3600 / 60), se = s % 60;
-    cds.forEach(function (c) { c.textContent = pad(h) + ':' + pad(mi) + ':' + pad(se); });
+    cds.forEach(function (c) { c.querySelector('[data-u="h"]').textContent = pad(h); c.querySelector('[data-u="m"]').textContent = pad(mi); c.querySelector('[data-u="s"]').textContent = pad(se); }); // update the three boxes
   };
   countdown(); setInterval(countdown, 1000);                                            // starts immediately - never shows --:--:--
 }

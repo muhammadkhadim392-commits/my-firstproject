@@ -46,4 +46,24 @@ P.dayPrice = function (d) {                                                     
   var p = P.byId(d.id), price = Math.round(p.price * (1 - d.off / 100) / 10) * 10;
   return { p: p, old: p.price, price: price, save: p.price - price };
 };
+
+/* ---- SMART SEARCH SCORE (used by the Products search AND the suggestion dropdown) ----
+   Words are matched from the START (prefix), so typing "b" finds BEEF first, then Boneless / Biryani.
+   category word prefix = 100 points | name word prefix = 60 | other label word = 40 | description text (3+ letters) = 10
+   Every typed word must match something; the highest total ranks first. 0 = no match. */
+P.matchScore = function (p, q) {
+  q = (q || '').toLowerCase().trim(); if (!q) return 1;
+  var nameWords = p.name.toLowerCase().split(/\s+/), labelWords = (p.sub + ' ' + p.badge).toLowerCase().split(/[^a-z0-9]+/).filter(Boolean), hay = (p.name + ' ' + p.desc).toLowerCase(), total = 0;
+  var words = q.split(/\s+/);
+  for (var i = 0; i < words.length; i++) {
+    var w = words[i], s = 0;
+    if (p.cats.some(function (c) { return c !== 'minced' && c.indexOf(w) === 0; })) s = 100;   // 'minced' is a grouping, not a meat, so "mince" matches names only
+    else if (nameWords.some(function (t) { return t.indexOf(w) === 0; })) s = 60;
+    else if (labelWords.some(function (t) { return t.indexOf(w) === 0; })) s = 40;
+    else if (w.length >= 3 && hay.indexOf(w) > -1) s = 10;
+    if (!s) return 0;                                                                       // a typed word matched nothing
+    total += s;
+  }
+  return total;
+};
 })(window.PSH);
