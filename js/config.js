@@ -8,7 +8,7 @@
      gallery.js    filters + lightbox          | main.js      contact form, deals, countdown, links
    ########################################################################## */
 window.PSH = {
-  WHATSAPP_NUMBER: '923081357658',   // <-- change your WhatsApp number HERE only (country code, no + or spaces)
+  WHATSAPP_NUMBER: '923048335259',   // <-- WhatsApp order number 0304 8335259 (country code, no + or spaces). Change it HERE only
   FREE_DELIVERY_OVER: 5000,          // free delivery when subtotal is above this (Rs)
   DELIVERY_FEE: 200,                 // flat delivery fee below that (Rs)
   MIN_KG: 0.25,                      // minimum order per item = 250 g

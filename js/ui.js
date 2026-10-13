@@ -1,5 +1,5 @@
 /* ##########################################################################
-   js/ui.js  -  GENERAL UI: toast, preloader, navbar, scroll effects, reveal,
+   js/ui.js  -  GENERAL UI: toast, navbar, scroll effects, reveal,
    counters, timeline progress, newsletter, ticker, live-order notifications
    ########################################################################## */
 (function (P) {
@@ -12,9 +12,6 @@ P.toast = function (m) {
   t.textContent = m; t.classList.add('show');                     // show message
   clearTimeout(tt); tt = setTimeout(function () { t.classList.remove('show'); }, 2400); // hide after 2.4 s
 };
-
-/* ---- 2. PRELOADER: fade out the loading screen (CSS also auto-hides it as a safety net) ---- */
-addEventListener('load', function () { setTimeout(function () { var l = $('#loader'); if (l) l.classList.add('done'); }, 400); });
 
 /* ---- 2b. SEARCH SUGGESTIONS: a dropdown under a search box (Arrow keys, Enter, Esc, mouse) ----
    Type "b" -> beef products appear first. onPick(product) decides what a click does. */
@@ -46,7 +43,8 @@ P.attachSuggest = function (input, onPick) {
 
 /* ---- 3. NAVBAR: gold underline on current page + universal search ---- */
 $$('.navbar .nav-link').forEach(function (a) {
-  a.classList.toggle('active', (a.getAttribute('href') || '').toLowerCase() === P.page); // auto-mark the current page
+  var cur = (a.getAttribute('href') || '').toLowerCase() === P.page;
+  a.classList.toggle('active', cur); if (cur) a.setAttribute('aria-current', 'page');     // current page: underline + announced to screen readers
 });
 var ns = $('#navSearch');
 if (ns) P.attachSuggest(ns, function (p) { location.href = 'products.html?search=' + encodeURIComponent(p.name); }); // suggestions in the navbar
@@ -56,6 +54,13 @@ if (ns) ns.addEventListener('keydown', function (e) {
   if (P.page === 'products.html' && $('#searchInput')) { $('#searchInput').value = term; window.searchProducts(); } // already on Products: filter in place
   else location.href = 'products.html?search=' + encodeURIComponent(term);                                           // elsewhere: go to Products with ?search=
 });
+
+/* ---- 3b. MOBILE MENU: closes when a link is chosen or Escape is pressed ---- */
+var nv = $('#nv');
+if (nv) {
+  $$('.nav-link', nv).forEach(function (a) { a.addEventListener('click', function () { if (nv.classList.contains('show') && window.bootstrap) bootstrap.Collapse.getOrCreateInstance(nv).hide(); }); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && nv.classList.contains('show') && window.bootstrap) { bootstrap.Collapse.getOrCreateInstance(nv).hide(); var t = $('.navbar-toggler'); if (t) t.focus(); } });
+}
 
 /* ---- 4. SCROLL EFFECTS: progress bar, navbar state, back-to-top, timeline progress ---- */
 var bar = $('#progress'), nav = $('.navbar'), topBtn = $('#toTop'), tls = $$('.tlh');
@@ -69,7 +74,8 @@ function onScroll() {
     t.style.setProperty('--p', Math.max(0, Math.min(1, p)));
   });
 }
-addEventListener('scroll', onScroll, { passive: true }); onScroll();
+var ticking = false;                                                                      // run at most once per animation frame = smooth scrolling
+addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { onScroll(); ticking = false; }); } }, { passive: true }); onScroll();
 if (topBtn) topBtn.onclick = function () { scrollTo({ top: 0, behavior: 'smooth' }); };
 
 /* ---- 5. REVEAL ON SCROLL: subtle fade/slide using IntersectionObserver (data-d = stagger delay in ms) ---- */
@@ -94,23 +100,23 @@ $$('.counter-val,[data-count]').forEach(function (e) { co.observe(e); });
 
 /* ---- 7. NEWSLETTER FORM ---- */
 var nf = $('#newsForm');
-if (nf) nf.onsubmit = function (e) { e.preventDefault(); P.toast('Thank you for subscribing!'); nf.reset(); };
+if (nf) nf.onsubmit = function (e) { e.preventDefault(); P.toast('Thanks! (Demo: no email is stored)'); nf.reset(); };
 
 /* ---- 8. ANNOUNCEMENT TICKER: rotating live alerts ---- */
 var tk = $('#ticker');
 if (tk) {
-  var msgs = ['Free Delivery on orders above Rs 5,000 | Pure Halal Cuts', 'Ahmed from DHA just ordered 3kg Beef', 'Usman from Raiwind just ordered 2kg Mutton', 'Fresh halal meat delivered daily'], ti = 0;
+  var msgs = ['Free Delivery on orders above Rs 5,000 | Pure Halal Cuts', 'Order on WhatsApp: 0304 8335259', 'Fresh halal meat, carefully processed', 'Browse the catalogue and order in minutes'], ti = 0;
   tk.textContent = msgs[0];
   setInterval(function () { tk.style.opacity = 0; setTimeout(function () { ti = (ti + 1) % msgs.length; tk.textContent = msgs[ti]; tk.style.opacity = 1; }, 400); }, 4000);
 }
 
-/* ---- 9. LIVE ORDER NOTIFICATIONS (all pages): bottom-left toast every 12-15 s (SAMPLE messages) ---- */
+/* ---- 9. LIVE ORDER NOTIFICATIONS (all pages): bottom-left toast every 12-15 s. These are labelled DEMO examples, not real customers. ---- */
 (function () {
   var wrap = document.createElement('div');                       // build the toast container (no HTML needed in pages)
   wrap.className = 'toast-container position-fixed bottom-0 start-0 p-3'; wrap.style.zIndex = 1090;
-  wrap.innerHTML = '<div id="liveToast" class="toast live-toast" role="status" aria-live="polite" data-bs-delay="5000"><div class="toast-body d-flex align-items-start gap-2"><i class="bi bi-bag-check-fill fs-4 text-warning" aria-hidden="true"></i><div><b class="text-warning small">LIVE ORDER</b><div id="toastBody"></div></div><button class="btn-close btn-close-white ms-2" data-bs-dismiss="toast" aria-label="Close notification"></button></div></div>';
+  wrap.innerHTML = '<div id="liveToast" class="toast live-toast" role="status" aria-live="polite" data-bs-delay="5000"><div class="toast-body d-flex align-items-start gap-2"><i class="bi bi-bag-check-fill fs-4 text-warning" aria-hidden="true"></i><div><b class="text-warning small">DEMO NOTIFICATION</b><div id="toastBody"></div></div><button class="btn-close btn-close-white ms-2" data-bs-dismiss="toast" aria-label="Close notification"></button></div></div>';
   document.body.appendChild(wrap);
-  var orders = ['Saad from Johar Town just ordered 2kg Mutton Boneless!', 'Usman from Johar Town just ordered 2kg Fresh Mutton!', 'Ahmed from DHA Lahore ordered 3kg Premium Beef', 'Ayesha from Gulberg ordered 1kg Mutton Mince', 'Hamza from Bahria Town ordered 5kg Fresh Beef'], le = $('#liveToast');
+  var orders = ['Example: 2 kg Mutton Boneless ordered for Johar Town', 'Example: 3 kg Fresh Beef ordered for DHA', 'Example: 1 kg Mutton Mince ordered for Gulberg', 'Example: 5 kg Fresh Beef ordered for Bahria Town'], le = $('#liveToast');
   function show() { $('#toastBody').textContent = orders[Math.floor(Math.random() * orders.length)]; if (window.bootstrap) bootstrap.Toast.getOrCreateInstance(le).show(); }
   function loop() { setTimeout(function () { show(); loop(); }, 12000 + Math.random() * 3000); }
   setTimeout(function () { show(); loop(); }, 7000);

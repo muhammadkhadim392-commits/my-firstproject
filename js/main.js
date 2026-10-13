@@ -8,6 +8,9 @@ var $ = P.$, $$ = P.$$;
 /* ---- 1. Every <a data-wa> gets the WhatsApp number from config.js (+ optional data-msg text) ---- */
 $$('[data-wa]').forEach(function (a) { a.href = P.waLink(a.dataset.msg || 'Hello Premium Slaughter House'); });
 
+/* ---- 1b. External links open safely ---- */
+$$('a[target="_blank"]').forEach(function (a) { a.rel = 'noopener noreferrer'; });
+
 /* ---- 2. Contact form: validate, then send to WhatsApp ---- */
 var cf = $('#contactForm');
 if (cf) cf.addEventListener('submit', function (e) {

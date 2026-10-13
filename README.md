@@ -39,9 +39,20 @@ images/                  photos (compress to under ~300 KB, WebP where possible)
 
 ## How to change things
 - **A price / badge / description:** edit the product in `js/data.js`. Home, Products, Quick View, Order and Deals all update.
-- **WhatsApp number:** `WHATSAPP_NUMBER` at the top of `js/config.js`.
+- **WhatsApp order number:** `WHATSAPP_NUMBER` at the top of `js/config.js` (currently 0304 8335259 = `923048335259`). The phone/WhatsApp text in the page footer and Contact page is in the page HTML.
 - **Free delivery rule / delivery fee:** `FREE_DELIVERY_OVER` and `DELIVERY_FEE` in `js/config.js`.
 - **Colours:** the `:root` block at the top of `css/style.css`.
+
+## Speed (why the pages open quickly)
+- No loading screen: the page is visible immediately
+- Scripts use `defer`, so they never block the first paint
+- One hero image (preloaded on the home page), no zoom animation, no heavy blur effects
+- Two fonts only (Playfair Display + Inter) with `display=swap`
+- Images are lazy-loaded; **compress your photos to ~150-300 KB (WebP if possible)** - this is the biggest speed win you control
+- Scroll effects run once per animation frame
+
+## Honesty notes
+Product information, prices and business details are illustrative. Orders are sent as a WhatsApp message; the site does not process payments or store orders. Cart prices are always taken from `js/data.js` (never from the browser's stored data), but a real shop must also verify prices on a server.
 
 ## Live demo
 Add your GitHub Pages link here.
