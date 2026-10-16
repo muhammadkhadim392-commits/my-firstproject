@@ -15,9 +15,8 @@ var $ = P.$, $$ = P.$$, money = P.money;
 function canon(i) {
   if (!i || typeof i.id !== 'string' || !isFinite(i.qty) || +i.qty <= 0) return null;
   if (i.unit === 'pack') { var d = P.deals.filter(function (x) { return P.slug(x.name) + '-pack' === i.id; })[0]; return d ? { price: P.dealPrice(d).price, name: d.name, img: d.img } : null; }
-  var deal = /-deal$/.test(i.id), base = deal ? i.id.replace(/-deal$/, '') : i.id, p = P.byId(base);
+  var p = P.byId(i.id);
   if (!p) return null;
-  if (deal) { var dd = P.dayDeals.filter(function (x) { return x.id === base; })[0]; return dd ? { price: P.dayPrice(dd).price, name: p.name + ' (Deal)', img: p.img } : null; }
   return { price: p.price, name: p.name, img: p.img };
 }
 function get() {
@@ -136,11 +135,12 @@ function render() {
 P.renderCart = render;
 if ($('#cartList')) {                                                                   // deal links: order.html?product=...&price=...&img=...
   var p = new URLSearchParams(location.search);
-  if (p.get('product')) {                                                               // Deal-of-the-Day link: order.html?product=Fresh+Beef&deal=1
-    var c0 = get(), isDeal = p.get('deal') === '1', id0 = P.slug(p.get('product')) + (isDeal ? '-deal' : '');
-    if (!c0.some(function (i) { return i.id === id0; })) { c0.push({ id: id0, name: p.get('product'), price: 0, qty: 1, img: '', unit: 'kg' }); save(c0); } // price is re-checked by get()
-    history.replaceState(null, '', location.pathname);
+  var dl = P.deals.filter(function (x) { return x.id === p.get('deal'); })[0];            // popup link: order.html?deal=beef-bundle
+  if (dl) {
+    var c0 = get(), id0 = P.slug(dl.name) + '-pack';
+    if (!c0.some(function (i) { return i.id === id0; })) { c0.push({ id: id0, name: dl.name, price: 0, qty: 1, img: dl.img, unit: 'pack' }); save(c0); } // price comes from data.js (get() re-checks it)
   }
+  if (p.get('deal')) history.replaceState(null, '', location.pathname);
   render();
 }
 })(window.PSH);
