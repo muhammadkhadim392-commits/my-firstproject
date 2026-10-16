@@ -6,7 +6,7 @@
 var $ = P.$, $$ = P.$$;
 
 /* ---- 1. Every <a data-wa> gets the WhatsApp number from config.js (+ optional data-msg text) ---- */
-$$('[data-wa]').forEach(function (a) { a.href = P.waLink(a.dataset.msg || 'Hello Premium Slaughter House'); });
+$$('[data-wa]').forEach(function (a) { a.href = P.waLink(a.dataset.msg || 'Hello Premium Meat'); });
 
 /* ---- 1b. External links open safely ---- */
 $$('a[target="_blank"]').forEach(function (a) { a.rel = 'noopener noreferrer'; });
@@ -26,10 +26,10 @@ var dm = $('#dealModal');
 if (dm) {
   var m = new bootstrap.Modal(dm), fab = $('#dealFab'), car = $('#dealCar'), seen = false;
   try { seen = localStorage.getItem('dealSeen'); } catch (e) {}
-  dm.addEventListener('shown.bs.modal', function () { bootstrap.Carousel.getOrCreateInstance(car).cycle(); fab.style.display = 'none'; });
-  dm.addEventListener('hidden.bs.modal', function () { bootstrap.Carousel.getOrCreateInstance(car).pause(); fab.style.display = 'block'; });
-  fab.onclick = function () { m.show(); };
-  if (!seen) setTimeout(function () { m.show(); try { localStorage.setItem('dealSeen', '1'); } catch (e) {} }, 5000); else fab.style.display = 'block';
+  dm.addEventListener('shown.bs.modal', function () { bootstrap.Carousel.getOrCreateInstance(car).cycle(); if (fab) fab.style.display = 'none'; });
+  dm.addEventListener('hidden.bs.modal', function () { bootstrap.Carousel.getOrCreateInstance(car).pause(); if (fab) fab.style.display = 'block'; });
+  if (fab) fab.onclick = function () { m.show(); };
+  if (!seen) setTimeout(function () { m.show(); try { localStorage.setItem('dealSeen', '1'); } catch (e) {} }, 5000); else if (fab) fab.style.display = 'block';
 }
 
 /* ---- 4. Deal countdowns: counts down to midnight (daily deal). ONLY keep this if the offer is genuinely time-limited. ---- */

@@ -1,8 +1,11 @@
-# Premium Slaughter House
+# Premium Meat
 
 Modern, responsive meat-commerce website built with plain HTML, CSS, JavaScript and Bootstrap.
 
-> **Portfolio demo.** Premium Slaughter House is a concept created to demonstrate modern food-business web design and functionality. Prices, offers and the live-order notifications are sample content.
+> **Portfolio demo.** Premium Meat is a concept created to demonstrate modern food-business web design and functionality. Prices, offers and the live-order notifications are sample content.
+
+## Brand & design
+Brand: **Premium Meat** (fresh halal meat, ordered online). Logo: `images/logo.svg`. The full design system (colours, type, components, page layouts, Figma steps) is in **DESIGN-SYSTEM.md**.
 
 ## Features
 - Responsive design (phone, tablet, laptop, desktop) with an animated mobile menu

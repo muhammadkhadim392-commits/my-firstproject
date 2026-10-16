@@ -830,3 +830,52 @@ img{height:auto}                                                           /* no
 .fh{color:var(--lgold);font:600 16px 'Playfair Display',serif;margin-bottom:16px}   /* footer column titles (not headings: they are labels) */
 .tlh h3{margin:8px 0 6px}.stg h3{font-size:17px;margin:10px 0}.svc h3{font-size:19px;margin:10px 0 8px}.tm-body h3{margin:0}.certb h3{color:#fff;font-size:18px}  /* same spacing as before */
 .fnews .fh{font-size:18px}                                              /* newsletter band title */
+
+
+/* ##########################################################################
+   v8 VISUAL FIXES (found by looking at real screenshots)
+   ########################################################################## */
+
+/* ===== 79. NAVBAR: never wraps. Search + WhatsApp icon only on wide screens (1400px+) ===== */
+@media(min-width:992px){
+  .nav-tools{flex-wrap:nowrap;flex-shrink:0}                               /* Order Now can no longer drop to a second line */
+  .nsearch,.navwa{display:none}                                            /* laptops: cart + Order Now only */
+  .navbar .nav-link{padding:8px 11px!important}                            /* a little tighter so 7 links + tools fit at 1366px */
+}
+@media(min-width:1400px){.nsearch{display:flex}.navwa{display:inline-block}.nsearch input{width:110px}}   /* big screens: search + WhatsApp icon too */
+
+/* ===== 80. BUTCHER'S GUIDE TABS: no navbar-style underline on the pills ===== */
+.cutnav .nav-link,.cutnav .nav-link:hover,.cutnav .nav-link.active{border-bottom:1px solid rgba(198,161,91,.4)}   /* same border all round */
+.cutnav .nav-link.active{border-color:var(--gold)}
+
+/* ===== 81. PRODUCT NAME: no empty second line (cards still line up because descriptions reserve 2 lines) ===== */
+.pcard .card-title,.pcard .pinfo h5{min-height:0}
+
+/* ===== 82. ORDER SUMMARY ROWS: more room for names ===== */
+.citem img{width:56px;height:56px}.citem .nm{font-size:14.5px;line-height:1.3}.citem .flex-fill{min-width:110px}
+.citem{gap:10px}
+
+/* ===== 83. NUMBERS: Playfair's default old-style digits look uneven ("0-4C", "24/7", "01") - use lining figures ===== */
+h1,h2,h3,h4,h5,.stat b,.tlh .yr,.how .hn,.qv-price,.dealc .nw,.dprice b,.brand-t{font-variant-numeric:lining-nums;font-feature-settings:'lnum' 1}
+
+/* ===== 84. NO HORIZONTAL SCROLLING (found by testing 360 / 390 / 412 / 768 px) ===== */
+html,body{overflow-x:clip}                                                  /* anything that pokes out is clipped, never scrollable */
+@media(max-width:991px){.reveal.l,.reveal.r{transform:translateY(24px)}}    /* sideways slide-in made columns wider than the screen on phones/tablets */
+.cinfo>div{min-width:0}.cinfo .text-secondary{overflow-wrap:anywhere}       /* long e-mail address wraps inside its card */
+footer a,footer div{overflow-wrap:anywhere}                                 /* footer links never push the page wider */
+
+/* ===== 85. CONTACT: the map is secondary (smaller than the info + form) ===== */
+.mapbox{min-height:240px;height:260px}.mapbox iframe{min-height:240px;height:100%}   /* compact illustrative map */
+.sec-sub.mb-3{margin-top:0}
+
+/* ===== 86. LEFT-ALIGNED SECTION TITLES: breathing room before the paragraph ===== */
+.row .sec-title{margin-bottom:14px}
+.text-center .sec-title{margin-bottom:0}
+
+/* ##########################################################################
+   v9 REBRAND: "Premium Meat" - SVG monogram logo + new wordmark
+   ########################################################################## */
+.navbar .logo{width:44px;height:44px;border-radius:0;object-fit:contain}   /* SVG monogram logo */
+.brand-t{font-size:17px;letter-spacing:1.5px;white-space:nowrap}           /* "PREMIUM MEAT" */
+.brand-s{font-size:9px;letter-spacing:2.4px;white-space:nowrap}            /* "Fresh Halal Meat" */
+@media(min-width:992px) and (max-width:1199px){.brand-s{display:none}.navbar .nav-link{padding:8px 8px!important;font-size:14px}}   /* tighter on small laptops so nothing wraps */

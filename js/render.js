@@ -56,16 +56,16 @@ if (dg) dg.innerHTML = P.deals.map(function (d) {
     '<button class="btn btn-gold mt-auto add" data-name="' + d.name + '" data-price="' + x.price + '" data-img="' + d.img + '" data-unit="pack">Get Deal</button></div></article></div>';
 }).join('');
 
-/* ---- 5. DEAL OF THE DAY POPUP (home) ---- */
+/* ---- 5. FIRST-VISIT POPUP: shows the SAME bundle offers as the Special Offers section (one set of offers, not two) ---- */
 var ds = $('#dealSlides');
 if (ds) {
-  ds.innerHTML = P.dayDeals.map(function (d, i) {
-    var x = P.dayPrice(d);
-    return '<div class="carousel-item' + (i ? '' : ' active') + '"><div class="deal" style="background-image:url(\'' + x.p.img + '\')"><div class="deal-body"><span class="dbadge">DEAL OF THE DAY &bull; ' + d.off + '% OFF</span><h3>' + x.p.name + '</h3><p>' + x.p.desc + '</p>' +
-      '<div class="dprice"><b>' + money(x.price) + '<small class="fs-6">/kg</small></b><s>' + money(x.old) + '</s></div><div class="dsave">You save ' + money(x.save) + ' per kg</div>' +
-      '<a href="order.html?product=' + encodeURIComponent(x.p.name) + '&price=' + x.price + '&img=' + encodeURIComponent(x.p.img) + '&deal=1" class="btn btn-gold">ORDER THIS DEAL <i class="bi bi-arrow-right" aria-hidden="true"></i></a> ' +
-      '<a data-wa data-msg="Hello, I want this deal: ' + x.p.name + ' (' + money(x.price) + '/kg)" target="_blank" rel="noopener" class="btn btn-wa"><i class="bi bi-whatsapp" aria-hidden="true"></i> Order on WhatsApp</a></div></div></div>';
+  ds.innerHTML = P.deals.map(function (d, i) {
+    var x = P.dealPrice(d);
+    return '<div class="carousel-item' + (i ? '' : ' active') + '"><div class="deal" style="background-image:url(\'' + d.img + '\')"><div class="deal-body"><span class="dbadge">LIMITED OFFER &bull; SAVE ' + money(x.save) + '</span><h3>' + d.name + '</h3><p>' + d.desc + '</p>' +
+      '<div class="dprice"><b>' + money(x.price) + '</b><s>' + money(x.old) + '</s></div><div class="dsave">Illustrative offer for this portfolio demo</div>' +
+      '<a href="order.html?deal=' + d.id + '" class="btn btn-gold">ADD THIS DEAL <i class="bi bi-arrow-right" aria-hidden="true"></i></a> ' +
+      '<a data-wa data-msg="Hello, I am interested in: ' + d.name + ' (' + money(x.price) + ')" target="_blank" rel="noopener" class="btn btn-wa"><i class="bi bi-whatsapp" aria-hidden="true"></i> Ask on WhatsApp</a></div></div></div>';
   }).join('');
-  $('#dealInd').innerHTML = P.dayDeals.map(function (d, i) { return '<button type="button" data-bs-target="#dealCar" data-bs-slide-to="' + i + '"' + (i ? '' : ' class="active" aria-current="true"') + ' aria-label="Deal ' + (i + 1) + '"></button>'; }).join('');
+  $('#dealInd').innerHTML = P.deals.map(function (d, i) { return '<button type="button" data-bs-target="#dealCar" data-bs-slide-to="' + i + '"' + (i ? '' : ' class="active" aria-current="true"') + ' aria-label="Offer ' + (i + 1) + '"></button>'; }).join('');
 }
 })(window.PSH);

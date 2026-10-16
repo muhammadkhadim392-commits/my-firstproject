@@ -47,7 +47,7 @@ function validateForm() {
 /* ---- 5. generateOrder(): builds the professional WhatsApp text from the cart + customer details ---- */
 function generateOrder() {
   var cart = P.cart.get(), c = store(), t = P.cart.totals(cart), ref = 'PSH-' + Date.now().toString().slice(-6), m = P.money;
-  var text = '*Premium Slaughter House*\n*New Order* (Ref: ' + ref + ')\n\n*Customer:*\n' + c.custName + '\n\n*Phone:*\n' + c.custPhone + '\n\n*Order:*\n';
+  var text = '*Premium Meat*\n*New Order* (Ref: ' + ref + ')\n\n*Customer:*\n' + c.custName + '\n\n*Phone:*\n' + c.custPhone + '\n\n*Order:*\n';
   cart.forEach(function (i) { text += '\u2022 ' + i.name + ' \u2014 ' + P.fmtKg(i.qty, i.unit) + ' (' + m(i.price * i.qty) + ')\n'; });
   text += '\n*Subtotal:* ' + m(t.sub) + '\n*Delivery:* ' + (t.del ? m(t.del) : 'FREE') + '\n*Total:* ' + m(t.grand) +
     '\n\n*Delivery:*\n' + c.custCity + '\n' + c.custArea + '\n' + c.custAddress + '\n\n*Date:* ' + c.custDate + '\n*Preferred time:* ' + c.custSlot + '\n*Payment:* ' + c.custPay + (c.custNotes ? '\n*Notes:* ' + c.custNotes : '');
