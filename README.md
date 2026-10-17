@@ -2,10 +2,10 @@
 
 Modern, responsive meat-commerce website built with plain HTML, CSS, JavaScript and Bootstrap.
 
-> **Portfolio demo.** Premium Meat is a concept created to demonstrate modern food-business web design and functionality. Prices, offers and the live-order notifications are sample content.
+> **Portfolio concept.** Premium Meat is a fictional brand concept created to demonstrate modern food-business design and frontend development. Product details, prices, contact information and operating claims are sample content; replace them with verified business information before launch.
 
 ## Brand & design
-Brand: **Premium Meat** (fresh halal meat, ordered online). Logo: `images/logo.svg`. The full design system (colours, type, components, page layouts, Figma steps) is in **DESIGN-SYSTEM.md**.
+Brand: **Premium Meat** (fresh halal meat, ordered online). Logo: `images/logo.svg`. The shared visual system and responsive page styling live in `css/style.css`.
 
 ## Features
 - Responsive design (phone, tablet, laptop, desktop) with an animated mobile menu
@@ -16,7 +16,7 @@ Brand: **Premium Meat** (fresh halal meat, ordered online). Logo: `images/logo.s
 - Checkout form with validation, free-delivery progress bar and WhatsApp order message
 - Bulk quote calculator with discount tiers
 - Gallery with filters and a full-screen lightbox (next / previous / ESC / swipe)
-- Deal cards with a working countdown (resets at midnight)
+- Sample bundle cards, with prices calculated from the product list
 - Accessibility: skip link, visible focus, labelled forms, alt text, keyboard-friendly controls
 
 ## Technologies
@@ -36,7 +36,7 @@ js/products.js           filterProducts(), searchProducts(), Quick View
 js/checkout.js           validateForm(), generateOrder(), sendToWhatsApp()
 js/calculator.js         bulk quote calculator
 js/gallery.js            filterGallery(), openLightbox(), nextImage(), previousImage()
-js/main.js               contact form, deal popup, countdown()
+js/main.js               contact form and WhatsApp links
 images/                  photos (compress to under ~300 KB, WebP where possible)
 ```
 
@@ -44,12 +44,13 @@ images/                  photos (compress to under ~300 KB, WebP where possible)
 - **A price / badge / description:** edit the product in `js/data.js`. Home, Products, Quick View, Order and Deals all update.
 - **WhatsApp order number:** `WHATSAPP_NUMBER` at the top of `js/config.js` (currently 0304 8335259 = `923048335259`). The phone/WhatsApp text in the page footer and Contact page is in the page HTML.
 - **Free delivery rule / delivery fee:** `FREE_DELIVERY_OVER` and `DELIVERY_FEE` in `js/config.js`.
-- **Colours:** the `:root` block at the top of `css/style.css`.
+- **Colours:** the design tokens in `css/style.css`.
+- **Hero image:** `images/home/hero-image.jpg` (preloaded on the home page).
 
 ## Speed (why the pages open quickly)
 - No loading screen: the page is visible immediately
 - Scripts use `defer`, so they never block the first paint
-- One hero image (preloaded on the home page), no zoom animation, no heavy blur effects
+- One hero image (preloaded on the home page), no loading screen, no simulated order notifications
 - Two fonts only (Playfair Display + Inter) with `display=swap`
 - Images are lazy-loaded; **compress your photos to ~150-300 KB (WebP if possible)** - this is the biggest speed win you control
 - Scroll effects run once per animation frame
