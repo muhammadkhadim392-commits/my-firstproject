@@ -3,7 +3,7 @@
    One card template is used on Home, Products and (mini) Order, so every product
    looks and prices the same everywhere. Containers it fills (if present on the page):
      #grid (home featured) | #productGrid (all products) | #quickGrid (order quick add)
-     #dealGrid (home deals) | #dealSlides + #dealInd (deal popup) | [data-cat-count]
+     #dealGrid (home deals) | [data-cat-count]
    ########################################################################## */
 (function (P) {
 var $ = P.$, $$ = P.$$, money = P.money;
@@ -50,22 +50,8 @@ $$('[data-cat-count]').forEach(function (el) { var k = el.dataset.catCount, n = 
 var dg = $('#dealGrid');
 if (dg) dg.innerHTML = P.deals.map(function (d) {
   var x = P.dealPrice(d);
-  return '<div class="col-md-6 col-lg-4"><article class="dealc"><div class="di"><img src="' + d.img + '" alt="' + d.name + '" loading="lazy" onerror="' + FALLBACK + '"><span class="lim">LIMITED OFFER</span></div>' +
+  return '<div class="col-md-6 col-lg-4"><article class="dealc"><div class="di"><img src="' + d.img + '" alt="' + d.name + '" loading="lazy" onerror="' + FALLBACK + '"><span class="lim">SAMPLE BUNDLE</span></div>' +
     '<div class="db"><h3>' + d.name + '</h3><p class="text-white-50 small mb-2">' + d.desc + '</p><div><span class="nw">' + money(x.price) + '</span><span class="od">' + money(x.old) + '</span></div><span class="sv align-self-start">Save ' + money(x.save) + '</span>' +
-    '<div class="cd"><div class="cd-t">OFFER ENDS IN</div><div class="countdown"><span><b data-u="h">00</b><small>Hours</small></span><i>:</i><span><b data-u="m">00</b><small>Minutes</small></span><i>:</i><span><b data-u="s">00</b><small>Seconds</small></span></div></div>' +
     '<button class="btn btn-gold mt-auto add" data-name="' + d.name + '" data-price="' + x.price + '" data-img="' + d.img + '" data-unit="pack">Get Deal</button></div></article></div>';
 }).join('');
-
-/* ---- 5. FIRST-VISIT POPUP: shows the SAME bundle offers as the Special Offers section (one set of offers, not two) ---- */
-var ds = $('#dealSlides');
-if (ds) {
-  ds.innerHTML = P.deals.map(function (d, i) {
-    var x = P.dealPrice(d);
-    return '<div class="carousel-item' + (i ? '' : ' active') + '"><div class="deal" style="background-image:url(\'' + d.img + '\')"><div class="deal-body"><span class="dbadge">LIMITED OFFER &bull; SAVE ' + money(x.save) + '</span><h3>' + d.name + '</h3><p>' + d.desc + '</p>' +
-      '<div class="dprice"><b>' + money(x.price) + '</b><s>' + money(x.old) + '</s></div><div class="dsave">Illustrative offer for this portfolio demo</div>' +
-      '<a href="order.html?deal=' + d.id + '" class="btn btn-gold">ADD THIS DEAL <i class="bi bi-arrow-right" aria-hidden="true"></i></a> ' +
-      '<a data-wa data-msg="Hello, I am interested in: ' + d.name + ' (' + money(x.price) + ')" target="_blank" rel="noopener" class="btn btn-wa"><i class="bi bi-whatsapp" aria-hidden="true"></i> Ask on WhatsApp</a></div></div></div>';
-  }).join('');
-  $('#dealInd').innerHTML = P.deals.map(function (d, i) { return '<button type="button" data-bs-target="#dealCar" data-bs-slide-to="' + i + '"' + (i ? '' : ' class="active" aria-current="true"') + ' aria-label="Offer ' + (i + 1) + '"></button>'; }).join('');
-}
 })(window.PSH);

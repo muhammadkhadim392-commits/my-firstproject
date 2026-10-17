@@ -30,7 +30,7 @@ P.products = [
 P.products.forEach(function (p) { p.unit = 'kg'; if (p.inStock === undefined) p.inStock = true; });
 
 /* ---- DEAL BUNDLES: price is CALCULATED from the master list (old price = sum of parts, new price = old price minus the discount) ---- */
-/* Illustrative bundle offers (shown in the Special Offers section AND the first-visit popup). Edit here. */
+/* Illustrative bundle offers (shown in the home page bundle section). Edit here. */
 P.deals = [
   { id: 'beef-bundle',    name: 'Premium Beef Bundle', img: 'images/products/beef-boneless.jpg',               desc: '3 kg Beef Boneless + 1 kg Beef Mince',            items: [['beef-boneless', 3], ['beef-mince', 1]],              off: 18 },
   { id: 'karahi-deal',    name: 'Mutton Karahi Pack',  img: 'images/products/premium-karahi-cut-pack.webp',    desc: '2 kg cleaned Karahi Cut Pack, ready to cook',     items: [['karahi-pack', 2]],                                   off: 8 },

@@ -1,6 +1,6 @@
 /* ##########################################################################
    js/main.js  -  PAGE EXTRAS (load LAST): WhatsApp links, contact form,
-   Deal-of-the-Day popup, deal countdowns
+   WhatsApp links and contact form
    ########################################################################## */
 (function (P) {
 var $ = P.$, $$ = P.$$;
@@ -21,26 +21,6 @@ if (cf) cf.addEventListener('submit', function (e) {
   P.toast('Opening WhatsApp\u2026'); cf.reset(); cf.classList.remove('was-validated');
 });
 
-/* ---- 3. Deal of the Day popup: opens 5 s after the FIRST visit; the floating button reopens it ---- */
-var dm = $('#dealModal');
-if (dm) {
-  var m = new bootstrap.Modal(dm), fab = $('#dealFab'), car = $('#dealCar'), seen = false;
-  try { seen = localStorage.getItem('dealSeen'); } catch (e) {}
-  dm.addEventListener('shown.bs.modal', function () { bootstrap.Carousel.getOrCreateInstance(car).cycle(); if (fab) fab.style.display = 'none'; });
-  dm.addEventListener('hidden.bs.modal', function () { bootstrap.Carousel.getOrCreateInstance(car).pause(); if (fab) fab.style.display = 'block'; });
-  if (fab) fab.onclick = function () { m.show(); };
-  if (!seen) setTimeout(function () { m.show(); try { localStorage.setItem('dealSeen', '1'); } catch (e) {} }, 5000); else if (fab) fab.style.display = 'block';
-}
+/* ---- 3. Offers stay available in the page; never interrupt a first visit with a popup. ---- */
 
-/* ---- 4. Deal countdowns: counts down to midnight (daily deal). ONLY keep this if the offer is genuinely time-limited. ---- */
-var cds = $$('.countdown');
-if (cds.length) {
-  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
-  window.countdown = function () {
-    var now = new Date(), end = new Date(now); end.setHours(24, 0, 0, 0);                  // next midnight
-    var s = Math.floor((end - now) / 1000), h = Math.floor(s / 3600), mi = Math.floor(s % 3600 / 60), se = s % 60;
-    cds.forEach(function (c) { c.querySelector('[data-u="h"]').textContent = pad(h); c.querySelector('[data-u="m"]').textContent = pad(mi); c.querySelector('[data-u="s"]').textContent = pad(se); }); // update the three boxes
-  };
-  countdown(); setInterval(countdown, 1000);                                            // starts immediately - never shows --:--:--
-}
 })(window.PSH);

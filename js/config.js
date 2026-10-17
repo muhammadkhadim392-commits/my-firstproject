@@ -2,10 +2,10 @@
    js/config.js  -  SETTINGS + SHARED HELPERS  (must load FIRST)
    JS ARCHITECTURE (each file has ONE responsibility; they share the PSH object):
      config.js     settings + helpers          | data.js      MASTER PRODUCT + PRICE LIST
-     render.js     builds cards from data      | ui.js        navbar, scroll, reveal, counters, toast
+     render.js     builds cards from data      | ui.js        navbar, scroll, reveal, counters
      cart.js       cart engine + cart page     | products.js  filters, search, quick view
      checkout.js   validation + WhatsApp order | calculator.js bulk quote calculator
-     gallery.js    filters + lightbox          | main.js      contact form, deals, countdown, links
+     gallery.js    filters + lightbox          | main.js      contact form + WhatsApp links
    ########################################################################## */
 window.PSH = {
   WHATSAPP_NUMBER: '923048335259',   // <-- WhatsApp order number 0304 8335259 (country code, no + or spaces). Change it HERE only

@@ -1,6 +1,6 @@
 /* ##########################################################################
    js/ui.js  -  GENERAL UI: toast, navbar, scroll effects, reveal,
-   counters, timeline progress, newsletter, ticker, live-order notifications
+   counters, timeline progress and the announcement line
    ########################################################################## */
 (function (P) {
 var $ = P.$, $$ = P.$$;
@@ -98,28 +98,10 @@ window.animateCounters = animateCounters;
 var co = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { co.unobserve(e.target); animateCounters(e.target); } }); }, { threshold: 0.5 });
 $$('.counter-val,[data-count]').forEach(function (e) { co.observe(e); });
 
-/* ---- 7. NEWSLETTER FORM ---- */
-var nf = $('#newsForm');
-if (nf) nf.onsubmit = function (e) { e.preventDefault(); P.toast('Thanks! (Demo: no email is stored)'); nf.reset(); };
-
-/* ---- 8. ANNOUNCEMENT TICKER: rotating live alerts ---- */
+/* ---- 7. ANNOUNCEMENT LINE: concise, stable information ---- */
 var tk = $('#ticker');
-if (tk) {
-  var msgs = ['Free Delivery on orders above Rs 5,000 | Pure Halal Cuts', 'Order on WhatsApp: 0304 8335259', 'Fresh halal meat, carefully processed', 'Browse the catalogue and order in minutes'], ti = 0;
-  tk.textContent = msgs[0];
-  setInterval(function () { tk.style.opacity = 0; setTimeout(function () { ti = (ti + 1) % msgs.length; tk.textContent = msgs[ti]; tk.style.opacity = 1; }, 400); }, 4000);
-}
+if (tk) tk.textContent = 'Fresh halal meat, carefully prepared';
 
-/* ---- 9. LIVE ORDER NOTIFICATIONS (all pages): bottom-left toast every 12-15 s. These are labelled DEMO examples, not real customers. ---- */
-(function () {
-  var wrap = document.createElement('div');                       // build the toast container (no HTML needed in pages)
-  wrap.className = 'toast-container position-fixed bottom-0 start-0 p-3'; wrap.style.zIndex = 1090;
-  wrap.innerHTML = '<div id="liveToast" class="toast live-toast" role="status" aria-live="polite" data-bs-delay="5000"><div class="toast-body d-flex align-items-start gap-2"><i class="bi bi-bag-check-fill fs-4 text-warning" aria-hidden="true"></i><div><b class="text-warning small">DEMO NOTIFICATION</b><div id="toastBody"></div></div><button class="btn-close btn-close-white ms-2" data-bs-dismiss="toast" aria-label="Close notification"></button></div></div>';
-  document.body.appendChild(wrap);
-  var orders = ['Example: 2 kg Mutton Boneless ordered for Johar Town', 'Example: 3 kg Fresh Beef ordered for DHA', 'Example: 1 kg Mutton Mince ordered for Gulberg', 'Example: 5 kg Fresh Beef ordered for Bahria Town'], le = $('#liveToast');
-  function show() { $('#toastBody').textContent = orders[Math.floor(Math.random() * orders.length)]; if (window.bootstrap) bootstrap.Toast.getOrCreateInstance(le).show(); }
-  function loop() { setTimeout(function () { show(); loop(); }, 12000 + Math.random() * 3000); }
-  setTimeout(function () { show(); loop(); }, 7000);
-})();
+/* ---- 8. No simulated customer activity: keep the demo quiet and trustworthy. ---- */
 
 })(window.PSH);
