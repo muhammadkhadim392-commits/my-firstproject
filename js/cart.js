@@ -10,11 +10,25 @@
 var $ = P.$, $$ = P.$$, money = P.money;
 
 /* ---- 1. READ / WRITE ---- */
+/* canon(item): the TRUSTED price for a stored cart item, or null if the item is unknown/invalid.
+   Prices always come from js/data.js, never from localStorage (which anyone can edit). A real shop must also check on a server. */
+function canon(i) {
+  if (!i || typeof i.id !== 'string' || !isFinite(i.qty) || +i.qty <= 0) return null;
+  if (i.unit === 'pack') { var d = P.deals.filter(function (x) { return P.slug(x.name) + '-pack' === i.id; })[0]; return d ? { price: P.dealPrice(d).price, name: d.name, img: d.img } : null; }
+  var deal = /-deal$/.test(i.id), base = deal ? i.id.replace(/-deal$/, '') : i.id, p = P.byId(base);
+  if (!p) return null;
+  if (deal) { var dd = P.dayDeals.filter(function (x) { return x.id === base; })[0]; return dd ? { price: P.dayPrice(dd).price, name: p.name + ' (Deal)', img: p.img } : null; }
+  return { price: p.price, name: p.name, img: p.img };
+}
 function get() {
   var s = null;
   try { s = localStorage.getItem('cart'); } catch (e) {}                                // main copy
   if (!s && window.name.indexOf('CART:') === 0) s = window.name.slice(5);               // backup copy
-  try { return s ? JSON.parse(s) : []; } catch (e) { return []; }
+  var arr = []; try { arr = s ? JSON.parse(s) : []; } catch (e) {}                      // malformed data -> empty cart
+  return (Array.isArray(arr) ? arr : []).map(function (i) {                             // keep only valid items, with trusted prices
+    var c = canon(i); if (!c) return null;
+    return { id: i.id, name: c.name, price: c.price, qty: Math.round(+i.qty * 100) / 100, img: c.img, unit: i.unit === 'pack' ? 'pack' : 'kg' };
+  }).filter(Boolean);
 }
 function save(c) {
   var s = JSON.stringify(c);
@@ -122,7 +136,11 @@ function render() {
 P.renderCart = render;
 if ($('#cartList')) {                                                                   // deal links: order.html?product=...&price=...&img=...
   var p = new URLSearchParams(location.search);
-  if (p.get('product')) { var c0 = get(), id0 = P.slug(p.get('product')); if (!c0.some(function (i) { return i.id === id0; })) { c0.push({ id: id0, name: p.get('product'), price: +p.get('price') || 0, qty: 1, img: p.get('img') || '', unit: 'kg' }); save(c0); } history.replaceState(null, '', location.pathname); }
+  if (p.get('product')) {                                                               // Deal-of-the-Day link: order.html?product=Fresh+Beef&deal=1
+    var c0 = get(), isDeal = p.get('deal') === '1', id0 = P.slug(p.get('product')) + (isDeal ? '-deal' : '');
+    if (!c0.some(function (i) { return i.id === id0; })) { c0.push({ id: id0, name: p.get('product'), price: 0, qty: 1, img: '', unit: 'kg' }); save(c0); } // price is re-checked by get()
+    history.replaceState(null, '', location.pathname);
+  }
   render();
 }
 })(window.PSH);

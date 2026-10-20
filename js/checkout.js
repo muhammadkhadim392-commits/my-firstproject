@@ -4,7 +4,7 @@
    ########################################################################## */
 (function (P) {
 var $ = P.$, f = $('#orderForm'); if (!f) return;                                        // only runs on order.html
-var ids = ['custName', 'custPhone', 'custCity', 'custArea', 'custAddress', 'custDate', 'custSlot', 'custPay'];
+var ids = ['custName', 'custPhone', 'custCity', 'custArea', 'custAddress', 'custDate', 'custSlot', 'custPay', 'custNotes'];
 
 /* ---- 1. Customer details are remembered in localStorage (guest checkout - no account needed) ---- */
 function load() { var s = {}; try { s = JSON.parse(localStorage.getItem('customer') || '{}'); } catch (e) {} ids.forEach(function (i) { var el = $('#' + i); if (el && s[i]) el.value = s[i]; }); }
@@ -50,14 +50,14 @@ function generateOrder() {
   var text = '*Premium Slaughter House*\n*New Order* (Ref: ' + ref + ')\n\n*Customer:*\n' + c.custName + '\n\n*Phone:*\n' + c.custPhone + '\n\n*Order:*\n';
   cart.forEach(function (i) { text += '\u2022 ' + i.name + ' \u2014 ' + P.fmtKg(i.qty, i.unit) + ' (' + m(i.price * i.qty) + ')\n'; });
   text += '\n*Subtotal:* ' + m(t.sub) + '\n*Delivery:* ' + (t.del ? m(t.del) : 'FREE') + '\n*Total:* ' + m(t.grand) +
-    '\n\n*Delivery:*\n' + c.custCity + '\n' + c.custArea + '\n' + c.custAddress + '\n\n*Date:* ' + c.custDate + '\n*Preferred time:* ' + c.custSlot + '\n*Payment:* ' + c.custPay;
+    '\n\n*Delivery:*\n' + c.custCity + '\n' + c.custArea + '\n' + c.custAddress + '\n\n*Date:* ' + c.custDate + '\n*Preferred time:* ' + c.custSlot + '\n*Payment:* ' + c.custPay + (c.custNotes ? '\n*Notes:* ' + c.custNotes : '');
   return { text: text, ref: ref, total: t.grand, name: c.custName };
 }
 /* ---- 6. sendToWhatsApp(text): opens WhatsApp with the message ---- */
 function sendToWhatsApp(text) { window.open(P.waLink(text), '_blank'); }
 window.validateForm = validateForm; window.generateOrder = generateOrder; window.sendToWhatsApp = sendToWhatsApp;
 
-/* ---- 7. The form's submit handler: validate -> generate -> send -> success message -> clear cart ---- */
+/* ---- 7. The form's submit handler (attached below, not inline): validate -> generate -> send -> success message -> clear cart ---- */
 window.checkoutViaWhatsApp = function (event) {
   event.preventDefault();
   if (!validateForm()) return;
@@ -66,4 +66,5 @@ window.checkoutViaWhatsApp = function (event) {
   new bootstrap.Modal($('#successModal')).show();                                          // success state
   done3 = true; P.cart.save([]); P.renderCart(); f.classList.remove('was-validated'); stepper(); done3 = false; // empty cart, keep customer details
 };
+f.addEventListener('submit', window.checkoutViaWhatsApp);                                   // submit = validate + send
 })(window.PSH);

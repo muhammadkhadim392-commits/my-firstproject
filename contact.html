@@ -2,23 +2,24 @@
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Contact Premium Slaughter House for orders, bulk supply and enquiries.">
+<meta name="theme-color" content="#171717">
+<meta property="og:type" content="website"><meta property="og:title" content="Contact Us | Premium Slaughter House"><meta property="og:description" content="Contact Premium Slaughter House for orders, bulk supply and enquiries."><!-- add og:url / canonical with your real deployed address -->
 <title>Contact Us | Premium Slaughter House</title>
 <link rel="icon" href="images/favicon.jpg" type="image/jpeg">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>#loader{position:fixed;inset:0;background:#0E0B0A;z-index:9999;animation:ldx .5s 1.6s forwards}@keyframes ldx{to{opacity:0;visibility:hidden;pointer-events:none}}</style>
-<link href="css/style.css?v=20261012" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link href="css/style.css?v=20261020" rel="stylesheet">
 </head><body>
 <!-- Accessibility: keyboard users can jump straight to the content -->
 <a class="skip" href="#main">Skip to content</a>
-<!-- Loading screen (hidden automatically by CSS after ~2s and by JS on page load) -->
-<div id="loader"><div class="ring"></div><b>PREMIUM</b></div><!-- Gold scroll-progress line at very top; width is set by js/ui.js -->
+<!-- Gold scroll-progress line at very top; width is set by js/ui.js -->
 <div id="progress"></div>
 <!-- ===== SECTION: Top Announcement Bar ===== -->
 <div class="ann"><div class="container d-flex flex-wrap justify-content-center justify-content-lg-between align-items-center gap-2">
-<span><i class="bi bi-truck"></i> Free delivery above <b>Rs 5,000</b></span><span class="d-none d-md-inline"><i class="bi bi-clock"></i> Mon&ndash;Sat 8:00 AM &ndash; 6:00 PM</span><a href="tel:+923081357658"><i class="bi bi-telephone"></i> +92 308 1357658</a>
+<span><i class="bi bi-truck"></i> Free delivery above <b>Rs 5,000</b></span><span class="d-none d-md-inline"><i class="bi bi-clock"></i> Mon&ndash;Sat 8:00 AM &ndash; 6:00 PM</span><a href="tel:+923048335259"><i class="bi bi-telephone"></i> +92 304 8335259</a>
 <span class="tick"><i class="bi bi-lightning-charge-fill"></i> <b id="ticker">Fresh halal meat delivered daily</b></span></div></div>
 <!-- ===== END SECTION: Top Announcement Bar ===== -->
 <!-- ===== SECTION: Navigation Bar ===== -->
@@ -29,7 +30,7 @@
 <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nv" aria-controls="nv" aria-expanded="false" aria-label="Menu"><span class="tg"></span><span class="tg"></span><span class="tg"></span></button><!-- animated hamburger: turns into X -->
 <!-- Menu links; the current page gets a gold underline (class "active") -->
 <div class="collapse navbar-collapse" id="nv"><ul class="navbar-nav mx-auto"><li><a class="nav-link" href="index.html">Home</a></li><li><a class="nav-link" href="about.html">About</a></li><li><a class="nav-link" href="products.html">Products</a></li><li><a class="nav-link" href="services.html">Services</a></li><li><a class="nav-link" href="facilities.html">Facilities</a></li><li><a class="nav-link" href="gallery.html">Gallery</a></li><li><a class="nav-link active" href="contact.html">Contact</a></li></ul>
-<div class="d-flex align-items-center gap-3 flex-wrap nav-tools"><!-- Navbar search: press Enter -> filters on Products page, or redirects to products.html?search=... --><label class="nsearch"><i class="bi bi-search"></i><input id="navSearch" type="search" placeholder="Search meat..." aria-label="Search meat"></label><!-- WhatsApp icon (number is set in js/config.js) --><a data-wa class="navwa" target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a><!-- Cart icon: number = total kg in cart (kept in sync on every page by js files) --><a href="order.html" class="cart"><i class="bi bi-cart3" aria-hidden="true"></i><span id="cartBadgeCount" aria-live="polite">0</span><span class="visually-hidden">items in cart</span></a><a href="order.html" class="btn btn-gold py-2 magnetic">Order Now</a></div>
+<div class="d-flex align-items-center gap-3 flex-wrap nav-tools"><!-- Navbar search: press Enter -> filters on Products page, or redirects to products.html?search=... --><label class="nsearch"><i class="bi bi-search"></i><input id="navSearch" type="search" placeholder="Search meat..." aria-label="Search meat"></label><!-- WhatsApp icon (number is set in js/config.js) --><a data-wa class="navwa" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a><!-- Cart icon: number = total kg in cart (kept in sync on every page by js files) --><a href="order.html" class="cart"><i class="bi bi-cart3" aria-hidden="true"></i><span id="cartBadgeCount" aria-live="polite">0</span><span class="visually-hidden">items in cart</span></a><a href="order.html" class="btn btn-gold py-2 magnetic">Order Now</a></div>
 </div></div></nav>
 <!-- ===== END SECTION: Navigation Bar ===== -->
 <main id="main"><!-- page content starts here (skip-link target) -->
@@ -40,8 +41,8 @@
 
 <!-- ===== SECTION: Contact Info + Message Form ===== -->
 <section class="sec"><div class="container"><div class="row g-4">
-<div class="col-lg-4"><h3 class="serif mb-3 reveal">Contact Information</h3><div class="row g-3"><div class="col-6 col-lg-12 reveal l" data-d="0"><div class="cinfo"><div class="ci"><i class="bi bi-geo-alt-fill"></i></div><div><b>Our Address</b><div class="text-secondary small">Raiwind&ndash;Manga Road, Lahore, Pakistan</div></div></div></div><div class="col-6 col-lg-12 reveal l" data-d="90"><div class="cinfo"><div class="ci"><i class="bi bi-telephone-fill"></i></div><div><b>Phone</b><div class="text-secondary small">+92 308 1357658</div></div></div></div><div class="col-6 col-lg-12 reveal l" data-d="180"><div class="cinfo"><div class="ci"><i class="bi bi-whatsapp"></i></div><div><b>WhatsApp</b><div class="text-secondary small">Chat with us on WhatsApp</div></div></div></div><div class="col-6 col-lg-12 reveal l" data-d="270"><div class="cinfo"><div class="ci"><i class="bi bi-envelope-fill"></i></div><div><b>Email</b><div class="text-secondary small">info@premiumslaughterhouse.com</div></div></div></div><div class="col-6 col-lg-12 reveal l" data-d="360"><div class="cinfo"><div class="ci"><i class="bi bi-clock-fill"></i></div><div><b>Business Hours</b><div class="text-secondary small">Mon &ndash; Sat: 8:00 AM &ndash; 6:00 PM<br>Sunday: Closed</div></div></div></div></div></div>
-<div class="col-lg-8 reveal r"><div class="panel"><h3 class="serif mb-1">Send Us a Message</h3><p class="text-secondary">Fill out the form &mdash; it opens in WhatsApp so we can reply instantly.</p>
+<div class="col-lg-4"><h2 class="h3 mb-3 reveal">Contact Information</h2><div class="row g-3"><div class="col-6 col-lg-12 reveal l" data-d="0"><div class="cinfo"><div class="ci"><i class="bi bi-geo-alt-fill"></i></div><div><b>Our Address</b><div class="text-secondary small">Raiwind&ndash;Manga Road, Lahore, Pakistan</div></div></div></div><div class="col-6 col-lg-12 reveal l" data-d="90"><div class="cinfo"><div class="ci"><i class="bi bi-telephone-fill"></i></div><div><b>Phone</b><div class="text-secondary small">+92 304 8335259</div></div></div></div><div class="col-6 col-lg-12 reveal l" data-d="180"><div class="cinfo"><div class="ci"><i class="bi bi-whatsapp"></i></div><div><b>WhatsApp</b><div class="text-secondary small">Chat with us on WhatsApp</div></div></div></div><div class="col-6 col-lg-12 reveal l" data-d="270"><div class="cinfo"><div class="ci"><i class="bi bi-envelope-fill"></i></div><div><b>Email</b><div class="text-secondary small">info@premiumslaughterhouse.com</div></div></div></div><div class="col-6 col-lg-12 reveal l" data-d="360"><div class="cinfo"><div class="ci"><i class="bi bi-clock-fill"></i></div><div><b>Business Hours</b><div class="text-secondary small">Mon &ndash; Sat: 8:00 AM &ndash; 6:00 PM<br>Sunday: Closed</div></div></div></div></div></div>
+<div class="col-lg-8 reveal r"><div class="panel"><h2 class="h3 mb-1">Send Us a Message</h2><p class="text-secondary">Fill in the form and press Send: your message opens in WhatsApp (ready to send) with all your details.</p>
 <form id="contactForm" class="needs-validation" novalidate><div class="row g-3">
 <div class="col-md-6"><input class="form-control" id="name" aria-label="Full name" placeholder="Full Name" required></div>
 <div class="col-md-6"><input class="form-control" id="email" aria-label="Email address" type="email" placeholder="Email Address" required></div>
@@ -53,7 +54,7 @@
 
 <!-- ===== SECTION: Map & Location ===== -->
 <section class="sec pt-0"><div class="container"><div class="text-center mb-4 reveal"><span class="eyebrow">Visit Us</span><h2 class="sec-title">Find Us</h2></div><div class="row g-4"><div class="col-lg-8 reveal l"><div class="mapbox"><iframe title="Map" loading="lazy" src="https://maps.google.com/maps?q=Raiwind+Manga+Road+Lahore&amp;output=embed" allowfullscreen></iframe></div></div>
-<div class="col-lg-4 reveal r"><div class="mv mv2 h-100"><i class="bi bi-geo-alt"></i><h4 class="mt-2">Visit Our Location</h4><p class="text-white-50">Premium Slaughter House<br>Raiwind&ndash;Manga Road, Lahore</p><a target="_blank" href="https://maps.google.com/?q=Raiwind+Manga+Road+Lahore" class="btn btn-gold btn-sm">View larger map</a></div></div></div></div></section>
+<div class="col-lg-4 reveal r"><div class="mv mv2 h-100"><i class="bi bi-geo-alt"></i><h3 class="h4 mt-2">Our Location (Illustrative)</h3><p class="text-white-50">Premium Slaughter House<br>Raiwind&ndash;Manga Road, Lahore</p><p class="small text-white-50">The map location is illustrative for this portfolio demo. Replace it with the real business address before launch.</p><a target="_blank" rel="noopener" href="https://maps.google.com/?q=Raiwind+Manga+Road+Lahore" class="btn btn-gold btn-sm">View larger map</a></div></div></div></div></section>
 <!-- ===== END SECTION: Map & Location ===== -->
 
 <!-- ===== SECTION: FAQ ===== -->
@@ -63,31 +64,29 @@
 </main><!-- end of page content -->
 <!-- ===== SECTION: Footer ===== -->
 <footer>
-<div class="fnews py-4"><div class="container d-flex flex-wrap align-items-center justify-content-between gap-3"><div><h5 class="mb-0">Exclusive Offers</h5><small>Weekly deals &amp; fresh arrivals, straight to your inbox.</small></div><!-- newsletter band --><form id="newsForm" class="d-flex gap-2" style="min-width:min(100%,380px)"><input type="email" required class="form-control" placeholder="Enter your email" aria-label="Email address"><button class="btn btn-gold py-2">Subscribe</button><!-- same style as the navbar "Order Now" button --></form></div></div>
+<div class="fnews py-4"><div class="container d-flex flex-wrap align-items-center justify-content-between gap-3"><div><div class="fh mb-0">Exclusive Offers</div><small>Weekly deals &amp; fresh arrivals, straight to your inbox.</small></div><!-- newsletter band --><form id="newsForm" class="d-flex gap-2" style="min-width:min(100%,380px)"><input type="email" required class="form-control" placeholder="Enter your email" aria-label="Email address"><button class="btn btn-gold py-2">Subscribe</button><!-- same style as the navbar "Order Now" button --></form></div></div>
 <div class="container pt-5 pb-4 fcols"><div class="row g-4">
-<!-- Brand: short company statement + social -->
-<div class="col-lg-3"><div class="d-flex align-items-center gap-2 mb-3"><img src="images/logo.jpg" alt="Premium Slaughter House logo" width="52" height="52" style="object-fit:contain;border-radius:8px"><div><div class="brand-t">PREMIUM</div><div class="brand-s">Slaughter House</div></div></div><p>Fresh, hygienic, 100% halal premium meat &mdash; from our facility to your table.</p><div class="social"><a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a><a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a><a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a><a data-wa target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a></div></div>
-<!-- Shop -->
-<div class="col-6 col-lg-2"><h5>Shop</h5><a href="products.html?category=beef">Beef</a><a href="products.html?category=mutton">Mutton</a><a href="products.html?category=camel">Camel</a><a href="products.html?category=minced">Mince &amp; Boneless</a></div>
-<!-- Company -->
-<div class="col-6 col-lg-2"><h5>Company</h5><a href="about.html">About</a><a href="services.html">Services</a><a href="facilities.html">Facilities</a><a href="gallery.html">Gallery</a><a href="contact.html">Contact</a></div>
-<!-- Customer -->
-<div class="col-6 col-lg-2"><h5>Customer</h5><a href="services.html">Delivery</a><a href="services.html#faq">FAQ</a><a href="order.html">Order</a><a href="order.html">Cart</a></div>
-<!-- Contact -->
-<div class="col-6 col-lg-3"><h5>Contact</h5><div class="mb-2"><i class="bi bi-geo-alt text-warning" aria-hidden="true"></i> Raiwind&ndash;Manga Road, Lahore, Pakistan</div><a href="tel:+923081357658"><i class="bi bi-telephone text-warning" aria-hidden="true"></i> +92 308 1357658</a><a data-wa target="_blank"><i class="bi bi-whatsapp text-warning" aria-hidden="true"></i> WhatsApp</a><a href="mailto:info@premiumslaughterhouse.com"><i class="bi bi-envelope text-warning" aria-hidden="true"></i> info@premiumslaughterhouse.com</a><div><i class="bi bi-clock text-warning" aria-hidden="true"></i> Mon &ndash; Sat: 8:00 AM &ndash; 6:00 PM</div></div>
+<!-- Column 1: brand -->
+<div class="col-lg-4"><div class="d-flex align-items-center gap-2 mb-3"><img src="images/logo.jpg" alt="Premium Slaughter House logo" width="52" height="52" style="object-fit:contain;border-radius:8px"><div><div class="brand-t">PREMIUM</div><div class="brand-s">Slaughter House</div></div></div><p>Fresh, hygienic, halal-focused premium meat, with simple online ordering through WhatsApp.</p></div>
+<!-- Column 2: quick links -->
+<div class="col-6 col-lg-2"><div class="fh">Quick Links</div><a href="index.html">Home</a><a href="about.html">About</a><a href="products.html">Products</a><a href="services.html">Services</a></div>
+<!-- Column 3: explore -->
+<div class="col-6 col-lg-2"><div class="fh">Explore</div><a href="facilities.html">Facilities</a><a href="gallery.html">Gallery</a><a href="contact.html">Contact</a><a href="order.html">Order</a></div>
+<!-- Column 4: contact + demo information -->
+<div class="col-lg-4"><div class="fh">Contact</div><a href="tel:+923048335259"><i class="bi bi-telephone text-warning" aria-hidden="true"></i> +92 304 8335259</a><a data-wa target="_blank" rel="noopener"><i class="bi bi-whatsapp text-warning" aria-hidden="true"></i> Order on WhatsApp</a><a href="mailto:info@premiumslaughterhouse.com"><i class="bi bi-envelope text-warning" aria-hidden="true"></i> info@premiumslaughterhouse.com</a><div><i class="bi bi-clock text-warning" aria-hidden="true"></i> Mon &ndash; Sat: 8:00 AM &ndash; 6:00 PM</div></div>
 </div></div>
 <!-- Copyright row (identical on every page) -->
 <div class="fbottom py-3"><div class="container d-flex flex-wrap justify-content-between gap-2"><span>&copy; 2026 Premium Slaughter House. All Rights Reserved.<br><!-- to link your name to GitHub/portfolio later, wrap it in <a href="YOUR-LINK"> -->Designed &amp; Developed by Khadim Hussain</span><span>Privacy Policy &nbsp;|&nbsp; Terms &amp; Conditions</span></div>
-<div class="container demo-note"><!-- remove this note if the website goes live for a real business --><strong>Portfolio Demo Website.</strong> Premium Slaughter House is a fictional concept created by Khadim Hussain to demonstrate modern food-business web design and functionality.</div></div></footer>
+<div class="container demo-note"><!-- remove this note if the website goes live for a real business --><strong>Portfolio Demonstration:</strong> Premium Slaughter House is a fictional business concept created by Khadim Hussain to demonstrate website design and frontend development. Product information, prices and business details are illustrative. The website does not process online payments; an order is sent as a WhatsApp message.</div></div></footer>
 <!-- ===== END SECTION: Footer ===== -->
 <!-- Mobile bottom action bar (phones only): Call / WhatsApp / Cart -->
-<nav class="mbar" aria-label="Quick actions"><a href="tel:+923081357658"><i class="bi bi-telephone" aria-hidden="true"></i>Call</a><a data-wa data-msg="Hello Premium Slaughter House" target="_blank"><i class="bi bi-whatsapp" aria-hidden="true"></i>WhatsApp</a><a href="order.html"><i class="bi bi-cart3" aria-hidden="true"></i><span>Cart <b id="cartBadgeMobile">0</b></span></a></nav>
+<nav class="mbar" aria-label="Quick actions"><a href="tel:+923048335259"><i class="bi bi-telephone" aria-hidden="true"></i>Call</a><a data-wa data-msg="Hello Premium Slaughter House" target="_blank" rel="noopener"><i class="bi bi-whatsapp" aria-hidden="true"></i>WhatsApp</a><a href="order.html"><i class="bi bi-cart3" aria-hidden="true"></i><span>Cart <b id="cartBadgeMobile">0</b></span></a></nav>
 <!-- Floating WhatsApp button (desktop/tablet) -->
-<a class="wa" data-wa data-msg="Hello Premium Slaughter House, I want to place an order." target="_blank" aria-label="Chat on WhatsApp"><i class="bi bi-whatsapp" aria-hidden="true"></i><span>Chat on WhatsApp</span></a>
+<a class="wa" data-wa data-msg="Hello Premium Slaughter House, I want to place an order." target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><i class="bi bi-whatsapp" aria-hidden="true"></i><span>Chat on WhatsApp</span></a>
 <!-- Back-to-top button -->
 <button id="toTop" aria-label="Back to top"><i class="bi bi-arrow-up" aria-hidden="true"></i></button><!-- "added to cart" message box (screen readers are told via role=status) --><div id="toast" role="status" aria-live="polite"></div>
 <!-- Bootstrap JS (modals, carousel, accordion, tabs) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Our scripts: one file per responsibility (order matters: config first, main last) -->
-<script src="js/config.js"></script><script src="js/data.js"></script><script src="js/render.js"></script><script src="js/ui.js"></script><script src="js/cart.js"></script><script src="js/products.js"></script><script src="js/checkout.js"></script><script src="js/calculator.js"></script><script src="js/gallery.js"></script><script src="js/main.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Our scripts: one file per responsibility. "defer" = the page appears first, scripts run after, in this order (config first, main last) -->
+<script defer src="js/config.js"></script><script defer src="js/data.js"></script><script defer src="js/render.js"></script><script defer src="js/ui.js"></script><script defer src="js/cart.js"></script><script defer src="js/products.js"></script><script defer src="js/checkout.js"></script><script defer src="js/calculator.js"></script><script defer src="js/gallery.js"></script><script defer src="js/main.js"></script>
 </body></html>

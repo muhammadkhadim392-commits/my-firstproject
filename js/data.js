@@ -26,6 +26,9 @@ P.products = [
   { id: 'shami-mix',       name: 'Shami Kebab Mix',   cats: ['minced'],                  price: 1900, badge: 'Hot Deal',    img: 'images/products/shami-kabab-mix.webp',             desc: 'Mince blend ready for shami kebabs.',                   sub: 'Ready to cook' }
 ];
 
+/* every product gets a unit and an availability flag (set inStock:false on a product to show "Out of stock" and disable its button) */
+P.products.forEach(function (p) { p.unit = 'kg'; if (p.inStock === undefined) p.inStock = true; });
+
 /* ---- DEAL BUNDLES: price is CALCULATED from the master list (old price = sum of parts, new price = old price minus the discount) ---- */
 P.deals = [
   { id: 'beef-bundle',    name: 'Premium Beef Bundle', img: 'images/products/beef-boneless.jpg',               desc: '3 kg Beef Boneless + 1 kg Beef Mince',            items: [['beef-boneless', 3], ['beef-mince', 1]],              off: 18 },

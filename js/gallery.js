@@ -39,6 +39,11 @@ window.openLightbox = function (el) {
   modal = modal || new bootstrap.Modal($('#galleryModal'));                                    // Bootstrap handles ESC + backdrop close + focus trap
   modal.show();
 };
+/* tiles + arrows use listeners (no inline JS in the HTML) */
+document.addEventListener('click', function (e) {
+  var t = e.target.closest('.gi'); if (t) { openLightbox(t); return; }
+  if (e.target.closest('#lbPrev')) lbStep(-1); else if (e.target.closest('#lbNext')) lbStep(1);
+});
 window.lbStep = function (d) { idx = (idx + d + list.length) % list.length; show(); };          // wraps around
 window.nextImage = function () { lbStep(1); };                                                  // next image
 window.previousImage = function () { lbStep(-1); };                                             // previous image

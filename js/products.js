@@ -22,7 +22,15 @@ $$('.chip[data-f]').forEach(function (c) {
 
 /* ---- 2. PRODUCTS PAGE: ONE function decides what is visible: (category) AND (search) -> matching products -> update counter ---- */
 var box = $('#searchInput'), curCat = 'all';
-var LABEL = { beef: 'Beef', mutton: 'Mutton', camel: 'Camel', minced: 'Minced & Boneless' };   // names used in the counter text
+var LABEL = { beef: 'Beef', mutton: 'Mutton', sheep: 'Sheep', camel: 'Camel', minced: 'Minced & Boneless' };
+var sortSel = $('#sortSel');                                                                    // optional sorting control
+function orderFor(p, q, score) {                                                                // CSS order of a visible card
+  if (q) return -score;                                                                         // searching: best match first ("b" -> beef on top)
+  var m = sortSel ? sortSel.value : '';
+  if (m === 'low') return p.price; if (m === 'high') return -p.price;                           // price low->high / high->low
+  if (m === 'az') return P.products.map(function (x) { return x.name; }).sort().indexOf(p.name); // name A-Z
+  return '';                                                                                    // featured = original order
+}   // names used in the counter text
 function plural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }                           // 1 product / 3 products
 function apply() {
   if (!box) return;
@@ -33,7 +41,7 @@ function apply() {
     var okCat = curCat === 'all' || p.cats.indexOf(curCat) > -1;                                // selected category pill?
     var ok = okCat && score > 0;                                                                // category AND search together
     card.style.display = ok ? 'block' : 'none';
-    card.style.order = ok && q ? -score : '';                                                   // best matches first (typing "b" puts beef on top)
+    card.style.order = ok ? orderFor(p, q, score) : '';                                           // best matches first (typing "b" puts beef on top), or the chosen sort
     if (ok) { n++; card.style.animation = 'none'; void card.offsetWidth; card.style.animation = 'fadeInUp 0.4s ease forwards'; }
   });
   var txt, cat = curCat !== 'all' ? LABEL[curCat] : '';
@@ -63,6 +71,7 @@ function setPill(cat) {                                                         
 function setCat(cat) { curCat = cat; setPill(cat); apply(); }
 if (box) {
   $$('.filter-btn').forEach(function (b) { b.addEventListener('click', function () { setCat(b.dataset.cat); }); }); // pills (no inline JS)
+  if (sortSel) sortSel.addEventListener('change', apply);                                       // sort dropdown
   box.addEventListener('input', apply);                                                         // live search on every keystroke
   P.attachSuggest(box, function (p) { box.value = p.name; setCat('all'); });                    // suggestion dropdown (type "b" -> beef first)
   window.searchProducts = apply;                                                                // used by the navbar search (ui.js)
