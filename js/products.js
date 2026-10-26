@@ -93,6 +93,12 @@ function openQV(card) {
   $('#qvBadge').textContent = d.badge || ''; $('#qvSub').textContent = d.sub || '';      // badge + small text (no fake ratings)
   $('#qvPrice').innerHTML = money(+d.price) + ' <small class="text-muted fs-6">/ kg</small>';
   $('#qvDesc').textContent = d.desc;
+  var available = d.stock !== 'false';
+  var stockLabel = $('#qvStock');
+  stockLabel.textContent = available ? 'In Stock' : 'Out of stock';
+  stockLabel.classList.toggle('stock', available);
+  stockLabel.classList.toggle('nostock', !available);
+  $('#qvAdd').disabled = !available;
   $('#qvQty').textContent = count;
   $$('#qvWeights .wchip').forEach(function (w) { var on = +w.dataset.kg === 1; w.classList.toggle('on', on); w.setAttribute('aria-pressed', on); });
   qvTotal();

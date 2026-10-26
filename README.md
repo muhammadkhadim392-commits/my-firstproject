@@ -5,7 +5,7 @@ Modern, responsive meat-commerce website built with plain HTML, CSS, JavaScript 
 > **Portfolio concept.** Premium Meat is a fictional brand concept created to demonstrate modern food-business design and frontend development. Product details, prices, contact information and operating claims are sample content; replace them with verified business information before launch.
 
 ## Brand & design
-Brand: **Premium Meat** (fresh halal meat, ordered online). Logo: `images/logo.svg`. The shared visual system and responsive page styling live in `css/style.css`.
+Brand: **Premium Meat** (fresh halal meat, ordered online). Transparent animal emblem: `images/logo-optimized.png`. The shared visual system lives in `css/style.css`, with the current forest-green and burgundy brand theme layered in `css/premium-theme.css`.
 
 ## Features
 - Responsive design (phone, tablet, laptop, desktop) with an animated mobile menu
@@ -27,6 +27,7 @@ HTML5 | CSS3 | JavaScript (ES5, no build step) | Bootstrap 5 | Bootstrap Icons |
 index.html  about.html  products.html  order.html
 services.html  facilities.html  gallery.html  contact.html
 css/style.css            design system + all styles (commented)
+css/premium-theme.css    current Premium Meat brand theme across all pages
 js/config.js             settings (WhatsApp number, delivery rules) + helpers
 js/data.js               MASTER product + price list  <-- edit prices here
 js/render.js             builds product cards / deals from data.js
@@ -44,8 +45,8 @@ images/                  photos (compress to under ~300 KB, WebP where possible)
 - **A price / badge / description:** edit the product in `js/data.js`. Home, Products, Quick View, Order and Deals all update.
 - **WhatsApp order number:** `WHATSAPP_NUMBER` at the top of `js/config.js` (currently 0304 8335259 = `923048335259`). The phone/WhatsApp text in the page footer and Contact page is in the page HTML.
 - **Free delivery rule / delivery fee:** `FREE_DELIVERY_OVER` and `DELIVERY_FEE` in `js/config.js`.
-- **Colours:** the design tokens in `css/style.css`.
-- **Hero image:** `images/home/hero-image.jpg` (preloaded on the home page).
+- **Colours:** the design tokens in `css/style.css` and `css/premium-theme.css`.
+- **Hero image:** `images/home/hero-image-optimized.jpg` (preloaded on the home page).
 
 ## Speed (why the pages open quickly)
 - No loading screen: the page is visible immediately

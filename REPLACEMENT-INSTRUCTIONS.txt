@@ -1,0 +1,10 @@
+REPLACEMENT PACKAGE
+
+This bundle contains all eight HTML pages, the shared stylesheet, and every JavaScript file those pages load.
+
+To install it into your existing Premium-Slaughter-House folder:
+1. Make a backup of your current project.
+2. Extract this ZIP into the project folder and allow the HTML, css/style.css, js/*.js, and README.md files to be replaced.
+3. Keep your existing images/ and videos/ folders in place. The pages use those local assets.
+
+The project is static HTML, CSS, JavaScript, and Bootstrap. Sample business details, contact info, offers, and prices are illustrative; update them with verified client information before launch.
