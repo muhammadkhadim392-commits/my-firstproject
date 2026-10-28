@@ -21,7 +21,7 @@ $$('.chip[data-f]').forEach(function (c) {
 });
 
 /* ---- 2. PRODUCTS PAGE: ONE function decides what is visible: (category) AND (search) -> matching products -> update counter ---- */
-var box = $('#searchInput'), curCat = 'all';
+var box = $('#searchInput'), curCat = 'all', typeSel = $('#typeSel'), stockOnly = $('#stockOnly');
 var LABEL = { beef: 'Beef', mutton: 'Mutton', sheep: 'Sheep', camel: 'Camel', minced: 'Minced & Boneless' };
 var sortSel = $('#sortSel');                                                                    // optional sorting control
 function orderFor(p, q, score) {                                                                // CSS order of a visible card
@@ -39,7 +39,16 @@ function apply() {
     var p = P.byId(card.querySelector('.pcard').dataset.id);                                    // the product behind this card (master list)
     var score = P.matchScore(p, q);                                                             // 0 = no match; higher = better (prefix + category first)
     var okCat = curCat === 'all' || p.cats.indexOf(curCat) > -1;                                // selected category pill?
-    var ok = okCat && score > 0;                                                                // category AND search together
+    var sub = (p.sub || '').toLowerCase(), name = p.name.toLowerCase();
+    var okType = !typeSel || typeSel.value === 'all' ||
+      (typeSel.value === 'fresh' && (name.indexOf('fresh') > -1 || sub.indexOf('fresh') > -1)) ||
+      (typeSel.value === 'boneless' && sub.indexOf('boneless') > -1) ||
+      (typeSel.value === 'mince' && (sub.indexOf('mince') > -1 || p.cats.indexOf('minced') > -1)) ||
+      (typeSel.value === 'ready' && sub.indexOf('ready to cook') > -1) ||
+      (typeSel.value === 'premium' && sub.indexOf('premium') > -1) ||
+      (typeSel.value === 'chops' && sub.indexOf('chops') > -1);
+    var okStock = !stockOnly || !stockOnly.checked || p.inStock;
+    var ok = okCat && okType && okStock && score > 0;                                           // all selected filters together
     card.style.display = ok ? 'block' : 'none';
     card.style.order = ok ? orderFor(p, q, score) : '';                                           // best matches first (typing "b" puts beef on top), or the chosen sort
     if (ok) { n++; card.style.animation = 'none'; void card.offsetWidth; card.style.animation = 'fadeInUp 0.4s ease forwards'; }
@@ -72,6 +81,8 @@ function setCat(cat) { curCat = cat; setPill(cat); apply(); }
 if (box) {
   $$('.filter-btn').forEach(function (b) { b.addEventListener('click', function () { setCat(b.dataset.cat); }); }); // pills (no inline JS)
   if (sortSel) sortSel.addEventListener('change', apply);                                       // sort dropdown
+  if (typeSel) typeSel.addEventListener('change', apply);
+  if (stockOnly) stockOnly.addEventListener('change', apply);
   box.addEventListener('input', apply);                                                         // live search on every keystroke
   P.attachSuggest(box, function (p) { box.value = p.name; setCat('all'); });                    // suggestion dropdown (type "b" -> beef first)
   window.searchProducts = apply;                                                                // used by the navbar search (ui.js)
@@ -93,6 +104,9 @@ function openQV(card) {
   $('#qvBadge').textContent = d.badge || ''; $('#qvSub').textContent = d.sub || '';      // badge + small text (no fake ratings)
   $('#qvPrice').innerHTML = money(+d.price) + ' <small class="text-muted fs-6">/ kg</small>';
   $('#qvDesc').textContent = d.desc;
+  $('#qvCategory').textContent = 'Category: ' + (d.cats || 'Meat').split(',').join(' · ');
+  $('#qvPanel').hidden = false; $('#qvOrderPanel').hidden = true;
+  $$('.qv-tab').forEach(function (tab) { var active = tab.dataset.qvTab === 'details'; tab.classList.toggle('active', active); tab.setAttribute('aria-selected', active); });
   var available = d.stock !== 'false';
   var stockLabel = $('#qvStock');
   stockLabel.textContent = available ? 'In Stock' : 'Out of stock';
@@ -107,6 +121,13 @@ function openQV(card) {
   qvModal.show();
 }
 if (qvEl) document.addEventListener('click', function (e) {
+  var tab = e.target.closest('[data-qv-tab]');
+  if (tab) {
+    var details = tab.dataset.qvTab === 'details';
+    $('#qvPanel').hidden = !details; $('#qvOrderPanel').hidden = details;
+    $$('.qv-tab').forEach(function (x) { var active = x === tab; x.classList.toggle('active', active); x.setAttribute('aria-selected', active); });
+    return;
+  }
   var o = e.target.closest('.qv-open'); if (o && o.closest('.pcard')) { openQV(o.closest('.pcard')); return; }  // open from a card
   var w = e.target.closest('#qvWeights .wchip');                                         // weight chips
   if (w) { unit = +w.dataset.kg; $$('#qvWeights .wchip').forEach(function (x) { var on = x === w; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); }); qvTotal(); return; }
