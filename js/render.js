@@ -13,9 +13,9 @@ var FALLBACK = "this.onerror=null;this.src='images/premium-beef.jpg'";          
    Image + badge > name > small text > description > stock > price > weight [250g|500g|1kg] > quantity > Add > total */
 function cardHTML(p, mode) {
   var wrapAttr = mode === 'shop'
-    ? 'class="col-12 col-sm-6 col-lg-4 col-xl-3 product-card-wrapper" data-category="' + p.cats.join(' ') + '" data-keywords="' + (p.name + ' ' + p.cats.join(' ') + ' ' + p.desc + ' ' + p.sub).toLowerCase() + '"'
+    ? 'class="col-12 col-md-6 col-xl-4 product-card-wrapper" data-category="' + p.cats.join(' ') + '" data-keywords="' + (p.name + ' ' + p.cats.join(' ') + ' ' + p.desc + ' ' + p.sub).toLowerCase() + '"'
     : 'class="col-12 col-sm-6 col-xl-3 pitem" data-c="' + p.cats.join(' ') + '"';                    // home grid uses data-c for its chips
-  return '<div ' + wrapAttr + '><article class="pcard" data-id="' + p.id + '" data-name="' + p.name + '" data-price="' + p.price + '" data-stock="' + p.inStock + '" data-img="' + p.img + '" data-desc="' + p.desc + '" data-badge="' + p.badge + '" data-sub="' + p.sub + '">' +
+  return '<div ' + wrapAttr + '><article class="pcard" data-id="' + p.id + '" data-name="' + p.name + '" data-price="' + p.price + '" data-stock="' + p.inStock + '" data-img="' + p.img + '" data-desc="' + p.desc + '" data-badge="' + p.badge + '" data-sub="' + p.sub + '" data-cats="' + p.cats.join(', ') + '">' +
     '<div class="pimg qv-open"><span class="ptag">' + p.badge + '</span>' +                    // badge (BESTSELLER / POPULAR / FRESH ...)
     '<img src="' + p.img + '" alt="' + p.name + ' - fresh halal meat" loading="lazy" decoding="async" onerror="' + FALLBACK + '">' +
     '<button class="qv-ico qv-open" type="button" aria-label="Quick view ' + p.name + '"><i class="bi bi-eye" aria-hidden="true"></i></button>' +
